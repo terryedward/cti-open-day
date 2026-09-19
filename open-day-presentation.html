@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CTU Training Solutions — Cybersecurity Careers: The Complete Picture</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#14283A; --ink2:#1C3650; --ink3:#234163;
+  --paper:#FFFFFF; --paper2:#F1F5F9;
+  --gold:#46BF9C; --gold2:#2E8A70; --gold3:#70D0E8;
+  --electric:#9BD421; --electric2:#6B9016;
+  --green:#2ec97e; --red:#e84a6a; --orange:#ff6b35;
+  --text:#14283A; --text2:#3F5164; --text3:#7E92A6;
+  --border:rgba(20,40,58,0.1); --border2:rgba(20,40,58,0.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;font-family:"DM Sans",sans-serif;background:#0A1729;overflow:hidden;user-select:none;}
+
+/* ── CHROME ── */
+.chrome{position:fixed;inset:0;display:grid;grid-template-rows:48px 1fr 76px;background:var(--ink);}
+.topbar{display:flex;align-items:center;gap:1rem;padding:0 1.25rem;background:var(--ink);border-bottom:1px solid rgba(255,255,255,0.07);z-index:100;}
+.t-brand{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;}
+.t-sep{width:1px;height:20px;background:rgba(255,255,255,0.1);}
+.t-title{font-size:12px;color:rgba(255,255,255,0.45);font-family:"DM Mono",monospace;}
+.t-counter{margin-left:auto;font-family:"DM Mono",monospace;font-size:11px;color:rgba(255,255,255,0.3);}
+.t-badge{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;background:rgba(70,191,156,.15);color:var(--gold);border:1px solid rgba(70,191,156,.3);border-radius:3px;padding:3px 8px;}
+
+/* ── STAGE ── */
+.stage{display:flex;align-items:center;justify-content:center;padding:1.25rem;background:#0A1729;overflow:hidden;}
+.slide-frame{position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06);transform-origin:top center;}
+
+/* ── SLIDES ── */
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .4s ease;}
+.slide.active{opacity:1;pointer-events:all;}
+.slide-inner{position:absolute;inset:0;display:flex;flex-direction:column;}
+
+/* ── CONTROLS ── */
+.controls{display:grid;grid-template-columns:300px 1fr 300px;align-items:center;padding:0 1.25rem;background:var(--ink);border-top:1px solid rgba(255,255,255,.07);gap:1rem;}
+.nav-btns{display:flex;gap:8px;align-items:center;}
+.nav-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);border-radius:6px;font-family:"DM Mono",monospace;font-size:11px;padding:6px 14px;cursor:pointer;transition:all .15s;letter-spacing:.04em;}
+.nav-btn:hover{background:rgba(255,255,255,.12);color:#fff;}
+.nav-btn.primary{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:600;}
+.nav-btn.primary:hover{background:var(--gold3);}
+.nav-btn:disabled{opacity:.25;cursor:not-allowed;}
+.dots-track{display:flex;gap:5px;align-items:center;justify-content:center;flex-wrap:wrap;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);cursor:pointer;transition:all .2s;}
+.dot.active{background:var(--gold);transform:scale(1.4);}
+.dot.visited{background:rgba(70,191,156,.4);}
+.ctrl-right{display:flex;align-items:center;justify-content:flex-end;gap:8px;}
+.toggle-btn{display:flex;align-items:center;gap:6px;background:rgba(155,212,33,.1);border:1px solid rgba(155,212,33,.25);color:var(--electric);border-radius:6px;font-family:"DM Mono",monospace;font-size:10px;padding:5px 12px;cursor:pointer;transition:all .15s;letter-spacing:.05em;text-transform:uppercase;}
+.toggle-btn:hover,.toggle-btn.on{background:rgba(155,212,33,.2);border-color:var(--electric);}
+
+/* ── FACILITATOR DRAWER ── */
+.facil-drawer{position:fixed;right:0;top:48px;bottom:76px;width:360px;background:var(--ink2);border-left:1px solid rgba(155,212,33,.2);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:200;overflow-y:auto;display:flex;flex-direction:column;}
+.facil-drawer.open{transform:translateX(0);}
+.fd-header{padding:1rem 1.25rem;border-bottom:1px solid rgba(155,212,33,.15);background:rgba(155,212,33,.06);flex-shrink:0;}
+.fd-header h3{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;color:var(--electric);letter-spacing:.06em;text-transform:uppercase;}
+.fd-header p{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;}
+.fd-body{padding:1rem 1.25rem;flex:1;}
+.fd-sec{margin-bottom:1.25rem;}
+.fd-label{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--electric);margin-bottom:6px;opacity:.8;display:block;}
+.fd-note{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:10px 12px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.65;}
+.fd-note strong{color:var(--gold);}
+.fd-prompt{display:flex;gap:8px;background:rgba(155,212,33,.07);border:1px solid rgba(155,212,33,.18);border-radius:6px;padding:9px 11px;margin-bottom:6px;font-size:11px;color:rgba(255,255,255,.8);line-height:1.55;align-items:flex-start;}
+.fd-prompt .qi{font-size:14px;flex-shrink:0;margin-top:1px;}
+.timing-pill{display:inline-flex;align-items:center;gap:4px;font-family:"DM Mono",monospace;font-size:9px;background:rgba(46,201,126,.1);color:var(--green);border:1px solid rgba(46,201,126,.25);border-radius:3px;padding:2px 7px;margin-bottom:8px;}
+
+/* ── SLIDE BACKGROUNDS ── */
+.bg-cover{background:var(--ink);background-image:radial-gradient(ellipse 80% 60% at 70% 50%,rgba(70,191,156,.12) 0%,transparent 60%),radial-gradient(ellipse 50% 80% at 10% 80%,rgba(155,212,33,.08) 0%,transparent 55%);}
+.bg-cover::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,.022) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,.022) 60px);pointer-events:none;}
+.bg-light{background:var(--paper);background-image:radial-gradient(ellipse 60% 80% at 90% 20%,rgba(70,191,156,.08) 0%,transparent 55%);}
+.bg-dark{background:#0F2740;background-image:radial-gradient(ellipse 70% 60% at 30% 60%,rgba(155,212,33,.07) 0%,transparent 55%);}
+
+/* ── TYPOGRAPHY ── */
+.slidenum{position:absolute;top:34px;right:46px;font-family:"DM Mono",monospace;font-size:11px;opacity:.3;}
+.slidenum.l{color:var(--ink);} .slidenum.d{color:#fff;}
+.sec-label{font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.7rem;}
+.lbl-gold{color:var(--gold);} .lbl-ink{color:var(--text3);} .lbl-el{color:var(--electric);}
+.h-xl{font-family:"Syne",sans-serif;font-size:54px;font-weight:800;line-height:1.05;letter-spacing:-.02em;}
+.h-lg{font-family:"Syne",sans-serif;font-size:38px;font-weight:700;line-height:1.1;letter-spacing:-.01em;}
+.h-md{font-family:"Syne",sans-serif;font-size:26px;font-weight:700;line-height:1.2;}
+.h-sm{font-family:"Syne",sans-serif;font-size:17px;font-weight:700;}
+.body-lg{font-size:18px;line-height:1.65;} .body-md{font-size:15px;line-height:1.65;} .body-sm{font-size:13px;line-height:1.6;}
+.c-white{color:#fff;} .c-gold{color:var(--gold);} .c-el{color:var(--electric);} .c-green{color:var(--green);} .c-ink{color:var(--ink);} .c-red{color:var(--red);}
+.muted{opacity:.55;}
+.hr{height:1px;background:var(--border);margin:1rem 0;}
+.hr-d{height:1px;background:rgba(255,255,255,.1);margin:1rem 0;}
+
+/* ── CARDS ── */
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;}
+.card-d{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.25rem 1.5rem;}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.1);}
+
+/* ── PILLS ── */
+.pill{display:inline-block;font-family:"DM Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;}
+.pill-gold{background:rgba(70,191,156,.15);color:var(--gold2);border:1px solid rgba(70,191,156,.3);}
+.pill-el{background:rgba(155,212,33,.12);color:var(--electric2);border:1px solid rgba(155,212,33,.25);}
+.pill-green{background:rgba(46,201,126,.12);color:var(--green);border:1px solid rgba(46,201,126,.25);}
+.pill-ink{background:rgba(20,40,58,.07);color:var(--text2);border:1px solid var(--border2);}
+.pill-white{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.15);}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1rem;}
+
+/* ── STAT ── */
+.stat-val{font-family:"Syne",sans-serif;font-size:60px;font-weight:800;line-height:1;}
+.stat-lbl{font-size:12px;opacity:.55;margin-top:4px;font-family:"DM Mono",monospace;letter-spacing:.05em;}
+
+/* ── ROLE CARDS ── */
+.role-card{background:var(--ink);border-radius:12px;padding:1.25rem;position:relative;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;border:1px solid transparent;}
+.role-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.35);}
+.role-card.open{border-color:var(--gold);}
+.role-card::before{content:"";position:absolute;inset:0;opacity:.08;}
+.rc-more{font-size:11px;color:rgba(255,255,255,.65);line-height:1.5;margin-top:0;max-height:0;overflow:hidden;transition:all .2s ease;}
+.role-card.open .rc-more{margin-top:8px;max-height:160px;}
+.rc-tap{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.05em;color:rgba(255,255,255,.35);margin-top:8px;}
+.role-soc::before{background:radial-gradient(circle at 80% 20%,var(--electric),transparent 60%);}
+.role-iso::before{background:radial-gradient(circle at 80% 20%,var(--green),transparent 60%);}
+.role-va::before{background:radial-gradient(circle at 80% 20%,#c840ff,transparent 60%);}
+.role-it::before{background:radial-gradient(circle at 80% 20%,var(--gold),transparent 60%);}
+.rc-icon{font-size:2rem;margin-bottom:8px;}
+.rc-title{font-family:"Syne",sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;}
+.rc-sal{font-family:"DM Mono",monospace;font-size:11px;}
+.rc-desc{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5;margin-top:6px;}
+
+/* ── TIMELINE ── */
+.tl{display:flex;flex-direction:column;}
+.tl-item{display:flex;gap:14px;position:relative;}
+.tl-item::before{content:"";position:absolute;left:11px;top:26px;width:1px;bottom:-4px;background:var(--border);}
+.tl-item:last-child::before{display:none;}
+.tl-dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--gold);background:var(--paper);flex-shrink:0;margin-top:4px;display:flex;align-items:center;justify-content:center;}
+.tl-fill{width:8px;height:8px;border-radius:50%;background:var(--gold);}
+.tl-body{padding-bottom:16px;}
+.tl-time{font-family:"DM Mono",monospace;font-size:10px;color:var(--text3);margin-bottom:2px;}
+.tl-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;color:var(--ink);}
+.tl-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-top:2px;}
+
+/* ── BAR ── */
+.bar-outer{background:var(--paper2);border-radius:4px;height:9px;overflow:hidden;margin-top:5px;}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold),var(--gold3));transition:width .7s .3s ease;}
+
+/* ── POLL ── */
+.poll-opt{background:#fff;border:2px solid var(--border);border-radius:10px;padding:14px 18px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px;}
+.poll-opt:hover{border-color:var(--gold2);background:rgba(70,191,156,.04);transform:translateX(4px);}
+.poll-opt.sel{border-color:var(--gold);background:rgba(70,191,156,.07);}
+.po-icon{font-size:1.5rem;flex-shrink:0;}
+.po-text{font-size:14px;font-weight:500;color:var(--ink);}
+.po-sub{font-size:11px;color:var(--text2);}
+.po-count{font-family:"DM Mono",monospace;font-size:15px;font-weight:600;color:var(--gold2);background:rgba(70,191,156,.12);border:1px solid rgba(70,191,156,.25);border-radius:20px;min-width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* ── REALITY ITEMS ── */
+.ri{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+.ri-check{cursor:pointer;border-radius:8px;transition:background .15s;padding-left:8px;padding-right:8px;margin:0 -8px;}
+.ri-check:hover{background:rgba(46,201,126,.05);}
+.ri-check.picked{background:rgba(46,201,126,.08);}
+.ri-box{font-size:1.3rem;color:var(--text3);}
+.ri-check.picked .ri-box{color:var(--green);}
+.fit-meter{margin-top:14px;background:rgba(46,201,126,.05);border:1px solid rgba(46,201,126,.2);border-radius:8px;padding:10px 12px;}
+.fit-meter-bar{background:var(--paper2);border-radius:5px;height:10px;overflow:hidden;}
+.fit-meter-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--electric),var(--green));width:0%;transition:width .3s ease;}
+.fit-meter-label{font-size:11px;color:var(--text2);margin-top:6px;font-weight:500;}
+.ri:last-child{border-bottom:none;}
+.ri-icon{font-size:1.4rem;flex-shrink:0;margin-top:2px;}
+.ri-label{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.ri-desc{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* ── INTERACT PROMPT ── */
+.faq-list{display:flex;flex-direction:column;gap:6px;}
+.faq-item{border:1px solid var(--border);border-radius:8px;padding:9px 12px;cursor:pointer;transition:all .15s;}
+.faq-item:hover{border-color:var(--gold2);background:rgba(70,191,156,.04);}
+.faq-item.open{border-color:var(--gold);background:rgba(70,191,156,.06);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;font-weight:600;color:var(--ink);}
+.faq-arrow{transition:transform .2s;color:var(--gold2);flex-shrink:0;}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-a{font-size:12px;color:var(--text2);line-height:1.6;margin-top:0;max-height:0;overflow:hidden;transition:all .2s ease;}
+.faq-item.open .faq-a{margin-top:8px;max-height:200px;}
+.ip{display:flex;align-items:center;gap:8px;background:rgba(155,212,33,.08);border:1px solid rgba(155,212,33,.2);border-radius:7px;padding:7px 12px;position:absolute;bottom:26px;right:38px;}
+.ip-d{width:7px;height:7px;border-radius:50%;background:var(--electric);animation:pulse 2s infinite;}
+.ip-gold{background:rgba(70,191,156,.07);border-color:rgba(70,191,156,.22);}
+.ip-gold .ip-d{background:var(--gold);}
+.ip span{font-size:11px;color:rgba(255,255,255,.55);}
+.ip-gold span{color:var(--gold2);}
+
+/* ── CTU LOGO ── */
+.ctu-brand{display:flex;align-items:center;gap:10px;}
+.ctu-box{width:44px;height:44px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-size:16px;font-weight:800;color:var(--ink);}
+.ctu-logochip{background:#fff;border-radius:9px;padding:8px 12px;display:flex;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.ctu-logochip img{height:32px;width:auto;display:block;}
+.ctu-name{font-family:"Syne",sans-serif;font-size:16px;font-weight:700;color:#fff;}
+.ctu-sub{font-size:11px;color:rgba(255,255,255,.4);}
+
+/* ── DEMO SLIDE SPECIFIC ── */
+.demo-tabs{display:flex;gap:6px;flex-shrink:0;}
+.dtab{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);border-radius:6px;font-family:"DM Mono",monospace;font-size:9px;font-weight:600;padding:6px 12px;cursor:pointer;transition:all .15s;letter-spacing:.05em;text-transform:uppercase;}
+.dtab:hover{background:rgba(255,255,255,.1);color:#fff;}
+.dtab.on{background:rgba(70,191,156,.15);border-color:rgba(70,191,156,.4);color:var(--gold);}
+.demo-panel{height:100%;display:none;}
+.demo-panel.on{display:grid;grid-template-columns:1fr 268px;gap:10px;}
+.demo-pane{border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
+.demo-pane-hdr{padding:7px 14px;border-bottom-width:1px;border-bottom-style:solid;display:flex;align-items:center;gap:8px;}
+.demo-pane-hdr .lbl{font-family:"DM Mono",monospace;font-size:10px;font-weight:600;}
+.demo-pane-body{flex:1;overflow-y:auto;}
+
+/* siem colours */
+.dp-siem .demo-pane{background:#04070e;border:1px solid rgba(0,212,255,.18);}
+.dp-siem .demo-pane-hdr{background:#0b1221;border-color:rgba(0,212,255,.12);}
+.dp-siem .demo-pane-hdr .lbl{color:#00d4ff;}
+.dp-siem .side{background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.18);}
+
+/* fw colours */
+.dp-fw .demo-pane{background:#040300;border:1px solid rgba(255,107,53,.18);}
+.dp-fw .demo-pane-hdr{background:#0c0900;border-color:rgba(255,107,53,.12);}
+.dp-fw .demo-pane-hdr .lbl{color:#ff6b35;}
+.dp-fw .side{background:rgba(255,107,53,.05);border:1px solid rgba(255,107,53,.18);}
+
+/* fs colours */
+.dp-fs .demo-pane{background:#040300;border:1px solid rgba(255,183,0,.18);}
+.dp-fs .demo-pane-hdr{background:#0c0800;border-color:rgba(255,183,0,.12);}
+.dp-fs .demo-pane-hdr .lbl{color:#ffb700;}
+.dp-fs .side{background:rgba(255,183,0,.05);border:1px solid rgba(255,183,0,.18);}
+
+/* soar colours */
+.dp-soar .demo-pane{background:#050408;border:1px solid rgba(180,79,255,.18);}
+.dp-soar .demo-pane-hdr{background:#0a0810;border-color:rgba(180,79,255,.12);}
+.dp-soar .demo-pane-hdr .lbl{color:#b44fff;}
+.dp-soar .side{background:rgba(180,79,255,.05);border:1px solid rgba(180,79,255,.18);}
+
+.demo-side{border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;}
+.demo-hint{flex:1;border-radius:8px;padding:12px 14px;}
+.dh-label{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:7px;}
+.dh-text{font-size:12px;color:rgba(255,255,255,.55);line-height:1.65;}
+.dh-tip{font-size:11px;color:rgba(255,255,255,.28);margin-top:8px;}
+.demo-stat{border-radius:6px;padding:8px 10px;}
+.ds-label{font-family:"DM Mono",monospace;font-size:9px;color:#ffb700;margin-bottom:3px;}
+.ds-text{font-size:11px;color:rgba(255,255,255,.45);}
+
+/* clickable demo rows */
+.arow{display:flex;align-items:center;gap:7px;padding:6px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);transition:background .1s;font-family:"DM Mono",monospace;font-size:10px;}
+.arow:hover{background:rgba(255,255,255,.06);}
+.arow:last-child{border-bottom:none;}
+
+/* ── POPUP ── */
+.pop-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.pop-overlay.on{opacity:1;pointer-events:all;}
+.pop-box{background:#0d0e18;border-radius:14px;max-width:740px;width:94%;box-shadow:0 32px 80px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.08);overflow:hidden;transform:translateY(14px) scale(.97);transition:transform .25s;}
+.pop-overlay.on .pop-box{transform:translateY(0) scale(1);}
+.pop-head{padding:16px 22px 14px;display:flex;align-items:flex-start;gap:14px;border-bottom:1px solid rgba(255,255,255,.07);}
+.pop-icon{font-size:2rem;flex-shrink:0;margin-top:3px;}
+.pop-htext{flex:1;}
+.pop-tag{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;}
+.pop-title{font-family:"Syne",sans-serif;font-size:18px;font-weight:700;color:#fff;line-height:1.2;}
+.pop-close{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);border-radius:6px;font-family:"DM Mono",monospace;font-size:11px;padding:6px 12px;cursor:pointer;flex-shrink:0;transition:all .15s;margin-top:2px;}
+.pop-close:hover{background:rgba(255,255,255,.14);color:#fff;}
+.pop-body{padding:16px 22px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.pop-sec-label{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.45;margin-bottom:5px;}
+.pop-box-inner{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:11px 13px;font-size:12px;color:rgba(255,255,255,.7);line-height:1.7;}
+.pop-box-inner strong{color:#fff;}
+.pop-box-inner.hi{border-color:rgba(70,191,156,.3);background:rgba(70,191,156,.05);}
+.pop-facil{background:rgba(155,212,33,.07);border:1px solid rgba(155,212,33,.2);border-radius:8px;padding:12px 14px;font-size:12px;color:rgba(255,255,255,.7);line-height:1.65;grid-column:1 / -1;}
+.pop-facil-lbl{font-family:"DM Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--electric);margin-bottom:6px;display:block;}
+.pop-ask{background:rgba(46,201,126,.08);border:1px solid rgba(46,201,126,.22);border-radius:6px;padding:10px 12px;margin-top:8px;font-size:12px;color:rgba(255,255,255,.7);line-height:1.6;}
+.pop-ask-q{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;color:var(--green);margin-bottom:4px;}
+
+/* ── ANIMATIONS ── */
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes up{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.au{animation:up .5s ease both;}
+.au1{animation:up .5s .1s ease both;}
+.au2{animation:up .5s .2s ease both;}
+.au3{animation:up .5s .3s ease both;}
+.au4{animation:up .5s .4s ease both;}
+
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px;}
+</style>
+</head>
+<body>
+<div class="chrome">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="t-brand">CTU Training Solutions</div>
+  <div class="t-sep"></div>
+  <div class="t-title">Cybersecurity Careers: The Complete Picture — Open Day · 19 September · 08:00–15:00</div>
+  <div class="t-counter" id="topCount">Slide 1 / 15</div>
+  <div class="t-badge">Presenter Mode</div>
+</div>
+
+<!-- STAGE -->
+<div class="stage" id="stage">
+<div class="slide-frame" id="frame">
+
+<!-- ══ SLIDE 01 — COVER ══════════════════════════════════════════════════ -->
+<div class="slide active bg-cover" id="s0">
+  <div class="slide-inner" style="padding:60px 72px;justify-content:flex-end;">
+    <div style="margin-bottom:auto;padding-top:56px;">
+      <div class="ctu-brand au">
+        <div class="ctu-logochip"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACpCAYAAACRdwCqAABL0klEQVR42u19d3wc1dX2c2dmq7TSqvdi2ZZlW+4F94obJaGHGhIC4aWENwG+hFQgeSGQhBJqAgFCM8YYsDHuuHdLstWt3nvbXman3O+PlWS5ol1Jtso8/NYS2il37j33mXPOPedcQIECBQoUKFCgQIECBQoUKFCgQIECBQoUKFCgQIECBSMLZKQ8KKU0DEAcPJ5B2T57iwnVlrai9PR0jx/PZgAwarA+24iHWg14PKg4Wdw8eu7kZqVD/Ac3xEkozdPUOjlvx3eoOZENR2sHPFYL7B0meFwuSHYXPHY7AGDrb/5876jxadc43a5B9xyix4MpK5cjITgyFUBpr09kGNQdyrpt8y//cP3oqZPvdg3CZ1MASIKA+ORkMBHGvwP49VB/niNZWWNYbdD0kur27fdcM8eqENbFCeqBuqMZCXmbd6D64FF8ce8vro+Ji53aUlkNW1MzBKcbIs+DuNzgBAGMKINhVQCAk+98jKM8D0IGj1JJAYi8B9OuW4WwsSmfjVmzvM2X82uOZL5UtO7rx/M//RLH//0RGIYo7DDYyEoUYYyIwMz776pMWjpv81B/nqKiqlHHi0vWxkSrZ4Wq5MkA8hST8GySmmQqLH12zz//BcHpup518Zy1sRmO1nbY2jvAezxgOBYMwwKEgBAAhHh/R+fvg/PBIAkC0lcuxfwnH/k0euaU/yGE2Ht7etnuQ2+ceuejRwp27AarVg/e5xzBoLKMqKQELPzt/zYnLpu/JjAk5NRQfp5N3x2Nau5o31Za3TBt3Kh4pMZHT1w0Z3rhiNewCCFwWSy7yr47EPP6rBXGQH1AnL2tDebmVshUBsOyIAwLolFBo1ENQUkGZEnE+GWLsOwvT20MGZvykC9klfv5xjePvfz2wxXHMsBpNQpZDb6XLAgFguNjoImMWDz+pmtrCSGVQ/mZ9u7ND8yvKzpa3dg2ymK1QqVKvjLcMFg6hOE4SIIQ88lNd8MQn/Rha1b2CmtLO3iHA6IogrAMCGGGhTBTScLYBXPww/de2aELMf6AEOLp5bnc9t8+90LDkRNPNJwuBeFYhR0GoVal4jhETxhn18ZEXHv7R28dGOLyGngg67Rh39HjR61OVxLP85BkGXOnTUZyVNgI1bAIUHPsxEMlX219y95sQu3xXFBKvZoDQ8CqVcNAlAmoLIOwBJOvWY2lzz21Qx8astoHwVmw+dGnVnYUFD9RX1QKVs0p7DDIxleWRGjUaqStXtYRs2D2PbPuvX2ok1WoyWb/uKah/pp2ixUEAMswXg3yCmn1V1zqW4tKb9j77Etjj7/8zt8Kdx/oNPeYYRVvQUAgUxmgwPyf3IXpj/xkU1Bc7A0+CM6D5d/s/FdDRjZaq2uh0mi8hK5g8IyvLEGtUmP6PbdZklcufWDMkrlbhzhZBbeZrO/uOJJ1zYmcArAs2z0nGUrBjDTCopQuqdq+96Z9/3jr56biMk1LQyM4jRrDMTSMyjJYlsXiB3+CGY/+bK0qJOh+yHJv++mXJ9/9+JW9/3gLvMMBTqPxThLFbzVoIMsSwqKicNXjDwopSxfcHRwf8+0QJytVVUPzJ3uOZ1+XU1gMtepsC4ehFIQh3viykUBYlNKr8j76/JO8zzbG1eQXghIClVYzPH0alEKn1yMwOS5zzDXLfqMKCcoihLh6ee6TB5575YXj76+FKAhgVSqFHQYbWUkSwmJiwIUafzr17luKCSFHh/ozlVTW7Nx19NSS0qoaaC9ASrRTw1JfgbZxl3nyar598pmxX9798Na67PxQh9kMVq0etuH2VJahCwhA7JzpRZxOvzpi5tT23p7rMpsfPvz8P5879p9PWEmWwXCKz2qwvYiITJGQPkEOSIi976Z3XvrwfvL5UH8m7tTp0t3bD2ctqqlvvCBZdWn3hBBcibyKyzYL7C0tMeV7D2Y0ZGRHW+oaWJnK3ebNcIQkiggOC8WYNcuLVz73uym9XQkEgMZT+T85+o+338j4ZAOhAFiFrAYdWTEAxiyY44lfPPeXVz344w+H+jNllpcHHzmZvyGjoGRRY3Mr1KqLyxxDvYQ1bDWswgPHU/M3bN586sP1cdbWDhCGgMHwXJInhEBw84hMjMO4H6zJGv+z25f5QlYlu/fdV/j5pvcyPvsSDMcpIVaDj61AAEy4doWUvHLpb9N/sOrtof5IZrM5JOt0+fv5ZTVXN7W0gvuecBmG0iuWVTHghHXorf+Mq9uyY13FnkOp1vaOTtNmuK5wEQg8j4QJ4zDl7lsOpdy45rbAwMBe51pVZ+X+T8FH69/O2bilh/aprAYOlrEFpZBlGQsfvg+jr1vxv1FpY98cBtqifuehzHerGppvaGpugaoXflIvYV2Z9g4oYe3++xtJbRn565py8qZaLNYeTuPhqTaIHg8SJo7H4t//6ljCvJl3E0Iae3tuxoefPZ733tqXCrd/B5VWe/ZEUXDFIcsyqCxj9Z+exMS7b7mf47j3hgFZkU837/rSZHOubmpuhrqXsX1e5WqYaVhfPfJUWNOxrO+sFTVj7A47uIEK/qTefzp/dKYRku8/p5/7m8pAypxZmP//HsmPnZZ+CyGkvrfn5ny+8VeV2/b8reLwcXBq9aDnKNq3WeIdpyGUqE0lCUER4Vj+1GMYc/3KnxJC/jscSPijr7ftabM6lpgtll5pVj3dHsMqcDTzhfXBRSd35XaUVMR6BGFAVri6UlxUKhU4tRqMigOnUkFmWdEQFWEzJifAmJgAfXgIdMZgqA2B0Oj1UOm10Gq0cDocR7645Z57+9NiCJk0EbHT0j2EEJsvp+oM6vc8ZY2fuB0W2RBkGNRWoItRr9Iz7Ke8LPl8riQIGDV9Kpb/7U9ffrrqxgeHysS2MUC4LhRjrl8JQkg7hglqm1qnSzIFx/o2PxlCQcAMD8I6+Oq/E+uKM/abS8pjRdmbqNyvqrkkgcgUwaEhCIqOhIN3VxoT40xxM6dg8pqVYMNDP1Zr1a9ekd78XQbwu1/4fFrqNdec8XM1DG4hfyl9kZlhWBA/Iu0JYcCq1QiOjXH/oihjaE38ogzcSz4eVmYupdTDsozPWROUEhAGuBLLhP1KWHXHs1PzN2za0JSZm+wRhf5T+wmBLIiQPB4kTkiDfkwS72xt/3LJYz9H5KypzxJCSvBvxc9yOcBSmSEMB0J9H9sueZAlSXHMDQIwhIAQBhSyT+dRQkCGug/L5XKNLvr067WNGTmTHE4HWI7rs2VD4A2+5O1OJE1Nx4Q1V8NmMf/f/CceLiaEfIJP3lak7rIzFgswDED9MAkYBmAAMLLSj4NiLDsroPg4UUlnas6QjcOilCZX7z74ZcFXm6d0NDedyXfr43UljwB9qBGrnngUJCLs1bRrlu0hhGzGk48ownaF38z+JL9SQsAMgxJBw20cqY8zlXaP/xDNJdz93CuhrsraKS01teB02r4ToEzBsgxGLZ4rjbvxmv2pi+Y+DI2mihDCK2J2hcFxXtPOD5MQjLdcEBQFa5AQFgOGIaA+jiWlzBUzCfv8uqsrLE+1N7ceLs/KBqfRghDG/w/DgEoyDCEhSF66oHrsqvkhqSuWrCZabbFCVoPEigD6MMasUmVikKDRZotUcQzTpWX5/rlC78u+XqA1J/dIw/EsLavq66UIRJ5HVHIS0m5ckz/tJ7cv8jU8QMHlYCwWhCF+O90Vwhok2pXHsz3IEBRqtlh9ruTr3TdhCIY17H7+lR+cePt9tdz9FP6TlcTziE5KxMwH7s4Yc92KmwkhJkWsBik6N/m4bOcpGIAhJAJA/RqSKzmMftMk73Te5Wkzr5UFyQDCgGH8/1BJQnhCPGY8eE/WmOtW3EkIqVVEapCCY/s01oRh+sMToaDvlNWncRxyFUcPv/rOSlt5VYAkS30KDqUyRWhMNK569GfF8auW3DrUdxcZ9hYh4C1h7UdYA2EGfiORB//wtx9zWt19gtvt03kyKIKDghARHLjjqQfv/uuIMAs7/VG+mul0qKXmVB88fm/xl1tubmlsBNOHKpiUUuiDAjH+th/Ujlm1ZP5wSnsY3ozVF5NwYBUswjCjNRrNYuJz9DaFVqMByzH1I2UoGYaA8cOvSOkQIqzG7OyAI6/9d5yjtj6gTxt4UgqWY5G8fFGlYc7UqYQQq8IGQ8ImBGFZECr7QyadJuEAto7jRG+CteyzPFJZBsMwwgihq86Nh30nH9K1YfFQSM2pzMifGhYR/tumwiLvjsN+QnDzWPiTOxE5Z8a1sampClkNJe+HnyYBcxlSOhgG4FgCifVVawBYloAbIYGtBN7dfrr+83n8MQQi3dtKSoLyNmy9rzLzFFiNBv7EshPiJauxc2YiftmCb8PSRiurgUPKJGS9S9r+TGzCDPjyEsdwYBkWLOObX5VS6j1vBG1OSwjxK9SEgAyNsIb9L3+qNQaQ+3iPx+8647IsITIhDpHTJ38bljb6J4rfaogZhNwZ34cfKpb3PFkewPapwLEsJNYPwmLZYbG7eC8NwjMrt776sDo12UFNWJRSUnUka9vuPz7vLTLnJ3RqNWSO2ScwvEJWQ1PF8tsXRRimU9IHTto5Dn4TFsey4JiREyfWp1XCwV6twWazhWe9/8kUSuB3VjOVZQTFREqzH/t5Zdz0SQpZDW0HiH+v9QHXHBgwrO8aIKXoXDEbecNI/Djvimn4vT1QstiOuDvMrPfN6l+TNVo1gsaMqo2bPuk+ZdYPUf2KPZNL6LvPZODjsBiOAceyEFnf7uM1CRkwzAjZUo2cWTzxb5VwkFdrOPnhelEWRBDGX6ckhdoYJE659Yfr8IfHlZk/ZMH1ySQkDBlQTYtjGLAsC9ZfHxY7UlQs0g+ENUg1LEtz8093PP5MlCiKfsfRUFnG6OWLufBxo3+rTPqhrWL1jbAGOA5L1cdVQmZkrBISpo9O98FcraGjtPpuXYA+xNbeAcYPgfNGtBugCw+5k1JKCCHKZntDWtiJX+WvL0e1BoZhwLIErN9xWCNoHAn81rAGbVgDpZTd+sTTLqfJAobl/HJfyYKIcauWwhgdulMhqyFvEfY9NWcgCQsAyzBgGT98WJdBAxxcRqH/TndyBcXvknBb7c8Eh4WuaSosAqvyz8nGMARh41Ka4mbPVikzfhjwlZ+aErkMdUl6VhTwlbD8OW9oa1h982ENykj3uoxTnMdqYxiW8+vtI0siRs2cirqTuTcnLZzbpEz5IQ6W7VEmxleT8DL4sBgGHOe/hsWOoLiGvhAWCOAZjIRVfuCIWzZbwXTV8vaVsNwSxi1ZgJjlC3T43weVCT8MwDAsCCP6QVidk2MAa7pzDON1nvu5SjiyNCz/rHum07K/EhoW8z2DeFVUQvyNppZWMCzT/Yb05aPX61BTWPQpgEJlqg8HBYsDGOKXLHRrWAPJCRznZ1E61q8Vs6FNWH3Yf2EwhjU42tvTdDrtFI/HA5Ufu+HIkoSosWPgluQ9hJBGZboPL1PCv/MGtm2q7uV6/yLdGW4EVUMl/o0J6fK6D7byMuX7jgu2yhpwGrV/vgdBRHjaGGHCj29l8CvFHBwW4PoYhzXQy+GdK4S++7C8q4sjRr86K9L98rywBtwkNFVXw221e4Wzp8Hby4/BGIziQ8f/o1Kp/qPM9GHq/PDnM6ACzXj32/P7w44YxurpdPf5MxiTnx0tzWCdHjAc63ugGKXg1CqwgQGgVAm9Gj4+LPSxWsPlCBz1fnzWsFgGzMiyCIdX8nNLUZUzIiIMDMP63EwKGZxWC318tDLLh5dN2K2N+MFYA77bCsN5QxP8j8QfQRVHuwv4+ayb+dW/A0pYlNJRxV9veyp7/UZvkSEfQSVAExiIyAnjlTk+vHSsM1vO+8wmA5/SwcGbYM34lR/nZ2HCoWsUwh/j7soZhJcgLGdjY5hWo7lKorJfRc2IDGiCAhExfoyyCd0w46s+5RIyA5+bw7B+RLp3mpMjaZtXf92KV3Ij1YsSVmtVg2xqbALDcn7XPmJUKk9YUoJZmeXDySBk/V7tuxzxO12bfPqvYY2cEsl90bCunPxdBJaaarjNVjAs69dbUafXo76o+Agh5Cllmg8rxuqDhsUMuIbldy5hN9kpXvdenTfYCMvRaoHocIGw/u10QhgGmoAAoszw4SjojP/VGgZ6my/4X01gpAlr33xYg6ziqLOtFYQXvBqWP3vQMQxGVIHsEQKW5fyvasDQAU9+7quGxTIjMfnZj/MGXxyWCmDkTn+FfxqWQljDVcHyNw6LXgaT0P9tyBiGjCw1awgWxLooYQkQoKJS51K0n0vYjLJAOOzA9TWsYaAl3f/k3CupOVwxviLDqIAf6dPgM6CKhjVMTQl/Vwlp53kDJxdexb4PBQaZETWQfagcOxg3oWD60DiGKCbhcAQ7+AXdX0okGGF8hWGUmqPSq8A6id8+LIYQUFnJIRx+fMX2yYfljY8aOLlgwPQt1xGKzA5qj8RFCQsqEK5rN1x/3qaA4HJKShcPPw3LX6e2374vH9WrPoU1jBQV66zKC76bzmQwbvPVXSXSj9YJooiY1NEz3Xb7r7WBgX9TZvrwecd1VZ/1eY6wlyGsAd5Id399WAwZYU53f0zCwRg4qoqIADGZIbkFb/Coj5AlERDlIEtt3Rhlkg8fOJubIKu1cAm+b0EgiyIc4WGg0sAp3i0dHXDwApxOh0/nUQBuQYJmhFQc9XgkeEQRHlH0mbBkmYIXRBB6+Znr4mENZgtasnKQs3kHWI3aL+FsHZ8GQa8TlWk+fFC0+xA0hAFPfd9JQvIIkBwuzBvAV/TxnNNQa3Xw8G7fCItSBAcFIcJoGBHj6OZ5fHc0CyazxWdtVBQlzJ85BUlxUYOHsMYsmgOxwwRZluBPDUbCMHCZzajYf0SZ5QoUKBhYwoqdMZm1l1VDEiSodH4QFiEQnC50VFQpvaxAgYJ+waUM9tKS41mvBBmDvPVjfWcsSIIIa32jYhIqUKBgYAmLEGI+vXPPYUNoiN812W1WK6Zev/JunnfernS1AgUKBlLDQmz6eI0qMNBvwiIsi/biipBdz74cpHS1AgUKBpSwYqZNQmBkOKjk397iLMehNqcA1rLqcZTSYKW7FShQMGCElX7jGnXcxDRIguDf1YnXLJxyzYrHAcxQuluBAgV9wSUj3SNTRx852NKySx8QsEIA9SvdgdOoUbz7AFo6OqxKdytQoGDANCxCSIndajtqjI4Clf0zCzm1GrlbdiE8Mf4dSmm40uUKFCgYEMICgKl33KgLjo0CFf1MpyAEHrcb1sqaaS1VBZzS5QoUKBgwwkpdvqhZZQh0oA/bzXNaDY5/8BkKvtgzGkqJLAUKFAwUYenDQl7iRfG7oLBQwM/6VoRhYG5oAsNw+5RyQwoUKBgwwgKARb9+JCgoKhyyn34sACAsg5x1X8u1p/IfULpdgQIFA0ZYESmj/mw3WZtYlvX/ToTAVtekPvXpF79Xul2BAgUDRliGmIh9Mx6426rSavp0M4+HR/Wew1GFW7YrBf1GqsAxLDiNRvFkKhg4wgKAGT++xcLptLQvznfCMGitqNbW7DnyJKX0/yndP7KgVqtRkXUqF8DPld5QMKCEZYiMmDPm6kVE7mO1SAqgePs+suO3z42jlOqUIRhBIIAoiCIhxK50hoIBJSwAZO5DP12vDgjwOxkaABiORXNVDUzF5T+rO5LxEqVUic0aWZylQMHAExYhROoornloyc/vheBy9+mmKp0Oudt3I/ujDQ9ZGpr+QynVKEOh4EqDApDpCIm7GaLP6VPF/Ym3rnKpo8P+EDMmpY8bCVCo9Xqc+GIjMt/8773KVFFw5VU/AlmW4XS7R8TjtpotkIfgvqGcb2NKXO2lVXuddS3yrpffZFS6voQ5AAQER977BDV5hfsppfMIIbIycxRcKVNVlCQ4XC5CKWWGuyyWVddBFMUhtzu7z3sahY5JOsZFhvwubc4siLynb0JCCERBQHve6avW3/e/B7f+4mml0J+CKwabzY4Zk9LvAvCL4f6slfWNsiTLQ86n6DNhEULkBY/+rCRp8TyTTq/3u4pD9/UYBjarFTV7Ds+rzs9dbzpdulTxaSm4EmAZgrqmFnbj7kPDeiGIUjre7RGNojj0Nmb3a9dIQsjX8cvn/jxszKgm0g8c3UVabadLV53esGWPqazyFUalUmaQAp+h5jgwfu4uzbIsmttN2H0syzWc+6i8tuEZvV6Xxnv4Qdm+tqraWxqzswP6jbAAYPT8ORsW/vYX9caoiD5rWYC3/rvg8WDrS29gzzP/eChn/cb/KtNPga8IDAyAimP9Dr2x2x1Ijou7e/2OHaOGax998MUWa0NzO/qUajdAyPj0yx+Xbtr+aemW/fp+JSwAmHjtip9Nuec2G8v1jwZNGAYsy+LUN9tw6MU37932qz8elATheWUaKugtggx6qPqgncuyhLrmlrkpcaO2Ukpjhlv/HMw8dWuQMeh6m9026PxX3z39wu2N+w6/cfrbXerD23aK/U5YhJCciLQx0+LnzHT1NQK+x0XBaTRoKCpB7hffLthw9yO/OfH+J0/T7OwAMErYoYJLIyY8HFqN2m8NiyEEVosVh0/mp32x9bthVSGXUrra5hI+KK+uiyKDq10Bn/zo/uva8oreq87KMTgdDgQHX3jPGqavN5t00zXlMZPHz5+4eAEEd//ZxAzHweFyomDXPmbnn/7+zHdfbLfu+vMrN1cdODaBUpqoTE0FF8K4lERVSLABUh/cFBzHIa+kDFaHOyMztyhtmJDV1Zn5xdu27DkUIMsyyCAJZ6CUTqw6dNzksTs3W9tNeofFBipLuNgWW0x/3HTNX57qmP3oT7MTxqf2OQr+HA0OhGEguHnsf/1dJvfj9RvKtu0uyNnw7aHMj9bdQCm9gVIaqExTBV0YkxiXL4lifV/9MwwhyCoo0eSXVR7bvv/I7KHcJ3aXa/WJ3OJdn3yzE7wgghkkZGVpa7sqf+PWY/tffF3lcTjAu1zwOJ2glwho5fqJWKoppTcv/n+Prtv93CuzmiqrwKnV/fpwrFoFS2sb9vzzXWgNgQnjly/4Gq0W1NfWrz21buPpqTesBjSaYkLIF8q0HbmIDDOuf/aND34YZDDcabf3LcdalCRkFBQHRxiDNn701ba37rlxNQC8RggZEjtAUUoXltQ2Lv5654E/HcspBM8LYAaJW8XU2rqkauuedTmfbwx02x0AAN7uhODmQS6xyttv8SaEkApK6V2SLG3Y9fTfJ5taWsD08yoEYRio9FqIooDszTuRuWEzIuLj7rSVlKN+72G0t3fY/i9+ys1JC+cg9erFiJ2ejvipkwBgPyHkbWU6jwxcu3hu4NZDGbBYrWAZpi8yDQ/vQW1zWwzhVH9Zt/0AsvMLlr3+8Zcti6+agaiQoP1REaFvDyKCeq62sW10Rl4Bjuecxl/f+WSO0RiSdDK30Ks19iNZybIMf8PGi3bsmV+2btNHpbsPRTntDoAQCE4n3DY7yPe4HskAdFrCkdff23fgb2+kuJzOS7Jlv9xPliGLImRJAsuw0Ol10BgM0AYHQR2gg9ZggNlkcplrG0pYNQcGDEAIGLUKZBg68bUaDcZdt6Jk5bO/vm0grv90eNp1GsJs5qnvPiKWEIiyfPLP7cUDuqluY6Mp+dVP131nsbtG99dikCzLEEQJer0OgXo9DIEBcDrsLrPVVsKyLDhOBY5jwBIClvO+qCOMRhgCAkAhQ6fWIDwsBCqO8Snv2Olyo7XDDABwezxoNZnhEURQSYYoyxAlCbLk/RkdHjqFU6thd7pgd7rgdLogSSJUHNef8xsMw+Cnt1yPqyalTiSEFPpy/vY//3UKTM7t7RU10Q6bDRQUsijBZbbAXNfo7bfU0QgNCwm9a8ta04BpWD3eSrWU0mna0OCC3U//Pd7W3gGGG7jAYcIwYNVqdOlyvCTB3dEBc3s7QCmoTMGwjE7FqaZIPA+pJ1cPN76iFFSng8tmV2MEIyYmpOpEblHtJ9/sTHGJUr/4lxmGgUbNQBJFmC0WdJjNYAij4zhuigzAI4oQxLPlyuZwdzu3CQEYwni/84GwKOhZScqyLHtPpz2P8N63prEZlAKEIWAIAUPQr3OPUiAgQCffcd2K9qnjRz8CoNgHojOaqmrz9r3waoitvjnA4/GAMASyKEEWRfA2r6b1fWw+IExCCLFSSqdwKu5oxusfpNYVFkMmuGwrE4RhzuMikcoY9jv2UApWkkApFUa6WTh7ctrSVz5YJxaU17Ckn99MhBCwnbIsSaIP5NP5j4/N6e3hzABaM7JMkZwQi+SYiL9eNSntDz5qZckNJ/P2ZL2/Nt5a1wRJkgAKUNmrUAhuN1xWGwgh3xuOMmCqDyGkg1K6QqPSPPvlk39aRm3ORI8sDZrlVAXDG4QQ3Lhi8acW164f19Y39smX1W9tGhAnzMBDEEXMnT4ZCZHhz65ZfNUzPpLVuJoDx77IXvvVqPbaOq+CKVNQWQKVvB+XpfdBrMwAC01N2k3X/DRmUvrdCXOmN3G9YFAFCvrL15IcH3NvhDHojcA+VskdyX0oiCKuXbYAK+ZM/b2vZOUym1PKt+7+NH/dxknttXVgWMZr0srU63uWZYi8B26rvddlbi7La+e+Tf89mLB41nULn3jYxjKsIjwKLhsevuOH79+0cglo5wRU0EsTkFKo1Wrcc8O1uGb+rCdHJcT5lCJXuXdvdP5nGzcVbtw2o6WuHoyKgyxTUEpBqZe0QClcFqtP1U8vWxmNZU/+b5bb4p4VlT4+Z/fzr6jaissYCgz4KqKCEY/Ts9LHPGWxLX5h+4EjEARBcUt8H1nJMmKjo5AUE/7+9MljnzcE6Mt90MrYrC++CCzdl3HCVl2bYDdZvJqV2GkCynL3T9Hjgdvm8Kltl7XujzZYW0wpDeZdjqtbMvPWFW3ZFdhWVw/CsgpxKRgot4SbELzodPMBTt51z6ET2cluj2fQRHsPNkiyjNFJCZg+btRnqxbNecCXyquU0mB7U+u35tzy2R0VVWrBI4CwBLIoe4mK0s6fsle7Mlshi6JP7eOugADxALZQSu+Pn5b+s4wvvrm67WQ+6WhthUqnVSRGwQD4YgCdRvMnAH96+f3P1tp56Y7yqhqo1SplF58e8AgCZk+dhJkTxnw2e/L4O33rYxreXlL+cfYHny9oKq/warGUgkqdZCXL3t8lrzkoCgJ4pwuUUp803itWWZEQ8jmAz91O5xPr73wobWxo2P25m7bB6XZBrdUMuVrTCoYGHr/vjjt3Hs70pCTE3Xv0ZC6cLhdUHDui+0SSZWg1WiybPxuLp0/4MCYy4ie+nG+i1Fh3JPO9qt0HVjeUlYPjOMje8Bqvv4p6fVfo+gkKt9UOiff4/MK44qVgtXr9S0SjRvXeY8dEFbvMoFLfefTzr+BxucGq1cMyGl3BlcWKeTPua2o3HxQ97h+anPz1eYVF3kDLEeiWkCQZUZERCA3UbV521bRNEUbDB76cn0+puvqzrz7vyC9e2VBWAU6t8vqrus0/dGtYctdPQYTocsOfqhGDonY15T1InDf9PUrphvrt+9+IWDDzzdZThdPyt+6Eub6xOxCUUqpoXr0Ayyl7036Pdi8DeI9SuumL7w6PjQ2Z/XFFfdPoipo6b4WQERJ+I1OKqMhwTB+fsjs9fex9kSFBbb5ew/3xF3vasvPndzQ1g1VxkETpbFPwLJPQS2RuuwNuu9OvxQ9ukAmSBcBRSunSivBorW507CiDJnBHxrov0VJYAirJQaQzd1CSJIii6CUzwiiaWCcYjkXkuNFKR/RO3toAtJnN5lkFNU1RK+dNP74/IwdV9Y0QJTmIYVhvXS0KSLIEWZK6CW04aFZJ8TFYPmfa0eC4yBvSoqJ6XdqCUsoJTucHxRu3rag4khnlslrBMCxkqZOsOh3rVKbdWhXtDGmQRRGCiweVZb/mLDdIBckCwAKgmTBMcJf9m/XJhs+LN+8aX5uTB5VWGxEaFhpt7zDBbbXDbbXC4XB2KmCke99DEIAQr6o/FEiN9mVzSypD8gggZOB8MhLPQ2JYSP5oIASQBuHmnUaj0QTARAgJ7pyQ2H30xL/yy+rmVdfWwcWLCNBqYoKCg8Ntdgd4jweSJMPlcp3JFezxjOcS2uUguN5qhJRSaLVajBsdj5tXLDw+Ki56HvXtPhrR4fpn/tqv7y4/mtHtNJdlqZOkehCULJ8hMNmrXQluHm6bze+5yA3+CXxmVXXG3bf8qEfHzYXd8fjRdV+iYs9h1GfnGxbfecsqgechC4I3qVKSIPI8PHYnAIC32SGJ4uBdGSIEmiADGNZPXwoFdIEBCIwKG7CiholzZqpCdQFwib4XF+EYFlbeHYhdFYNT1npM+uVzZ/9Pz+9q6ptXNXaY7993LBPlNY0ICtCHLZo9fSnv4SFTGbJEQUG9RMbzZ+WtOlxuDGwiK4FWowbLMt97G5VKhdbWlpzbr1lSGhsRfoePZMXaahv/VvXdgQeLDxwBp1Z5l2Bp5+N1B4ZSoGcYQw/tyuN0Qpb8r3g6ZJ0dhJCjAG7t2ZkA/gAALpsNotMNj9MNe1sbOqpqAFlGR1kV3HY7LlOAvx/2HBCdlgpO6394h1qrRkTa2OaBauLs+35SEGjQPGN3On0XNo6DLAuN2DX0aiwmxkXtALCjh7wFAniC53l4RBEejwgZMtxuDxpa2nDmPSujpqEF8gDuI81wQGRoKPRa9ffex2g0whBoWBsXGVzq631K9x56215U8UDJ8UxwWo3XBOx0pss9nOpn/41Cpl5fliwKcFvtfdI4FcePAgUKvhf5X2/70Fpc/uP6klIQ1uuv6opY77JmZEnqjmiXJQmSKHpr1YkSqCjC0WGGo810Sdahsnx562EpUKBgeOHkJxs+bs8rvLutth4Mx4H2dK7L9OzA0POCROVOApM7k5z71haFsBQoUHBhrerp9eoOQ8dbluKyu02t7QDDeMnnHLLqCgg9y+lOOz+SDMgUbpsNktj3Mm1KAp8CBQrOg7Wqfn61o/DvYnv7z8wdXWZcV21T2qMa4ZkodlCc+V3u+pt3McJtcwL94MdTNCwFChSchdbi0idbc/L+Tj0CLG73GeLpWu2TempTPUzCLof7WUGjnWk4Hh5+lVtVCEuBAgUXQ/mh479vOJz5f2XHs6DSqLt9VfI5pHTmb2e+77lSeOZ4CbzD0adQBoWwFChQcB5Orf3y2dasvD81l5WD06i9pNMdV0V75Aee8WGhpzYlSd6f9EzNK97hguj29FvwrEJYChSMcFBKtbtf+Ofj1rKa39vNJhCWPROw3RkUesZP1VWBAd3+qa6/ew/vzCPsJDWP0wlJEPsty0QhLAUKRjAESn/QnJW7gTdZVW5R9K4A9tCqIJ9bfO+ML6v7957aV4/fBZ6H4Ob7NdpTISwFCkYoHB0dP2zYf2RjwdbvvFqRV93qXuWj9OxUG/QgLXSZf3KPssfdZqH343G5IfKefs2lVAhLgYIRCHNd4+21hzI/K9t7CIQlXXbfORqUfBZpda8Idn93xgF/1mohpRBFEbzd2e/tVghLgYIRhrpTOT+pP5Lxdk1mNgjn9Vd1m4KyfNFP96qgJHl3wJHPlJDp+kgeASLvBu9weiuK9nOlCiVwVIGCEYSTn391R0tG7usN2fla+YxH/axAz07XeafD/UwMVk8NDJ2pN+g0F4ksATJF8vxZ+MFLf8Gkm66HJPT/BuSKhqVAwQgApdSY8dbHC4WG1vctbe1aoXO3GnreCuA5YQxnaV4SOBBApQJRqUAJIIqSedx1K+nYWdNgttufacs+vTZl+UJkfPHNuIjE+EPtnRWDFcJSoEBBb8lqUmNO4UmnzcK5rVZQmYIQdGtNZxHVWRHtEgQXD61GA21IIJw8D5fJfCosdRTip05G/NyZNDQxfj4hxH3WDR+8C20lJZFlY1Kw6U8vQB2gVwhLgQIF3w8PpQtqj2VtLdt9gPM4nd0alfeDs7UoSiEJIgLU3l2ruCAVIlPHoKGyeq8xJqopOtRYNeOeW3/Xm/uGjR1rsc5oORQxOnmBqb4RDNs/VXAVwlKgYJjC1Ni6rPlwxtqK/UcMvLOznLPc6Z/q8kl17sAseQTotFpEjxuLhtKKZxmW8QQEhWLyXTdickDAW4QQsy/3JoTU2y2WF+becfO3Xz/zInTBQQphKVCg4MKoPpq5oPVE1kdN+UVRLofDuxNQV0iCJIOKEmRRRGCIEQlLFyAyZRRKM0/+VWUIOHrzkw9t7r7Q00/63YaAoKCTquiItUmTJ97ZVF4Fph/2f1QIS4GCYYa8zdunmEsrvzJV1UbwHh4cx3kXAwmBIHoQOjpZDhudjJCEWMvJdd/MC5k8DsHJyZiZnlpOCOm3pT1CSCOlNKc1p/DOhpIyhbAUKFBwBpTS8KMvvxNjLq3MZngRnFoFt8dloqzKGZaShOQp6dAnxL5fvPnYi0GTxiEiOpqufvZJJ559ciCb9YrIkrEhUdH32jraVejjiuGwJSy73T5NlpkgjuMgMnJzkFZbNFD3amhrm2DUB0W4BJcnLDj4qDJ1+tkXYzIlazQBSXa7nUZGhh4YpGRBXIIw3262s0ZjCMxmR0lkZGDjZbs/z09rKyrbGRAUGN5cW3dAE2SgsaNHIcqgenzs1VefvFL90qmxPfDiuLmzOI6bIvZxN45hS1i5xZUf23lxolarAQvpawA3DdS9Dh7LeTEsMuo6CC4HgECFYvoXe45mPxQSEfFrh92Oitqmn6ckRL87CJvJtndYD2YVlCAhLhZEcD8M4O3LdXOJkLn1h058xYQaLSsfuOvXg61zljz5SNCev7wE0elSCOtCyCosdpw8XQ69TovxyfGugbzXpj2HXCqNFonR4XaFXvofOw6f4IlKA1H0YNLYpJcADEbCQlV9g+vTb7bpxo0ZjZTYCOFy3ptTq98azGM4+/67fpvzxcb/1mfladGHdJ1eEdapgpLnLQ7XXI5lkTY68WS4MeiJwS7ksydPUKWmjIJWq4GGYwaUmG9auYgzhoSCpZLqLwq/9DtUajVYlQosoQAh1oG817b9x1fpAnRP2a02TJuYKsZGhq8hhIi9OTcxOkJ91/WrEBcbA45QJe3tbNPw85OfffV+3YnfgPTB+d6riVxYVj2jrKF5iVajRmxkGDsUOmhCSsJqnmfU0AGcIDgH8l5z0sc+oA0JeczhdMqKaA5t7DqSEac3BC1xOuxIjItGbGQ408sJKTocjqQZ49JIaHwYrE0wKb15NtRa9fyxS+afKtl7CIzKPx2iV2d5RMllttqg06jBsMQ1FDrHYDC0XK57xcfHtyviODxgdtidvAS4nHZIkuThGOLp7bkBAQH1Sg9eHBNvuLbKbbbWFO8+kNjvGhalNDi/tGbRrv1HYbXbYiVRhMAQlFXVR/3z/Q3Xn3URvRq83d74+P13ZgJAY2vr0k27jwaqNRpoJKFg+YKZ2H0yf2JuQTF43qtda/QazJk+GTcsnruFECKfc+9ZbVZn9KGMk6hpaAZ6KOSGID1mTZ6I1KToCo1GU3Cx9m/ed2hhfX2HUa3XICbUUL9m8byzVkr+8emn4ToY5iYkRuP6BbO2m+32hZ9v2RvQ3NwGq9MFjyRCzXLQaNQINxrwsx/dgCC95gQh5Lxt4F/+z9qZ+kBjTHCQhr/jmuU7e35X19R29abdB3UGgwFuwXPqgZvWBOzPyEk9lJELG+8E7+S7+8Og0WPOtIlYPnd6IyEk81IDl5F3esmJgiJDW7sJPC95r8GyCI8KwYzxqeY5UyYefPqVD5JjEqIm6VlAK6zZetttRPJFOCilEbszcuYcy8gFL/KQzjlbw7JISIzGrPSx7ZPGjj1ykWvEVdS3Tf9q525YbbbzrqHXaJA2ZhTmTU9rio2IyPBVgEur6uYdzMwNc/E8BJ5v+uV9t1/yGq99uuFqkRd1E9PGYvH0iWVarfY0ABw4nr06r7hMVdHYfJWTF8EQgoaWNubtTzfe6HKLYs8ZExEaLNx53Yrt5zwnOV1Rfc2W/ceYUXFxCA7T5ayYObPmQm1o6bAu2n7oaHBNbTOcPH9enxoMQbjt+mWICw85eG6EeWFZTXphefWo5rY2TJ841jRnysSsnNKaq7/dsx9OpxPOLnnSaKBXqzFtSjpuWHrVZrmzhPG5qK5rvH7jnsNoM1khSeeLh16jwcQxo3DDygUCIWR7H81C8/anX7h1+poVx7O27QKnUfcfYQmCkCqBfNNgMoP38HC7ebjdbnyz5/CUwMCAb85S9dwaWM3mLQCuAwBRoh/anHyC7ORBZOHYF98dgtkpzHF4ZGj1gXDYbCACRXVdC1794Is3ATzaOehTCirqrtn43cHHZMJFV9Q2wWS1QZbl7iqrJrcLKCzB/hOZRa+v3fRRalLSe6vmTz1Pm7LbXf8yu90T9AQw25iNAG7s+X1Ho2NGQDD3TZDFgU+/2fVvmdL7mzosrMXFg1GpARA4BQEyYWB28th97BTSRsVuc1Ln/+iJ/ixBbDXbnglm1NdKEu8CcFampyAJ680OdwgvAUa9et/G7w6G1LWZp5gcTsgUYDQ6OJ1OyLwEQgQU1zSA5diGstrae8YkJOw597lySyvnHs0pWnIwM+9pm9ujsTkFCKJX0NyMBKnNiv3Hs+3vrt/8PIDrGlpN86LDgqHFPgMAey+JKqCmoeWxV//7xTy1Xn+d1cWDFzwACAyGIHg8PFwuF9wcB67Vgl2HT5rXbdv7t/nTxm9JiI7O7brOjh2HI7ceyvjQbHMtt9hdcLhESD2WtQkAj0xR1diM1p3tTVv2Z742d1La1tDQwJzeCrCT5/9p44WZdicPu9WyA8DqSx3f2mpeTzhVCC8CskxfBfArALA4HN82mGwsQCB6eDAMgy37jnLBwcavevqICSGQJFG6wNxhZRnfWuwuOAQRrMn5CIC3zunXRXsycuZ/s/vAH9ssDp3F5QbvOds372ZZiIwdh7Ly4XRaNzS3dZyMDAt5mRDCA4DD6XzM4REe6LA5YbU5be9+vvkrRq2512J3g/eI0OgDYbfbIQkSKCOiqr4Rz7z+wcsP/ujasqiIiLNWLd9b/81TR/NL/tphdcDmckOr1YHjVAAAURThcNghyBSVza3YejADn3y746d3X7fqv30hrVXP/KZ52/97dhtH6Zp+1bBUUNHYyFAsnDUZZVV1KK6oBsexmDZhLMLDQrr2VPSyuU4Hc0dbtyTKkmyrbWyEw+mGXqedE2IMRvrYUVg4ZRxO5J7+7aIVC/96MOMUsvMKERUV+ci2fUe1a5bMvT+3uGJ+ZXPH85v3HoEoSpg/cwrSxyYjUK/zZpIDMFvtKCqvRml1XVpkRPjzoodf8/DTb1zz1rOPnjUZrXanvba+AXqdFlom5jwfVpPFKmocLjQ1NSI4OPhBm92ByeNGY+WC2Sgtr/wsKFCXkhAXd1VRRTWOZOXg6+27MWPqpDWqQ554AGcTlsnktDjdiI8IOc8hLIqira6hMUSSJERFhC85eboMsZERWLlgNtxOR3lrh2XbzKmTHq2pb0BecQVOZOejrrk1Ni7MeD2APecI/LzdR099XNXQlNLY0ISkuBhMHpeCMGNQ5x4AFGarHWU1DYGVDa3Pq1UsqmrrQcUYWResor0VioKqFkNlXfXzxdX1UKs4zEwfhzHJCeBdLssnm3Y+vOSqaTdPTEu9qcNsxsETp1BW2WK0Oj3Pp8TH3E0pvYMQkns4uyyyqq56w6lj+QtbWluRPm4MZkxMRWhwEFiGAISA9whoN1mQU1yOgqbWaJFVP1/fXN8CoNeE5fZ4HHUNTbDaHZDF7/dVtnZYbG7BExIbGQ5KJ3RXGUiIjZI4tYatrK1HRm4hWJbF+JRkJCfGna0lMARq5sKaqs1ud9XWN+h0Wi2So8POMyW3Hji6sr7d/vsjJ/MQGmTAtPQ0xESEQdu5nRYAmKx2lFbX4btDx6DX626Jj4m7JbSq4h9d1+AFwVXX0ITKmlqIgsfg8oj3GvRazJs2EeHGYOw7lvn/bli24u8Wqx1Z+UU4mVeIsPCwx/ccy2lBjzCLnUcy/3z4VMEfKzNzkRQXg5tWLkFeYdGrJwtKMgBgWnrq5AXXLPlNeXUt9h3LQk5BEaZOTH23w2ILCg02vNYHLav6+PtrP598zYo1J7ftAqfR9JMPS4XCiOCAGYumjofZYnu1Vq9fqNWoMX9a+gmjMfChs9RGvR6C03mWk5FhGFAqIzI8DAkRoS/MTh/9RVJsrLhywexc3iPslDzu+2UZDxVXVqGgtPI2APdv3nPQY3OLoDLFTSsWemKjIxdMGBUvBQQE9NBmzIgJCU0flRD74ebdB2ALNi588M5Vh998hs7smVZAGAKGYbo/F3pwlmXgcjkRoBegV7MrxyfFts+dlIq5k1LL4Y2niooNC4lMjonc9t6Gb3EqrwCP3nXzB5TShYSQbq2OId57XKy6IsMwEEURDc0tuO2aqxEdarxrdEp8UYBabQbQAOCDCKMONbXNqiC99mBzc6sqJjTkjsy8wt0zJ034tus6R07mj65obEmpr2vA+JQkKdCgXzghKY5PTIzpvldjYxtGJ0SNbWm3rtuwYx+0ahUYH5eRP137GXURFhzHgSP4+4Tk+HUzJqcBgGvpnOmn/0PpNgDPeTwehBsN+9/+bFNgWWU1XHNmTACQACB355H9gbLELmxuacH1yxchMTri3uiI8Pyk2IgzvlEPUNNYjdqGxmhZCtmSmZ2D5XNn/am4ojZzXEpCr0iLAcB0jjUl3+8fZ1gCRmLO65PE+OjZY+Kj2eyC09dpdfpnPbwbV00dL0xMSlrokM9Wgyil0kUmY6e8nd/fNpvt6m8OHP/Z0YyTCNDp8MBt17U5eGHVpNGJUKvVPTVAOFx2lFdx90uS/NDm7w7gtw/etR3A8p7yBABtZiuCA/WH4iKD/3da2lgkxUZg6ezJJ/8gSnvMZjNSk+N+tXnfsbtzCktQwHHBDS1tb8RGhj8KAKfLqm5obTcjMS4WS2dP3b5w2vjfL5w2Pp8Qr8+OUroewHpjgAqFJeX/FWVMsjt5rqGpdQWA1/qiZc3+6R1bCr/e+rkhKOhHTrfbp6qk3CWY0AngJAC8v2GrqXvys6wlMiTk+yNnKRAQEACLzfr+Hx688w+EnHkrEUJOWu3OxsqmdlTWNcDicIoAQInMBhsCoeJYVDZ1TL5hxaLiC7YNOPmn194PDAkJedNmtcHNi5Ph594cMqW4fulcy7xp6ScIIZYeX1kA1APAV7v2Xj8qMWFzWWUVrC5Xanu702fjWxBFrFo8H9PTxj4UGRa09hx152Rnx+CFf31MS6rr4BKEqNPlNZE9Jgn3lzc+1HXYneA4FqsXXcVOHT/mRM9+7dk/r330pT4mMvL9DlOHz33SYgdYjofBEAhQuWzmlAknz5ENE+BdBSuqqpp8zaKrMniPgMSYCIgiXIQQ3L56+bG/vbsOMdHRqG1ofuRHqxd/dDEVr7KyOfpQXi4amttQVlufWF1bb7jcDuHQQK8Zet9Tz4/XG7yVBViWoUHGwOMSpX2+fk5JVZjd6YmWJAlT0lLktJSkyYSQi0bCP/3af+qcggyL2YrswtJp58mtTBEZapQeu+fmqpCgwHPH52SnzNxfVlUbq9FollFQTXV98/hu4bbaXFSWERigx/jRSc1d5/Rc9eySy2NZebUdDldsgF6L4GB9nxezCCFtuZu2lma88q5QlZ2nIhzXd8K6wIusa+L0Or6EYRgwlLovNKkYljQYAwMyYyPCEBEa1A4Av/rpnXUBGs3ersW3u1ebDY1tbWi3WqDX6REdHo7EmHCBEJIDhmkL1Oths9ogy9TjL1lFR0Vi77HM1fOnT7Jc9DhethoNASCEoLquETrRdwkmhIGKZRvDQw0VFzs5Py9PfSC7tFP7EODs8qZ7MXnZwtn/fmft11CpVAjUa7I7x0+6wLsCUeGhNo9M0dbu3wImyzLgPQIIFVOPZ52eOXt6Ws+va7o0zLTk5EoA4edoIOodh0+EABTGIAPCggPsl+qw4CiDOqoxFIQQdJitkAT+ioWHcOoz6+1UBkRZVndpHX1BQWmF3GKxgyEEqUkJAGC+1PEpCXFsVWMbzGYLSmtqz7u/SsWhsamlPCQo8J5LEAN//x9e9HCc2lvrSpaEnvJICIHFasPRU/lRrWbzzPDg4J6nmwgh5QAwZ8aka/u7nyf/8Jo//veGHy81GAzzHU4nehtMOuCR7uQi+l6gTvcegPfOWhbWaAqqGppff+2jL7By3sxveAl6q80OJ89DxXGoaWrDqULIf3r5Pz+JCjEuqGrsG9lTSqFXq2EI0FyShBm16qxn8CeoKzAwEN98d+DdW1Yu2OnXcrvZDLvdWyZErVbjpl/9+fq8r//DX1QgJo4l3n3mfJ/7q1bOJW3NLTiSmY3QkOAnCmtqnnDJAgghCAgIQHlV1c4Hfv/iJ2FGA2IiwzFt/HgkxYedToqN7V7ZbGrtkAFAq1IhJCjoktKoBTpNNIrhiqbWDrhEGSBASLDhLCXgghOzh4tBki/SL70wgclFmGDOtPTArfuPoaGpBScoXc2pNauNhgDQzhVGc0dHxcPPvPxMZHgIYsLCMG1yKmZNGNdGCNnWb6R18w3ffpdXPBVOZ0B/a1iXBTsOHlvqkrn3NVodvt5zDOEhwQjQaxGo18Hp4tHQ0gbeIzC6QMNHzSYzbHZbn3eUvVxThFIKrVql9vd84RzBvWpymj7v64sfHx0cDL1WC1n2/QkXpiXayoO1/44MD3mwqLwaheXVyCwogUcQIMsyNBrtSk6rW+nwyGizOpFXUY3TVTUVT7/27h3PPvbAiYKCbh+ygrNNdQCkewHpSmLRjPQXOI79qKiyDo0t7dhz/CQ8gghB8G6myrFsilar/8jqcINhrThZUIF2k9UtiuL9HMd92h9tmH7PTS98fMf/PFi5+0CA1Muk6EFDWEfz8safKqj8VWbuaei0GnDAT8ODA1sjQgwIDwmBJEloNVlhc9rAqVRpDBPwj+q6RrDsyMyAKK9t5C/5Ru/ogK8OzS7ExMQ4KKW/aLVav2lta4UkeogsCpB5CRIAkXfhh8vm/84QFDwvI7cAx0/lQKfTpcyfPvmzqvr6Wz94B9nJUwZnv1E69NS4gWiwRqP5mFLaIEuyxmVzElFwAxAheiSwAKgkY+7EiTeGhIX/bNu+QyirrEZFVITWZnXcBuDT/mrH1X/4pe79g8cguVy9Mgv7TFjr16/XacNjc0JDw0Cp558Lp01505/rHD95OszBS5NkWcL40UmYN2vilumpqa0XbDTLbvnkmx1sYnzsi7V1DSPj7UwIYTvrYnt4Hv/64y93p773j/TzNgDohN3jgUcQ/coz3buXcoQ8IwHPbr3YMf/+Mz0OIKSptS2EIeR49ulSmO3OlMyCouhnn42TP/hq2xUgo0urLh6P58P/+/encdX1/lV9aWlre7Gqsf1Gk9WKsODAgpnp42+8HM8VYgjo92uuX7+eJYTsvtQx/6Z0r5XnX9RwWLd537HpLW3tsPNJyyiljxBC3uyPdkSPTl4y8dbrTme+/xlYlep7j++zepKSNjlp+6HMsd8dyRybkVMc7u91bHa37HA6QUCg02rR2uq86FQTJQmhQYaqsJBgyCPE9ggPDua1KlUbIQQUFC63ezSAi2pZGacKPY0t7RcM6fgeYkRQZEn9Ey9EOv7y1ieuZ9744IGLHNdGCCm9ddWi3JSEGAAULpcLVqtHIgBSEmLUAIHJZkNpZe0lndYNFou7w7t4gvjoSExMTel1o1mG0RBCQKmMwAB9AKX0orPbbLPHA4Tz115tMVlj92fljd1+MGNsbnFFii/nJsZFIzDQG1N8urwaANyXOr6stkmwd9ZhT0mI0/a3PBU22/b+/p/vuX738ruZJpPJeJExdgZrtaVjEuMdapUKkiRBr9MFAojpR1WvbNKN19aq1Ope+RF6m9gJhgCCIKKqpuGszHW1mjvk8QjQaTUYFRel8rfdaYmJbGxUBCgoquobYTSollziTbosr7RiRk1D04gxCQkh+fmlpb8cN3Y0ZFlGdlG5VFXXtPjCwl67rLS6dnpze4fPhAUALMtEmK12bXNHh1atUk+hlF40uq++tfXqhuY2AAQatQohAXoQQhAZajzAMATtJgs6HPaplNJlFxnLq2rrWpYXlVeDZVlEhgYVLZ09qdeJw6FG41FREHm3241xY5JXycC7lFLDOfcIdQl02ftfbjN2mC0gl3BWM53yDgAmqw09Vwir6pvdVqsNoMCsSWk+RTzOSk9TJcZEQ5Zl5BSXkayC8guOnUatgs0lLHO5XOOcLhc4hsHohNi9/S1PZrtD29Zh0bIcN6OyqW0TpTT6IuMzusNiDfV4POBYDhaLtQVAUT/KtSgxqqVX/+oh8E53/5iEaWMSA0pqGmCyWLDzSMao3//zP78YFRWBmuZWfLnzgJphGIgeoWx88qhD/jZ81qRxdfuycw8ZDIYFjc2tKKlq+PyZ19+PSR2VIPecdFW1jYE7jpx83mx3o6PD5NeEHKpYvWBu8d6MUwW1ev3EY9kFrCRJO3/xl38+kRAVAUn2Rje0m626E3llL6rVWkiU98v7HWY0vJ2cEPdwcUUVEmKiHnn29Q/Yf63bVJgYFYGoiDC0mq3oaDejpKYOB07kvnaqqAyiKCE1JRlz0lM5mVIcy8r/0ZK5sxv3H8sEwxh+vScj59dvfvLV78KMwXaGYSAKIupa27H9wLEXmkw2fXl1HWJiYlBWUfP3+25aU9DbtibHRT3+wZdb7zuQadEUFpfj233H77BaLeLrH3+ZERYUhPK6Bry/4dvFEZHRN1tdPARRvGTA3tJZ09V1HRbknS7C0VP57O9eeeeXyTGxUl1zE/YdPznZ7RERERqKcSlJ7/nSp2OTYk9X1DXlhRiDJ7W0W0hmXsHO3/zjX78amxiPoMAAADKa283w8ELsgcycp8AQmM0WLJkzEwkxUbf0tyzNGJ8aeCy3BHWNTTiafXpRVU3jfz/+evsWjUYDGTIYMHDYHfhmz6Gf1jZ3TDRbbIgID0NIsO4oIeST/mzL2PkzbHxjw/bI2KjVHe0dfSes1Pi4F6eMGzXraPbpwJYOc6rRaHytuqUDVpcH7e0dmDwxDTPGJuWljU3sSo4MEEQREgV6WxYoOTmm8rEXXr0rMTpmrcnunL/9wDGEhoS+WlLT5CWlzn3T2kwW1O09jDlT0xGo0+JUYTFUKu681TdRlOARBHAcC0k8PzCZd0tgKeARBEC8dMUcURThEUTwHg/UajXYc0KZ3aIA6uEgiOeXTSJAgEcQASJD6MXW3aIkgvcI8AgCJM/Z7R6TFJv53Jv/vXNy6ugvqxpbxuw+mqUKDg5+rcVi6+Ylm8uDrIJSxIUbMyrqGio5leo2H/1ASIiOfmTDjgPOiPDQJzOy8wDC/A8vAx1WJwLqm+Fye+DieVjsLmzZewRhYaFYPGcmJoyK/yYkKCAHAH5y67XO7KLyB/OLi6+lhPnBe59/g6iIiOfbrA4wDANZlmF3ufHxN7sAAONTxyAlNvKwhxfPS6IWRBEiJZC8ZHOeybdi4ezHoyIj3tu0+xDWbtoGozH4ntDg4HvarA5YbU7UtrYjorEdWpa8zAB3eEQxhhICQnCeljR/2qT9e0/lHgg1hiwqqqxlQ0NDX6lpaYPd6YHJbEVERCjUKvKomuPO8+EwDKPrGjvhnERijUZzavPew3f+YNm8L47lFqcdPJnLhhpDXqtqaoVabQEB4HTzMJktOJ5/GobAQFx39WIkR4c/l5+fz6anp3dekGoppeA9Qq+sC48ggqGAKMmgPfJcp0+c8DtjcPDXmfklyMovAsuQVTFRkatYhgVAQUDgEQUcyC4Ay7KIiY7EktmTTVdNTH1jAKyHludjZ90dFBX8rtpkuaRfsNcu2YKSymn7T+alLJ09bYPJbIHJZkdESDBYlvUcLSha/sit17cRQooAoLqhYabJ4jhqDDFyNqv1nUmpox/s7X2+3Lo3vrC2IXnNvBkbGY4La+0wwe32gGUYRISFgCFwbNixf/Ud110NlpDHAgJ0t7pcrtsmjBm1gRDSrU5U1DZkiRTTNWo1qOD5PDkh9vae98ktKL86MMSwS6Pm4OJdC8bExR2+WJtqW1uXaFj1XovDicam5sdCddy/09PTu02FkwUlXxpDQ24SXc721JSks/x45dX1C+xu98GgoCCYTKa/T5+Q+utLkIW6oqbe7eA9JCI0BG63+75R8TEfnHvcsezsUbtPnI5fM3/6PsKwjNy5JMwwDCRZ8mzee2z5tYunV7/+yabbgw3Bf4s0GuTkoJigH/94lcMH4mK/O5YzV68mj8dGR99osljBezxobO1AUKAeIUEGcBwLUZQc7321dfXDP74RExMTiwghbT2v883ezPDCioq0JbMmvReg06Xa7Q60dJgAEATotQgPMUISxPajucU33L5qXlV4eHjduW3JLar4vyCj4fdWqw3hRuPi2AvUdbdanfP3nMhcMmXCuP9razeh1WRGUGAgwkKMaGpt3VpQWvvXR+68/lh+aWW5Tq9PdLvdx0fHRd2u0+mqznNIb/4ubsL40ZtUKvUMi9WKplYTQoINiImKRPbpkgdvWbHwnQv0F8krr7qBY9ivQoMNEHj+wYTY6AsdN/a9L7fEXDVp/G4Kwrl4D0wWG3iPV8YjI0IRbjSiqr7+49joqHfSUxIPiT3I72BubopBrf/SYDBMtVmsFVMnjB19qXHMKizZZTQar7ZabS12l3vZwmkTu7VXs8Mx+z/rNqrTRo1aOWFcyh9NZkv3i4/CGxsXHByE41l5D9c2teT96ue32DREk4MBwr9W/ehxd1XtS0xQIMIiw0Pv2rLW5Ddh9ejwGABodTgQ4c3xky9UcqXTJiYAnOekvPT2PhEAOIfDAafTCUCPiIgAAJC6oqwppXoAwRdKcaCUhgPo8qm5zi3T0emXCe383/ZLRTNTStUAwrz+HbZRPidmhFIaAm/848X6ostJaSeE2C5xHwIgqse4mAk5U3+szWS9UaVRv2m3OTyB2oAVQUEa2wXGUCaENFNKV287lPHFus27AsckxvlMWD3aFACgexfM6tZWJEVE9DxE6plXeYnrhAJejaa11bv4q9dHoDNNVCSEtF7iXAM6a+VfKp2lMwsj6hz5BAAbIcTeeUwkAPb75JJSagSg62pvROczcyzbeKmYoR5jbelMb7vYcV3zA2dkHN33OXfsL9K2S/bbOf1+0WMppRyAiItdQ8VxjaIkYaBhaWh5fM/vnnuxOjuPi4iLviBh+RzWcCmBOee4pj6qia29OMaJiwSen/umv8D3PIDePovnUsd25tb1R59RABftt/3HT+lrWjti8otKce+NqwoWzZxy0UDUmoZmTYfFEQgCqFVs5zT2axwcABx9FUZCSEcfzrUBsPXiOPn7xrQ35Np5nBnfkz5zpeaHL23rTb935g1eth1+LoagmIhX2PCQ+ZGJCTdVV5b778NSMDgwJjGOswsSBMGD7MIyprKu7vbkuDgewGlCSBGldAGAiHazDf/6fNM8i90JSoFZUyYy6aOmEaUHFQxmEEJo7amcg1lvf7ScNtYxffJhKbjyoJRO/nDTzvePZRfMcDpdWLVkHpJjo1FRWZVzPO/0l0tmTf9lZFRkaEtbB46cykN9YxPmz5yKm5bP+3dcdORj/ZHEq0DBQKP4u/3FsswvHb9yZYNCWEMcjz//j9Slc+d/Vd/WMfFUfjEsViu0Wi10Oh3sdjsEQURQkAETRidhzvRJMOi0r05ISXi854KEAgWD/MW8EsCBC2VxKIQ1NAc0YfexkyEV9Q0xS2dN3+5wOOEWPNCq1eAYxvHm2s3zll01HbesWQgAxV3ldRUoGPJmo9IFQ568gs/9ExngvfsUKFCgQIECBQoUKFCgQIECBQoUKFCgQIECBQoUDHH8f7fyPxqrrorwAAAAAElFTkSuQmCC" alt="CTU Training Solutions"></div>
+        <div><div class="ctu-name">CTU Training Solutions</div><div class="ctu-sub">Advanced Occupational Certificate Programme</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-label lbl-gold au1">NQF Level 6 · SAQA ID 122068</div>
+      <div class="h-xl c-white au2" style="max-width:820px;">Cybersecurity<br><span class="c-gold">The Complete Picture</span></div>
+      <div class="body-lg c-white au3" style="opacity:.62;margin-top:1rem;max-width:580px;">Every role, every tool, every career path — from Security Operations Centre (SOC) analyst to Chief Information Security Officer (CISO). For students and families exploring South Africa's most in-demand profession.</div>
+      <div style="margin-top:1.5rem;display:flex;gap:10px;flex-wrap:wrap;" class="au4">
+        <span class="pill pill-gold">Open Day · 19 September · 08:00–15:00</span>
+        <span class="pill pill-white">Parent + Student Open Day</span>
+        <span class="pill pill-white">Roodepoort Campus</span>
+      </div>
+      <div class="body-sm c-white au4" style="opacity:.5;margin-top:.9rem;">Hosted by today's Cybersecurity Facilitators — Tererai Matambanadzo &amp; Ntombi Ngcwangu</div>
+    </div>
+  </div>
+  <div style="position:absolute;right:-20px;top:80px;font-family:'Syne',sans-serif;font-size:200px;font-weight:800;color:rgba(255,255,255,.023);line-height:1;pointer-events:none;">DEFEND</div>
+</div>
+
+<!-- ══ SLIDE 02 — AGENDA ═════════════════════════════════════════════════ -->
+<div class="slide bg-light" id="s1">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum l">02</div>
+    <div class="sec-label lbl-ink au">Today's Programme</div>
+    <div class="h-lg c-ink au1">What we'll cover</div>
+    <div class="hr au2"></div>
+    <div class="g2 au3" style="margin-top:.5rem;">
+      <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:1rem 1.25rem;">
+        <span style="font-size:1.5rem;">🌍</span>
+        <div><div class="h-sm c-ink">Why Cybersecurity?</div><div class="body-sm" style="color:var(--text2);">The global threat landscape and SA's critical skills shortage</div></div>
+      </div>
+      <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:1rem 1.25rem;">
+        <span style="font-size:1.5rem;">💼</span>
+        <div><div class="h-sm c-ink">The 4 Career Roles</div><div class="body-sm" style="color:var(--text2);">What each job actually looks like day-to-day</div></div>
+      </div>
+      <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:1rem 1.25rem;">
+        <span style="font-size:1.5rem;">💰</span>
+        <div><div class="h-sm c-ink">What does it pay?</div><div class="body-sm" style="color:var(--text2);">Realistic salary ranges from entry-level to senior in South Africa</div></div>
+      </div>
+      <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:1rem 1.25rem;">
+        <span style="font-size:1.5rem;">🎓</span>
+        <div><div class="h-sm c-ink">The CTU Qualification</div><div class="body-sm" style="color:var(--text2);">NQF Level 6 — what you learn, how it's assessed, where it takes you</div></div>
+      </div>
+      <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:1rem 1.25rem;">
+        <span style="font-size:1.5rem;">🛡️</span>
+        <div><div class="h-sm c-ink">Live Interactive Demo</div><div class="body-sm" style="color:var(--text2);">Touch the actual training tools — click real alerts and see what happens</div></div>
+      </div>
+      <div class="card" style="display:flex;gap:14px;align-items:flex-start;padding:1rem 1.25rem;">
+        <span style="font-size:1.5rem;">❓</span>
+        <div><div class="h-sm c-ink">Questions &amp; Next Steps</div><div class="body-sm" style="color:var(--text2);">Application process, fees, bursaries, and how to enrol</div></div>
+      </div>
+    </div>
+    <div class="ip ip-gold au4"><div class="ip-d"></div><span>Introduce yourself — name, campus, years facilitating</span></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 03 — POLL ══════════════════════════════════════════════════ -->
+<div class="slide bg-light" id="s2">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum l">03</div>
+    <div class="sec-label lbl-ink au">Quick Show of Hands</div>
+    <div class="h-lg c-ink au1">What brings you here today?</div>
+    <div class="body-md au2" style="color:var(--text2);margin-bottom:1.5rem;">Click the option that best describes you — or call it out!</div>
+    <div class="g2 au3">
+      <div class="poll-opt" data-key="student" onclick="pickPoll(this)"><div class="po-icon">🎓</div><div style="flex:1;"><div class="po-text">I'm a student exploring options</div><div class="po-sub">Matric / currently studying / career change</div></div><div class="po-count">0</div></div>
+      <div class="poll-opt" data-key="parent" onclick="pickPoll(this)"><div class="po-icon">👨‍👩‍👦</div><div style="flex:1;"><div class="po-text">I'm a parent / guardian</div><div class="po-sub">Supporting my child's career decision</div></div><div class="po-count">0</div></div>
+      <div class="poll-opt" data-key="itpro" onclick="pickPoll(this)"><div class="po-icon">🔄</div><div style="flex:1;"><div class="po-text">I work in IT, want to specialise</div><div class="po-sub">Sysadmin, networking, or helpdesk background</div></div><div class="po-count">0</div></div>
+      <div class="poll-opt" data-key="curious" onclick="pickPoll(this)"><div class="po-icon">🔍</div><div style="flex:1;"><div class="po-text">Just curious about cybersecurity</div><div class="po-sub">Heard about it, want to know more</div></div><div class="po-count">0</div></div>
+    </div>
+    <div class="ip au4"><div class="ip-d"></div><span>Tap the option that fits you — the room's live tally builds as everyone joins in</span></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 04 — WHY CYBER ════════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s3">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum d">04</div>
+    <div class="sec-label lbl-gold au">The Opportunity</div>
+    <div class="h-lg c-white au1">South Africa has a<br><span class="c-gold">cybersecurity crisis.</span></div>
+    <div class="g3 au2" style="margin-top:1.5rem;">
+      <div class="card-d" style="text-align:center;padding:1.5rem 1rem;">
+        <div class="stat-val c-gold">3.5M</div>
+        <div class="stat-lbl" style="color:rgba(255,255,255,.5);">Global unfilled cyber jobs in 2025 (ISC²)</div>
+      </div>
+      <div class="card-d" style="text-align:center;padding:1.5rem 1rem;">
+        <div class="stat-val" style="color:var(--red);">R40K</div>
+        <div class="stat-lbl" style="color:rgba(255,255,255,.5);">Cost per minute of downtime from a cyberattack in SA</div>
+      </div>
+      <div class="card-d" style="text-align:center;padding:1.5rem 1rem;">
+        <div class="stat-val" style="color:var(--green);">#1</div>
+        <div class="stat-lbl" style="color:rgba(255,255,255,.5);">Most targeted country on the African continent</div>
+      </div>
+    </div>
+    <div class="card-d au3" style="margin-top:1rem;display:flex;gap:2rem;align-items:center;">
+      <div>
+        <div class="body-sm c-white" style="font-weight:600;margin-bottom:4px;">Recent SA attacks you may have heard about:</div>
+        <div class="body-sm" style="color:rgba(255,255,255,.5);">Transnet Ports 2021 — R7 billion impact &nbsp;·&nbsp; Liberty Holdings — 40 million records stolen &nbsp;·&nbsp; SARS system attack &nbsp;·&nbsp; Department of Justice — months offline</div>
+      </div>
+      <div style="font-family:'Syne',sans-serif;font-size:48px;opacity:.12;flex-shrink:0;">⚠</div>
+    </div>
+    <div class="ip au4"><div class="ip-d"></div><span>"Has anyone here had a bank account hacked or received a phishing email?"</span></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 05 — SA JOBS ══════════════════════════════════════════════ -->
+<div class="slide bg-light" id="s4">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum l">05</div>
+    <div class="sec-label lbl-ink au">The Skills Gap</div>
+    <div class="h-lg c-ink au1">South Africa needs <span class="c-gold">you.</span></div>
+    <div class="body-md au2" style="color:var(--text2);margin-bottom:1.25rem;max-width:600px;">The demand for cybersecurity professionals grows faster than universities can produce graduates. That creates one thing: <strong>opportunity.</strong></div>
+    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:1.5rem;" class="au3">
+      <div>
+        <div class="body-sm" style="color:var(--text2);margin-bottom:10px;font-weight:500;">Current SA employment demand by role:</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span class="body-sm" style="font-weight:500;">SOC Analyst</span><span class="pill pill-ink" style="font-size:9px;">1,400+ open roles</span></div><div class="bar-outer"><div class="bar-fill" data-w="92" style="width:0%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span class="body-sm" style="font-weight:500;">Information Security Officer</span><span class="pill pill-ink" style="font-size:9px;">800+ open roles</span></div><div class="bar-outer"><div class="bar-fill" data-w="75" style="width:0%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span class="body-sm" style="font-weight:500;">Vulnerability Analyst</span><span class="pill pill-ink" style="font-size:9px;">520+ open roles</span></div><div class="bar-outer"><div class="bar-fill" data-w="60" style="width:0%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span class="body-sm" style="font-weight:500;">IT Security Officer</span><span class="pill pill-ink" style="font-size:9px;">620+ open roles</span></div><div class="bar-outer"><div class="bar-fill" data-w="68" style="width:0%"></div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="body-sm" style="color:var(--text2);margin-bottom:10px;font-weight:500;">Who hires cybersecurity professionals in SA?</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+          <span class="pill pill-ink">FNB · Absa · Nedbank</span><span class="pill pill-ink">SARS</span><span class="pill pill-ink">Transnet</span><span class="pill pill-ink">MTN · Vodacom · Telkom</span><span class="pill pill-ink">PwC · KPMG · Deloitte</span><span class="pill pill-ink">Dimension Data</span><span class="pill pill-ink">Accenture</span><span class="pill pill-ink">Government depts</span><span class="pill pill-ink">Mediclinic · Discovery</span><span class="pill pill-ink">Fintech startups</span>
+        </div>
+        <div class="card" style="background:rgba(70,191,156,.06);border-color:rgba(70,191,156,.25);padding:1rem;">
+          <div class="h-sm c-ink">🌍 Remote work is common.</div>
+          <div class="body-sm" style="color:var(--text2);margin-top:3px;">Many cyber roles can be done from anywhere in SA — or internationally. Graduates regularly earn remote salaries in UK pounds or US dollars.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 06 — 4 ROLES ══════════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s5">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum d">06</div>
+    <div class="sec-label lbl-gold au">The Qualification</div>
+    <div class="h-lg c-white au1">One qualification. <span class="c-gold">Four career paths.</span></div>
+    <div class="body-md au2" style="color:rgba(255,255,255,.5);margin-bottom:1.5rem;">All built on the same foundation — each suits a different personality.</div>
+    <div class="g4 au3">
+      <div class="role-card role-soc" onclick="toggleRole(this)"><div class="rc-icon">📊</div><div class="rc-title">SOC Analyst</div><div class="rc-sal c-gold">R180K–R480K/yr</div><div class="rc-desc">Monitors alerts, investigates threats, responds to incidents. The frontline of defence.</div><div style="margin-top:8px;"><span class="pill pill-el" style="font-size:8px;">Entry friendly</span></div><div class="rc-more">Best for people who like puzzles and pattern-spotting. You'll spend your day in a live SIEM (Security Information and Event Management) dashboard, triaging real alerts.</div><div class="rc-tap">👆 Tap to learn more</div></div>
+      <div class="role-card role-iso" onclick="toggleRole(this)"><div class="rc-icon">📋</div><div class="rc-title">Info Security Officer</div><div class="rc-sal" style="color:var(--green);">R350K–R900K/yr</div><div class="rc-desc">Manages policies, compliance with POPIA (South Africa's Protection of Personal Information Act), risk registers, and security governance.</div><div style="margin-top:8px;"><span class="pill pill-green" style="font-size:8px;">Management track</span></div><div class="rc-more">Best for people who like structure and communicating with people. Think manager meets lawyer — you write the rules everyone else follows.</div><div class="rc-tap">👆 Tap to learn more</div></div>
+      <div class="role-card role-va" onclick="toggleRole(this)"><div class="rc-icon">🔍</div><div class="rc-title">Vulnerability Analyst</div><div class="rc-sal" style="color:#c840ff;">R280K–R700K/yr</div><div class="rc-desc">Scans systems for weaknesses, scores risks with CVSS (the Common Vulnerability Scoring System), prioritises patches.</div><div style="margin-top:8px;"><span class="pill" style="background:rgba(200,64,255,.12);color:#c840ff;border:1px solid rgba(200,64,255,.25);font-size:8px;">Technical depth</span></div><div class="rc-more">Best for people who like being thorough and methodical. You hunt for weaknesses before an attacker finds them.</div><div class="rc-tap">👆 Tap to learn more</div></div>
+      <div class="role-card role-it" onclick="toggleRole(this)"><div class="rc-icon">🔥</div><div class="rc-title">IT Security Officer</div><div class="rc-sal c-gold">R240K–R650K/yr</div><div class="rc-desc">Configures firewalls, Intrusion Detection and Prevention Systems (IDS/IPS), responds to incidents, performs forensics.</div><div style="margin-top:8px;"><span class="pill pill-gold" style="font-size:8px;">Hands-on technical</span></div><div class="rc-more">Best for people who like hands-on engineering. You build and defend the actual network infrastructure.</div><div class="rc-tap">👆 Tap to learn more</div></div>
+    </div>
+    <div class="ip au4"><div class="ip-d"></div><span>Tap a card to see who each role suits best — great for spotting your own fit</span></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 07 — SALARY ═══════════════════════════════════════════════ -->
+<div class="slide bg-light" id="s6">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum l">07</div>
+    <div class="sec-label lbl-ink au">Real Numbers</div>
+    <div class="h-lg c-ink au1">What cybersecurity <span class="c-gold">actually pays</span> in South Africa</div>
+    <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:1.5rem;margin-top:1.25rem;" class="au2">
+      <div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead><tr style="border-bottom:2px solid var(--ink);"><th style="text-align:left;padding:7px 10px;font-family:'Syne',sans-serif;font-size:12px;">Role</th><th style="text-align:right;padding:7px 10px;font-family:'DM Mono',monospace;font-size:10px;">Entry</th><th style="text-align:right;padding:7px 10px;font-family:'DM Mono',monospace;font-size:10px;">Mid</th><th style="text-align:right;padding:7px 10px;font-family:'DM Mono',monospace;font-size:10px;">Senior</th></tr></thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 10px;font-weight:500;">SOC Analyst</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;color:var(--text2);">R15K</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;color:var(--text2);">R28K</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;font-weight:600;">R45K</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 10px;font-weight:500;">Info Sec Officer</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;color:var(--text2);">R28K</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;color:var(--text2);">R45K</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;font-weight:600;">R75K</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 10px;font-weight:500;">Vulnerability Analyst</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;color:var(--text2);">R22K</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;color:var(--text2);">R38K</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;font-weight:600;">R58K</td></tr>
+            <tr><td style="padding:8px 10px;font-weight:500;">IT Security Officer</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;color:var(--text2);">R18K</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;color:var(--text2);">R35K</td><td style="text-align:right;padding:8px 10px;font-family:'DM Mono',monospace;font-weight:600;">R54K</td></tr>
+          </tbody>
+        </table>
+        <div class="body-sm" style="color:var(--text3);margin-top:6px;font-family:'DM Mono',monospace;font-size:10px;">Per month · Source: Payscale SA / LinkedIn 2025</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="background:rgba(46,201,126,.06);border-color:rgba(46,201,126,.25);padding:1rem;">
+          <div class="h-sm c-ink">💡 Context for parents</div>
+          <div class="body-sm" style="color:var(--text2);margin-top:4px;">SA's average salary is approximately <strong>R23,000/month</strong>. A mid-level cyber professional earns <strong>2–3× the national average</strong>, with senior professionals earning considerably more.</div>
+        </div>
+        <div class="card" style="background:rgba(70,191,156,.06);border-color:rgba(70,191,156,.25);padding:1rem;">
+          <div class="h-sm c-ink">🌍 International option</div>
+          <div class="body-sm" style="color:var(--text2);margin-top:4px;">With this qualification + 2 years experience, graduates find remote contracts with UK, US, and EU companies paying <strong>$4,000–$10,000 USD/month</strong>.</div>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <div class="h-sm c-ink">📈 Career growth</div>
+          <div class="body-sm" style="color:var(--text2);margin-top:4px;">Salaries grow <strong>rapidly with experience</strong>. A 3-year professional typically earns double their starting salary.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ip ip-gold au3"><div class="ip-d"></div><span>Pause — invite parent questions on salary / job security before moving on</span></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 08 — TYPICAL DAY ══════════════════════════════════════════ -->
+<div class="slide bg-light" id="s7">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum l">08</div>
+    <div class="sec-label lbl-ink au">Real World Work</div>
+    <div class="h-lg c-ink au1">A typical day as a <span class="c-gold">SOC Analyst</span></div>
+    <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;margin-top:1.25rem;" class="au2">
+      <div class="tl">
+        <div class="tl-item"><div class="tl-dot"><div class="tl-fill"></div></div><div class="tl-body"><div class="tl-time">07:30 — Shift start</div><div class="tl-title">Morning briefing &amp; handover</div><div class="tl-desc">Read the overnight shift report. Check what incidents are still open. Make coffee. ☕</div></div></div>
+        <div class="tl-item"><div class="tl-dot"><div class="tl-fill"></div></div><div class="tl-body"><div class="tl-time">08:00 — Alert triage</div><div class="tl-title">Review the SIEM dashboard</div><div class="tl-desc">312 new alerts overnight. Sort by severity. Find the 3 that matter from the 309 false alarms.</div></div></div>
+        <div class="tl-item"><div class="tl-dot"><div class="tl-fill"></div></div><div class="tl-body"><div class="tl-time">10:30 — Investigation</div><div class="tl-title">Follow the suspicious login</div><div class="tl-desc">Someone logged in from Russia at 3am. Was it a VPN? Was it the attacker? Trace the evidence.</div></div></div>
+        <div class="tl-item"><div class="tl-dot"><div class="tl-fill"></div></div><div class="tl-body"><div class="tl-time">14:00 — Incident response</div><div class="tl-title">Confirm the breach, take action</div><div class="tl-desc">Block the IP. Disable the account. Notify the ISO. Document everything for legal.</div></div></div>
+        <div class="tl-item"><div class="tl-dot"><div class="tl-fill"></div></div><div class="tl-body"><div class="tl-time">16:00 — Write handover</div><div class="tl-title">Shift report for next analyst</div><div class="tl-desc">Document what happened, what you did, what needs follow-up. Go home.</div></div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="h-sm c-ink" style="margin-bottom:4px;">What skills does this actually need?</div>
+        <div class="ri"><div class="ri-icon">🧠</div><div><div class="ri-label">Problem solving</div><div class="ri-desc">More important than coding. Think like a detective.</div></div></div>
+        <div class="ri"><div class="ri-icon">📝</div><div><div class="ri-label">Written communication</div><div class="ri-desc">Reports, handovers, briefings to management.</div></div></div>
+        <div class="ri"><div class="ri-icon">🎯</div><div><div class="ri-label">Attention to detail</div><div class="ri-desc">One missed alert can mean a million-rand breach.</div></div></div>
+        <div class="ri"><div class="ri-icon">💻</div><div><div class="ri-label">Technical curiosity</div><div class="ri-desc">Not a programmer — but willing to learn tools.</div></div></div>
+        <div class="card" style="background:rgba(70,191,156,.06);border-color:rgba(70,191,156,.25);padding:.85rem;margin-top:4px;"><div class="body-sm" style="font-weight:600;">🏠 Most SOC roles offer shift flexibility and remote options after 12–18 months.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 09 — QUALIFICATION ════════════════════════════════════════ -->
+<div class="slide bg-light" id="s8">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum l">09</div>
+    <div class="sec-label lbl-ink au">The Qualification</div>
+    <div class="h-lg c-ink au1">NQF Level 6 — what does it mean?</div>
+    <div class="g2 au2" style="margin-top:1.25rem;">
+      <div>
+        <div class="card" style="margin-bottom:10px;padding:1rem;">
+          <div class="h-sm c-ink" style="margin-bottom:8px;">📋 Qualification at a glance</div>
+          <table style="width:100%;font-size:12px;border-collapse:collapse;">
+            <tr><td style="padding:5px 0;color:var(--text3);width:45%;">Qualification</td><td style="font-weight:600;">Adv. Occ. Certificate: Cybersecurity Practitioner</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:5px 0;color:var(--text3);">SAQA ID</td><td style="font-family:'DM Mono',monospace;">122068</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:5px 0;color:var(--text3);">NQF Level</td><td><span class="pill pill-gold" style="font-size:9px;">Level 6 — same as National Diploma</span></td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:5px 0;color:var(--text3);">Duration</td><td style="font-weight:600;">2 years full-time</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:5px 0;color:var(--text3);">Credits</td><td style="font-family:'DM Mono',monospace;">360 credits</td></tr>
+            <tr style="border-top:1px solid var(--border);"><td style="padding:5px 0;color:var(--text3);">Entry</td><td>Matric + basic computer literacy</td></tr>
+          </table>
+        </div>
+        <div class="card" style="background:rgba(155,212,33,.04);border-color:rgba(155,212,33,.2);padding:1rem;">
+          <div class="h-sm c-ink" style="margin-bottom:6px;">🏆 What can I do AFTER this?</div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:12px;">
+            <div>→ ISC² Certified in Cybersecurity (CC) — <strong>free</strong></div>
+            <div>→ CompTIA Security+ certification</div>
+            <div>→ ISACA CISM / CISA (management track)</div>
+            <div>→ University top-up to B.Tech / Postgrad</div>
+            <div>→ SANS GIAC advanced certifications</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:10px;padding:1rem;">
+          <div class="h-sm c-ink" style="margin-bottom:8px;">📚 What you'll actually learn</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><div style="width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:'Syne',sans-serif;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div><div><strong>Network security</strong> — firewalls, IDS/IPS, traffic analysis</div></div>
+            <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><div style="width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:'Syne',sans-serif;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div><div><strong>Incident response</strong> — detect, contain, recover</div></div>
+            <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><div style="width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:'Syne',sans-serif;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div><div><strong>Vulnerability management</strong> — CVSS, scanning, remediation</div></div>
+            <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);"><div style="width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:'Syne',sans-serif;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div><div><strong>Digital forensics</strong> — investigate breaches for legal proceedings</div></div>
+            <div style="display:flex;gap:10px;padding:8px 0;"><div style="width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:'Syne',sans-serif;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</div><div><strong>Governance &amp; compliance</strong> — POPIA, ISO 27001, risk</div></div>
+          </div>
+        </div>
+        <div class="card" style="background:rgba(46,201,126,.04);border-color:rgba(46,201,126,.2);padding:1rem;">
+          <div class="body-sm" style="font-weight:600;color:var(--green);">✅ Nationally recognised · SAQA registered · QCTO quality assured</div>
+        </div>
+      </div>
+    </div>
+    <div class="ip ip-gold au3"><div class="ip-d"></div><span>"Any questions from parents on the qualification level or what employers think of it?"</span></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 10 — CSA / CSP / CIO PATHWAY + INTERNATIONAL EXAMS ═══════════ -->
+<div class="slide bg-dark" id="s8b">
+  <div class="slide-inner" style="padding:42px 60px 34px;">
+    <div class="slidenum d">10</div>
+    <div class="sec-label lbl-gold au">The Full Pathway</div>
+    <div class="h-lg c-white au1">One qualification suite. <span class="c-gold">Three levels. Global exams.</span></div>
+    <div class="body-md au2" style="color:rgba(255,255,255,.5);margin-bottom:1.1rem;max-width:760px;">CTU's cybersecurity qualifications aren't a single certificate — they're a career ladder. Each rung is registered with SAQA <em>and</em> embeds the international vendor exam employers actually screen for.</div>
+
+    <div class="g3 au3" style="gap:1rem;">
+      <div class="card-d" style="padding:1rem 1.1rem;border-top:3px solid #9BD421;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="pill pill-el" style="font-size:8px;">NQF 5 · 1 year · Entry</span></div>
+        <div class="h-sm c-white">CSA</div>
+        <div class="body-sm" style="color:rgba(255,255,255,.45);margin-bottom:6px;">Occupational Certificate: Cybersecurity Analyst · SAQA ID 118986</div>
+        <div class="body-sm" style="color:rgba(255,255,255,.6);">Foundational threat-monitoring and analysis skills. Feeds directly into Tier 1 SOC / junior IT security roles.</div>
+        <div class="hr-d"></div>
+        <div class="body-sm" style="color:var(--electric);font-weight:600;">🌍 Embedded exam: CompTIA Security+</div>
+      </div>
+      <div class="card-d" style="padding:1rem 1.1rem;border-top:3px solid var(--gold);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="pill pill-gold" style="font-size:8px;">NQF 6 · 1 year · Today's focus</span></div>
+        <div class="h-sm c-white">CSP</div>
+        <div class="body-sm" style="color:rgba(255,255,255,.45);margin-bottom:6px;">Advanced Occupational Certificate: Cybersecurity Practitioner · SAQA ID 122068</div>
+        <div class="body-sm" style="color:rgba(255,255,255,.6);">The qualification today is about. Investigates, mitigates, and reports on real cyber incidents. Feeds SOC Tier 2/3, Vulnerability Analyst, IT Security Officer roles.</div>
+        <div class="hr-d"></div>
+        <div class="body-sm" style="color:var(--gold);font-weight:600;">🌍 Embedded exam: Microsoft SC-200 (Security Operations Analyst)</div>
+      </div>
+      <div class="card-d" style="padding:1rem 1.1rem;border-top:3px solid var(--green);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span class="pill pill-green" style="font-size:8px;">NQF 7 · 1 year · Progression</span></div>
+        <div class="h-sm c-white">CIO</div>
+        <div class="body-sm" style="color:rgba(255,255,255,.45);margin-bottom:6px;">Advanced Occupational Diploma: Chief Information Officer (Cybersecurity) · SAQA ID 121968</div>
+        <div class="body-sm" style="color:rgba(255,255,255,.6);">Moves from hands-on technical work into cybersecurity governance and leadership — the path toward Information Security Manager and, eventually, CISO.</div>
+        <div class="hr-d"></div>
+        <div class="body-sm" style="color:var(--green);font-weight:600;">🎓 Bridges into ISACA CISM/CISA and postgraduate study</div>
+      </div>
+    </div>
+
+    <div class="card-d au4" style="margin-top:1rem;padding:1rem 1.25rem;background:rgba(70,191,156,.07);border-color:rgba(70,191,156,.25);">
+      <div class="h-sm c-white" style="margin-bottom:5px;">🌍 Why the international exams matter this much</div>
+      <div class="body-sm" style="color:rgba(255,255,255,.6);line-height:1.65;">A SAQA/QCTO qualification proves you met a <strong>national</strong> standard — it's what gets you NSFAS funding and formal recognition in South Africa. A CompTIA or Microsoft exam proves a <strong>specific, globally benchmarked skill</strong> — it's what a hiring manager in Cape Town, London, or Dubai searches for by name on a CV. Employers increasingly list these certifications as hard requirements, not preferences. Graduates who hold both the local qualification and the international exam are the ones who qualify for the remote UK/US/EU contracts mentioned earlier today — the qualification opens the door locally, the exam opens it internationally.</div>
+    </div>
+    <div class="card-d au4" style="margin-top:.75rem;padding:1rem 1.25rem;background:rgba(155,212,33,.08);border-color:rgba(155,212,33,.3);">
+      <div class="h-sm c-white" style="margin-bottom:5px;">🤖 A curriculum built for where the field is actually going</div>
+      <div class="body-sm" style="color:rgba(255,255,255,.6);line-height:1.65;">Cybersecurity isn't standing still, and neither is how we teach it. AI is now on <strong>both sides</strong> of this fight — attackers use it to write more convincing phishing and automate attacks, while modern SIEM and XDR platforms use it to detect threats faster than any human could alone. And on the horizon, quantum computing threatens to eventually break the encryption the entire internet currently relies on — which is why post-quantum readiness is already becoming a live conversation in the security industry. CTU keeps this qualification's teaching grounded in that reality, not frozen in whatever cybersecurity looked like five years ago.</div>
+    </div>
+    <div class="ip au4"><div class="ip-d"></div><span>Ask: "Has anyone here already heard of CompTIA or Microsoft certifications?" — gauge existing awareness before explaining.</span></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 11 — LIVE DEMO ════════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s9">
+  <div class="slide-inner" style="padding:38px 54px 32px;">
+    <div class="slidenum d">11</div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+      <div>
+        <div class="sec-label lbl-gold au">Live Demo — Click anything to explore</div>
+        <div class="h-md c-white au1" style="font-size:24px;">This is what students <span class="c-gold">work in from day one.</span></div>
+        <div class="body-sm au2" style="color:rgba(255,255,255,.4);margin-top:6px;max-width:520px;">Quick glossary: SIEM (Security Information and Event Management) is the alert dashboard; SOC (Security Operations Centre) is the team watching it; SOAR (Security Orchestration, Automation and Response) automates the response; POPIA is South Africa's data protection law.</div>
+      </div>
+      <div class="demo-tabs au1" id="demotabs">
+        <button class="dtab on" onclick="switchDemo(0)">📊 SIEM</button>
+        <button class="dtab" onclick="switchDemo(1)">🔥 Firewall</button>
+        <button class="dtab" onclick="switchDemo(2)">🔬 Forensics</button>
+        <button class="dtab" onclick="switchDemo(3)">⚡ SOAR</button>
+      </div>
+    </div>
+
+    <!-- panels container -->
+    <div style="height:348px;position:relative;" id="demoPanels">
+
+      <!-- SIEM -->
+      <div class="demo-panel on dp-siem" id="dp0">
+        <div class="demo-pane">
+          <div class="demo-pane-hdr"><span class="lbl">⬡ Wazuh SIEM — Security Events</span><span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;background:rgba(255,56,100,.15);color:#ff3864;border:1px solid rgba(255,56,100,.3);padding:2px 7px;border-radius:3px;">● 3 CRITICAL</span></div>
+          <div class="demo-pane-body" id="siemRows"></div>
+        </div>
+        <div class="demo-side dp-siem">
+          <div class="demo-hint dp-siem" id="siemHint">
+            <div class="dh-label" style="color:#00d4ff;">👆 Click any alert row</div>
+            <div class="dh-text">Each row is a security event. <strong style="color:#fff;">Click one</strong> to see what it means, why it matters, and what a student does about it.</div>
+            <div class="dh-tip">🎓 Facilitator: read the explanation to the room after clicking each alert.</div>
+          </div>
+          <div class="demo-stat" style="background:rgba(255,183,0,.07);border:1px solid rgba(255,183,0,.2);">
+            <div class="ds-label">STAT SNAPSHOT</div>
+            <div class="ds-text">312 events overnight · 3 critical · 50,000+ SA breaches per year that analysts must catch like this.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FIREWALL -->
+      <div class="demo-panel dp-fw" id="dp1">
+        <div class="demo-pane">
+          <div class="demo-pane-hdr"><span class="lbl">🔥 pfSense Firewall — WAN Rules</span><span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;background:rgba(255,56,100,.15);color:#ff3864;border:1px solid rgba(255,56,100,.3);padding:2px 7px;border-radius:3px;">ATTACK ACTIVE</span></div>
+          <div class="demo-pane-body" id="fwRows"></div>
+        </div>
+        <div class="demo-side dp-fw">
+          <div class="demo-hint dp-fw" id="fwHint">
+            <div class="dh-label" style="color:#ff6b35;">👆 Click any firewall rule</div>
+            <div class="dh-text">Each row is a firewall rule — the instructions that decide what internet traffic is allowed or blocked.</div>
+            <div class="dh-tip">🎓 Facilitator: "A firewall is like a security guard at the door — but instead of checking faces, it checks IP addresses."</div>
+          </div>
+          <div class="demo-stat" style="background:rgba(255,183,0,.07);border:1px solid rgba(255,183,0,.2);">
+            <div class="ds-label">LIVE ATTACK</div>
+            <div class="ds-text">IP 192.168.1.44 tried 847 SSH logins in the last hour. One rule stops all of it.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORENSICS -->
+      <div class="demo-panel dp-fs" id="dp2">
+        <div class="demo-pane">
+          <div class="demo-pane-hdr"><span class="lbl">🔬 Autopsy — Disk Evidence Browser</span><span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;background:rgba(255,56,100,.15);color:#ff3864;border:1px solid rgba(255,56,100,.3);padding:2px 7px;border-radius:3px;">3 FILES FLAGGED</span></div>
+          <div class="demo-pane-body" id="fsRows"></div>
+        </div>
+        <div class="demo-side dp-fs">
+          <div class="demo-hint dp-fs" id="fsHint">
+            <div class="dh-label" style="color:#ffb700;">👆 Click any file</div>
+            <div class="dh-text">This is the attacker's hard drive. Students look through files to find digital evidence — like a detective searching a crime scene.</div>
+            <div class="dh-tip">🎓 Facilitator: "What kind of files would YOU look for first if investigating a computer break-in?"</div>
+          </div>
+          <div class="demo-stat" style="background:rgba(255,183,0,.07);border:1px solid rgba(255,183,0,.2);">
+            <div class="ds-label">THE CASE</div>
+            <div class="ds-text">Attacker stole 4.3GB of customer data. Can you find the tool they used — and prove it in court?</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOAR -->
+      <div class="demo-panel dp-soar" id="dp3">
+        <div class="demo-pane">
+          <div class="demo-pane-hdr"><span class="lbl">⚡ SOAR Playbook — Automated Response</span><span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;background:rgba(0,255,157,.1);color:#00ff9d;border:1px solid rgba(0,255,157,.25);padding:2px 7px;border-radius:3px;">4 MIN vs 35 MIN MANUAL</span></div>
+          <div class="demo-pane-body" id="soarRows"></div>
+        </div>
+        <div class="demo-side dp-soar">
+          <div class="demo-hint dp-soar" id="soarHint">
+            <div class="dh-label" style="color:#b44fff;">👆 Click any step</div>
+            <div class="dh-text">SOAR automates the response to an attack. Each step that used to take an analyst 5 minutes now happens in seconds.</div>
+            <div class="dh-tip">🎓 Facilitator: "Imagine pressing one button and your firewall blocks the attacker, the email gets deleted, and a ticket gets created — all in 4 minutes."</div>
+          </div>
+          <div class="demo-stat" style="background:rgba(255,183,0,.07);border:1px solid rgba(255,183,0,.2);">
+            <div class="ds-label">WHY IT MATTERS</div>
+            <div class="ds-text">IBM 2024: organisations with SOAR detect breaches 108 days faster. That's millions saved.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end panels -->
+
+    <div style="margin-top:10px;display:flex;align-items:center;justify-content:space-between;" class="au4">
+      <div style="display:flex;align-items:center;gap:7px;background:rgba(155,212,33,.08);border:1px solid rgba(155,212,33,.2);border-radius:6px;padding:7px 12px;">
+        <div style="width:7px;height:7px;border-radius:50%;background:var(--electric);animation:pulse 2s infinite;"></div>
+        <span style="font-size:11px;color:rgba(255,255,255,.55);">Click alerts / rows inside the panels — each opens a popup explaining it to the room</span>
+      </div>
+      <button onclick="window.open('siem-dashboard.html','_blank')" style="background:rgba(70,191,156,.15);border:1px solid rgba(70,191,156,.35);color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;padding:7px 14px;border-radius:5px;cursor:pointer;letter-spacing:.05em;">⛶ Open Full Lab →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 12 — IS THIS FOR ME ══════════════════════════════════════ -->
+<div class="slide bg-light" id="s10">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum l">12</div>
+    <div class="sec-label lbl-ink au">Honest Conversation</div>
+    <div class="h-lg c-ink au1">Is cybersecurity right for <span class="c-gold">you?</span></div>
+    <div class="g2 au2" style="margin-top:1.25rem;">
+      <div>
+        <div class="body-sm" style="color:var(--green);font-weight:700;margin-bottom:6px;font-family:'Syne',sans-serif;font-size:15px;">✅ You'll thrive if you…</div>
+        <div class="body-sm" style="color:var(--text2);margin-bottom:8px;">Tap the ones that sound like you.</div>
+        <div class="ri ri-check" onclick="toggleFit(this)"><div class="ri-icon ri-box">☐</div><div><div class="ri-label">Enjoy solving puzzles</div><div class="ri-desc">Every incident is a mystery. Finding the attacker's trail is deeply satisfying.</div></div></div>
+        <div class="ri ri-check" onclick="toggleFit(this)"><div class="ri-icon ri-box">☐</div><div><div class="ri-label">Are comfortable with computers</div><div class="ri-desc">Not a programmer — but at ease learning new tools and systems.</div></div></div>
+        <div class="ri ri-check" onclick="toggleFit(this)"><div class="ri-icon ri-box">☐</div><div><div class="ri-label">Follow tech / current events</div><div class="ri-desc">Security professionals need to stay updated. Curiosity is the job requirement.</div></div></div>
+        <div class="ri ri-check" onclick="toggleFit(this)"><div class="ri-icon ri-box">☐</div><div><div class="ri-label">Can communicate clearly</div><div class="ri-desc">You'll brief managers, write reports, explain technical issues in plain language.</div></div></div>
+        <div class="fit-meter" id="fitMeter">
+          <div class="fit-meter-bar"><div class="fit-meter-fill" id="fitMeterFill" style="width:0%;"></div></div>
+          <div class="fit-meter-label" id="fitMeterLabel">Tap the signs above that sound like you</div>
+        </div>
+      </div>
+      <div>
+        <div class="body-sm" style="color:var(--red);font-weight:700;margin-bottom:10px;font-family:'Syne',sans-serif;font-size:15px;">⚠ Think carefully if you…</div>
+        <div class="ri"><div class="ri-icon">😴</div><div><div class="ri-label">Want a 9-to-5 with no surprises</div><div class="ri-desc">Incidents don't schedule themselves. On-call and shift work are common early career.</div></div></div>
+        <div class="ri"><div class="ri-icon">📚</div><div><div class="ri-label">Don't enjoy ongoing learning</div><div class="ri-desc">Hackers evolve constantly. This field changes every year — lifelong learning is required.</div></div></div>
+        <div class="ri"><div class="ri-icon">😤</div><div><div class="ri-label">Get frustrated with ambiguity</div><div class="ri-desc">Many investigations don't have clear answers. Comfort with uncertainty is essential.</div></div></div>
+        <div class="card" style="background:rgba(70,191,156,.06);border-color:rgba(70,191,156,.25);padding:.85rem;margin-top:6px;">
+          <div class="body-sm" style="color:var(--text2);">🎓 <strong>Facilitator note:</strong> This slide builds trust. Parents respect facilitators who are honest, not just selling.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ip ip-gold au3"><div class="ip-d"></div><span>For each "thrive if" item: ask for a show of hands. Parents: "Is there anything on this list that concerns you?"</span></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 13 — CTU ADVANTAGE ════════════════════════════════════════ -->
+<div class="slide bg-dark" id="s11">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum d">13</div>
+    <div class="sec-label lbl-gold au">Why CTU</div>
+    <div class="h-lg c-white au1">The CTU <span class="c-gold">advantage</span></div>
+    <div class="g2 au2" style="margin-top:1.25rem;">
+      <div class="card-d" style="padding:1.1rem;"><div style="font-size:1.4rem;margin-bottom:8px;">🛠️</div><div class="h-sm c-white">100% Practical Training</div><div class="body-sm" style="color:rgba(255,255,255,.5);margin-top:5px;">Real tool simulations from day one. No generic slides, no textbook case studies — the actual interfaces used in SA SOC operations.</div></div>
+      <div class="card-d" style="padding:1.1rem;"><div style="font-size:1.4rem;margin-bottom:8px;">🏢</div><div class="h-sm c-white">Industry Partnerships</div><div class="body-sm" style="color:rgba(255,255,255,.5);margin-top:5px;">CTU works with employers who are actively hiring our graduates. Internship pipelines to banks, MSSPs, and technology companies.</div></div>
+      <div class="card-d" style="padding:1.1rem;"><div style="font-size:1.4rem;margin-bottom:8px;">📍</div><div class="h-sm c-white">Nationwide Campuses</div><div class="body-sm" style="color:rgba(255,255,255,.5);margin-top:5px;">Multiple campuses across South Africa. Small class sizes mean personal attention from your facilitator — not 200-person lecture halls.</div></div>
+      <div class="card-d" style="padding:1.1rem;"><div style="font-size:1.4rem;margin-bottom:8px;">🎓</div><div class="h-sm c-white">QCTO-Registered Qualification</div><div class="body-sm" style="color:rgba(255,255,255,.5);margin-top:5px;">Formally registered on the SAQA database. Employers recognise it. NSFAS eligible. Bursaries and payment plans available.</div></div>
+    </div>
+    <div class="au3" style="margin-top:1rem;background:rgba(70,191,156,.08);border:1px solid rgba(70,191,156,.2);border-radius:8px;padding:12px 20px;display:flex;align-items:center;gap:14px;">
+      <div style="font-size:2rem;">🏅</div>
+      <div><div class="h-sm c-white">Our graduates work at:</div><div class="body-sm" style="color:rgba(255,255,255,.5);margin-top:3px;">FNB Security Operations · Absa Cyber · MTN Group InfoSec · PwC Cybersecurity · Dimension Data · BCX · Liquid Intelligent Technologies · Department of Justice · Numerous MSSPs across SA</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 14 — HOW TO APPLY ═════════════════════════════════════════ -->
+<div class="slide bg-light" id="s12">
+  <div class="slide-inner" style="padding:50px 70px;">
+    <div class="slidenum l">14</div>
+    <div class="sec-label lbl-ink au">Next Steps</div>
+    <div class="h-lg c-ink au1">How to get started</div>
+    <div class="g2 au2" style="margin-top:1.25rem;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);"><div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:'Syne',sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">1</div><div><div class="h-sm c-ink">Pick up an application form today</div><div class="body-sm" style="color:var(--text2);margin-top:2px;">Forms at the desk, or apply online at ctutraining.ac.za</div></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);"><div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:'Syne',sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">2</div><div><div class="h-sm c-ink">Submit your Matric certificate</div><div class="body-sm" style="color:var(--text2);margin-top:2px;">Or final Gr 12 results if not yet matriculated. No specific subject requirements.</div></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);"><div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:'Syne',sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">3</div><div><div class="h-sm c-ink">Orientation assessment</div><div class="body-sm" style="color:var(--text2);margin-top:2px;">Short aptitude check — not an exam. We want to make sure you're set up for success.</div></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);"><div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:'Syne',sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">4</div><div><div class="h-sm c-ink">Confirm funding</div><div class="body-sm" style="color:var(--text2);margin-top:2px;">NSFAS, bursaries, company sponsorship, or payment plans. Speak to our finance team.</div></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:10px 0;"><div style="width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--gold);font-family:'Syne',sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">5</div><div><div class="h-sm" style="color:var(--gold2);">Start your cybersecurity career 🎉</div><div class="body-sm" style="color:var(--text2);margin-top:2px;">Next intake — ask campus coordinator today for dates.</div></div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="card" style="background:rgba(70,191,156,.06);border-color:rgba(70,191,156,.25);padding:1rem;">
+          <div class="h-sm c-ink">💰 Funding options</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:8px;font-size:12px;">
+            <div style="display:flex;align-items:center;gap:8px;"><span class="pill pill-green" style="font-size:8px;white-space:nowrap;">NSFAS</span> Application via NSFAS portal for eligible students</div>
+            <div style="display:flex;align-items:center;gap:8px;"><span class="pill pill-el" style="font-size:8px;white-space:nowrap;">Bursaries</span> Available — ask coordinator for current partners</div>
+            <div style="display:flex;align-items:center;gap:8px;"><span class="pill pill-ink" style="font-size:8px;white-space:nowrap;">Employer</span> Many companies sponsor employees to upskill</div>
+            <div style="display:flex;align-items:center;gap:8px;"><span class="pill pill-ink" style="font-size:8px;white-space:nowrap;">Payment</span> Flexible instalment plans available</div>
+          </div>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <div class="h-sm c-ink">📞 Contact us</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:6px;line-height:2.2;">🌐 <strong>ctutraining.ac.za</strong><br>📧 <strong>info@ctutraining.ac.za</strong><br>👩‍🏫 Today's Facilitators (Roodepoort): <strong>Tererai Matambanadzo</strong> &amp; <strong>Ntombi Ngcwangu</strong></div>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <div class="h-sm c-ink" style="margin-bottom:8px;">❓ Common questions — tap to open</div>
+          <div class="faq-list" id="faqList">
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-q"><span>What if my child isn't good with computers yet?</span><span class="faq-arrow">▾</span></div>
+              <div class="faq-a">No prior IT background is required — just basic computer literacy and curiosity. The first months build those fundamentals before moving into specialist tools.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-q"><span>Is this qualification actually recognised by employers?</span><span class="faq-arrow">▾</span></div>
+              <div class="faq-a">Yes — it's an NQF Level 6, SAQA-registered, QCTO-quality-assured qualification (SAQA ID 122068), equivalent to a National Diploma.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+              <div class="faq-q"><span>What does the application process actually involve?</span><span class="faq-arrow">▾</span></div>
+              <div class="faq-a">A form, your Matric results (or final Gr 12 results), and a short orientation assessment — it's a readiness check, not an exam.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ip ip-gold au3"><div class="ip-d"></div><span>Open Q&amp;A now — 15 minutes. Finance coordinator available at the desk immediately after.</span></div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 15 — CLOSE ════════════════════════════════════════════════ -->
+<div class="slide bg-cover" id="s13">
+  <div class="slide-inner" style="padding:60px 72px;justify-content:center;align-items:flex-start;">
+    <div style="max-width:700px;">
+      <div class="sec-label lbl-gold au" style="margin-bottom:1.5rem;">Thank you for attending</div>
+      <div class="h-xl c-white au1" style="font-size:58px;margin-bottom:1rem;">The world needs<br><span class="c-gold">defenders.</span></div>
+      <div class="body-lg au2" style="color:rgba(255,255,255,.6);margin-bottom:2rem;max-width:540px;">Every time someone's bank account is protected, every time a hospital's patient records stay safe, every time a government system keeps running — there's a person like you behind it.</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;" class="au3">
+        <div class="card-d" style="padding:14px 20px;text-align:center;min-width:130px;"><div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--gold);">R0</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">Cost to explore today's labs</div></div>
+        <div class="card-d" style="padding:14px 20px;text-align:center;min-width:130px;"><div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--electric);">2 years</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">To a fully qualified career</div></div>
+        <div class="card-d" style="padding:14px 20px;text-align:center;min-width:130px;"><div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--green);">∞</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">Career ceiling</div></div>
+      </div>
+      <div class="ctu-brand au4" style="margin-top:2rem;">
+        <div class="ctu-logochip"><img src="data:image/png;base64,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" alt="CTU Training Solutions"></div>
+        <div><div class="ctu-name">CTU Training Solutions</div><div class="ctu-sub">Cybersecurity Programme · ctutraining.ac.za</div></div>
+      </div>
+    </div>
+    <div style="position:absolute;right:60px;top:50%;transform:translateY(-50%);font-size:6rem;opacity:.1;animation:float 4s ease-in-out infinite;">🛡️</div>
+  </div>
+</div>
+
+</div><!-- end slide-frame -->
+</div><!-- end stage -->
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="nav-btns">
+    <button class="nav-btn" id="prevBtn" onclick="prevSlide()" disabled>← Prev</button>
+    <button class="nav-btn primary" id="nextBtn" onclick="nextSlide()">Next →</button>
+    <button class="nav-btn" onclick="goFullscreen()" title="Fullscreen (F)">⛶</button>
+  </div>
+  <div class="dots-track" id="dotsTrack"></div>
+  <div class="ctrl-right">
+    <button class="toggle-btn" id="facBtn" onclick="toggleFacil()">📋 Facilitator Notes</button>
+  </div>
+</div>
+
+</div><!-- end chrome -->
+
+<!-- FACILITATOR DRAWER -->
+<div class="facil-drawer" id="facilDrawer">
+  <div class="fd-header">
+    <h3>📋 Facilitator Notes</h3>
+    <p>Private — not projected to the audience</p>
+  </div>
+  <div class="fd-body" id="facilBody"></div>
+</div>
+
+<!-- POPUP OVERLAY -->
+<div class="pop-overlay" id="popup" onclick="closePopup(event)">
+  <div class="pop-box">
+    <div class="pop-head">
+      <div class="pop-icon" id="popIcon">⚠</div>
+      <div class="pop-htext">
+        <div class="pop-tag" id="popTag"></div>
+        <div class="pop-title" id="popTitle"></div>
+      </div>
+      <button class="pop-close" onclick="closePopup(null,true)">✕ Close</button>
+    </div>
+    <div class="pop-body" id="popBody"></div>
+  </div>
+</div>
+
+<script>
+/* ────────────────────────────────────────────────────────────
+   POPUP DATA — all strings use double-quotes to avoid issues
+   ──────────────────────────────────────────────────────────── */
+var POPUPS = {
+
+  siem_exfil: {
+    icon:"🔴", tag:"CRITICAL ALERT · Level 15 · Data Exfiltration", col:"#ff3864",
+    title:"Data Exfiltration — 4.3GB sent to Russia at 4am",
+    what:"The SIEM detected a company computer sending <strong>4.3 gigabytes of data</strong> to an unknown server in Russia at 4:02am. That is roughly 45,000 customer financial records.",
+    why:"Level 15 is the highest possible severity. The SIEM fires it when the combination of large transfer size + unusual destination + overnight timing all match a known <strong>data theft pattern</strong>.",
+    action:"(1) Click the alert to read source IP and destination. (2) Check what file was sent. (3) Escalate to the senior analyst immediately as a Priority 0 incident. (4) Start the POPIA 72-hour notification timer.",
+    real:"This exact type of attack hit <strong>Liberty Holdings SA in 2022</strong> — 40 million customer records stolen. The breach was only found days later. A well-configured SIEM catches it within minutes.",
+    facil:"This is the needle-in-the-haystack moment. 312 alerts came in overnight. Only this one is truly critical. Students learn to recognise it by the Level 15 severity, the 4GB data volume, and the foreign IP destination.",
+    ask:"Ask the room: If you received 312 emails overnight and only 3 mattered — how would you find them without reading every one? This is exactly what severity levels solve."
+  },
+  siem_lateral: {
+    icon:"🔴", tag:"CRITICAL · Level 14 · Lateral Movement", col:"#ff3864",
+    title:"Lateral Movement — PsExec used on Domain Controller",
+    what:"After the attacker got in using jsmith's account, they used a tool called <strong>PsExec</strong> to move from one server to another. Moving to the <strong>Domain Controller</strong> (the most powerful server) is a major escalation.",
+    why:"Attackers don't stop at the first computer they access — they move through the network looking for the most valuable data. This is called <strong>lateral movement</strong> and is a hallmark of a serious targeted attack.",
+    action:"Correlate this alert with the earlier VPN login and the data exfiltration to build a <strong>complete attack timeline</strong>. These three alerts together tell one story.",
+    real:"This is one of the TTPs (Tactics, Techniques, Procedures) catalogued in the MITRE ATT&CK framework. The Transnet attack (2021) and the Change Healthcare breach (2024) both used this technique.",
+    facil:"This is the moment to explain that a breach is not usually one alert — it is a chain of events. The login, the movement, the data theft all connect. Students learn to connect the dots across multiple alerts.",
+    ask:"Ask: If this happened at a hospital, and the attacker moved from a receptionist's PC to the patient record system — what data could they access? This makes the stakes real."
+  },
+  siem_persist: {
+    icon:"🔴", tag:"CRITICAL · Level 14 · Persistence", col:"#ff3864",
+    title:"New Domain Admin Account Created — svc.backup2",
+    what:"A new user account called <strong>svc.backup2</strong> was created and immediately added to the <strong>Domain Admins group</strong> at 3:44am — giving it full control over the entire company network.",
+    why:"Attackers create hidden accounts after getting in so they can return even if their original access is discovered and removed. This is called <strong>persistence</strong> — maintaining a back door.",
+    action:"(1) Check who created this account — it was the compromised jsmith session. (2) Immediately disable svc.backup2. (3) Remove it from Domain Admins. (4) Check for any other rogue accounts created in the same window.",
+    real:"Persistence mechanisms are used in almost every advanced breach. When Transnet was attacked in 2021, the attackers maintained access through hidden accounts for weeks before deploying ransomware.",
+    facil:"This teaches students that stopping the initial attack is not enough. Attackers leave back doors. The eradication phase of incident response must hunt for all persistence mechanisms before systems can be safely restored.",
+    ask:"Ask: If a burglar broke into your house, stole your spare key before leaving, and you only changed the front door lock — are you safe? No. Same logic applies here."
+  },
+  siem_brute: {
+    icon:"🟠", tag:"HIGH ALERT · Level 12 · Brute Force Attack", col:"#ff6b35",
+    title:"SSH Brute Force — 847 Failed Logins in 1 Hour",
+    what:"An external computer tried to log into the company's server 847 times in one hour — all with different passwords. This is called a <strong>brute force attack</strong>.",
+    why:"No human types that fast. This is an automated tool trying millions of password combinations hoping to get lucky. The SIEM counts the failed attempts and fires when the rate exceeds a threshold.",
+    action:"(1) Confirm the pattern — all targeting same username and port. (2) Check if any attempt succeeded. (3) Add a firewall block rule for the attacking IP. (4) Consider enabling account lockout policy.",
+    real:"Brute force attacks happen <strong>every single day</strong> against every company connected to the internet. Automated tools can try 10,000 passwords per second. A weak password like Password1 falls in under a minute.",
+    facil:"This is a great teaching moment for password policy. The attack itself is not sophisticated — but it works against weak passwords. Ask the audience how many people use the same password for multiple sites.",
+    ask:"Ask: If someone tried your front door 847 times, you would call the police. This is the digital equivalent — and it is happening to companies every hour of every day."
+  },
+  siem_vpn: {
+    icon:"🟠", tag:"HIGH ALERT · Level 10 · Suspicious Login", col:"#ff8855",
+    title:"VPN Login from Russia — jsmith Account at 1:22am",
+    what:"The employee account <strong>jsmith@finnova.co.za</strong> logged into the company VPN at 1:22am from an IP address in Russia. This employee normally logs in from South Africa.",
+    why:"This could be legitimate (employee travelling) or malicious (attacker who stole jsmith's password). The SIEM fires because the <strong>location is unusual</strong> and the <strong>time is unusual</strong> — two red flags combined.",
+    action:"(1) Check if jsmith is supposed to be travelling. (2) Look at what jsmith did after logging in. (3) Verify whether MFA was used. In this case — no MFA was configured, which is a critical gap.",
+    real:"The <strong>Change Healthcare breach (2024)</strong> started exactly like this: one stolen VPN credential with no MFA. The attacker was inside for 9 days before anyone noticed. 190 million patient records stolen.",
+    facil:"This alert teaches that context matters. A login from Russia is not automatically an attack — but without MFA, the company cannot tell the difference between jsmith and an attacker who stole jsmith's password.",
+    ask:"Ask: What is one simple control that would have stopped this entire attack chain? Answer: Multi-Factor Authentication (MFA). One extra step. Billions of rands in losses prevented."
+  },
+  siem_fp: {
+    icon:"⚪", tag:"INFO · Level 5 · False Positive", col:"#6a88b8",
+    title:"Large File Write — BACKUP-02 at 03:00 (False Positive)",
+    what:"The SIEM flagged a large file being written to disk on BACKUP-02 at 3am. This sounds suspicious — but it is actually the <strong>nightly backup job running on schedule</strong>.",
+    why:"The SIEM does not know that 3am is the scheduled backup time. It sees 'large file write, unusual hour' and fires the alert. This is called a <strong>false positive</strong> — a real alert about completely normal behaviour.",
+    action:"(1) Check the scheduled tasks list. (2) Confirm BACKUP-02 has a documented 3am backup job. (3) Mark the alert as False Positive. (4) Add an <strong>exception rule</strong> so it never fires again.",
+    real:"False positives are one of the biggest challenges in cybersecurity. The average SOC receives 4,000+ alerts per day — most are false positives. <strong>Alert fatigue</strong> leads analysts to miss genuine threats.",
+    facil:"This is a crucial concept: not all alerts mean an attack. Students must learn to distinguish between genuine threats and normal business processes that look suspicious. Tuning the SIEM to reduce false positives is a core skill.",
+    ask:"Ask: If your smoke alarm went off every time you cooked toast, you would eventually start ignoring it. That is exactly what happens to analysts flooded with false positives. How do you fix that?"
+  },
+
+  fw_block: {
+    icon:"🛡️", tag:"FIREWALL RULE · BLOCK · WAN", col:"#ff6b35",
+    title:"Block Rule — Stopping the SSH Brute Force Attacker",
+    what:"This firewall rule tells pfSense to <strong>refuse all connections</strong> from IP address 192.168.1.44 to port 22 (SSH). Any packet from that IP is silently dropped before it even reaches the server.",
+    why:"This IP attempted 847 password guesses in the last hour. By adding a block rule, every future attempt from this IP is rejected instantly. The hit counter already shows 847 blocked packets.",
+    action:"(1) Navigate to Firewall → Rules → WAN. (2) Click Add. (3) Set Action=BLOCK, Source=192.168.1.44, Port=22. (4) Click Apply. Done. Attack stopped in under 60 seconds.",
+    real:"This is one of the most common day-to-day tasks for an IT Security Officer. Blocking malicious IPs is immediate, effective, and measurable. The hit counter shows exactly how effective it is in real time.",
+    facil:"Demonstrate the rule toggle on/off switch. This is how easy it is — a single click can stop an active attack. Contrast this with how long it would take without a firewall: the attacker would keep trying forever.",
+    ask:"Ask: How many attacks do you think this firewall has blocked since it was turned on? Point to the hit counter. 847 in one hour — that is over 20,000 per day from just one attacker."
+  },
+  fw_deny: {
+    icon:"🔒", tag:"FIREWALL RULE · DEFAULT DENY · ALL TRAFFIC", col:"#ff3864",
+    title:"Default Deny Rule — The Most Important Rule",
+    what:"This is the most important firewall rule: <strong>Block everything not explicitly allowed.</strong> If traffic does not match any earlier PASS rule, it hits this rule and is blocked. It must always be the last rule.",
+    why:"Without a default deny rule, anything not specifically blocked would be allowed through. Deny everything, allow only what is needed — this is the fundamental principle of firewall security.",
+    action:"Students learn that firewall rules are processed <strong>top to bottom</strong> — the first match wins. Default deny at the bottom means everything that is not explicitly allowed is refused. This is called least privilege.",
+    real:"Every enterprise firewall uses default deny. The Ticketmaster breach (2024) was partly caused by overly permissive cloud security rules — essentially, no proper default deny. 560 million customer records exposed.",
+    facil:"Ask students: Would you rather tell the firewall everything that is ALLOWED, or everything that is BLOCKED? Allowed is always safer — the list is shorter and everything else is refused.",
+    ask:"Ask: If you had a new employee starting, would you give them access to everything and then take it away? Or give them only what they need? Default deny applies the same logic to network traffic."
+  },
+  fw_pass: {
+    icon:"✅", tag:"FIREWALL RULE · PASS · HTTPS WEB TRAFFIC", col:"#2ec97e",
+    title:"Pass Rule — Allow HTTPS Web Traffic to the Server",
+    what:"This rule <strong>allows</strong> traffic from any source to port 443 (HTTPS) on server WEB-01. Port 443 is standard HTTPS — the secure web protocol. Without this rule, no customer could access the company website.",
+    why:"Not everything needs to be blocked. Customers need to reach the website. The firewall is told: HTTPS to the web server is fine — allow it. Everything else is still blocked by the default deny rule at the bottom.",
+    action:"This rule rarely needs changing unless the web server IP or port changes. Students learn to distinguish between reactive management (blocking attacks) and proactive management (enabling business functions).",
+    real:"Every web server on the internet has this kind of rule. Security must balance protection with business functionality. Too restrictive — the business goes offline. Too permissive — you get breached.",
+    facil:"This is the balance lesson. Cybersecurity is not about blocking everything — it is about blocking the bad while keeping the good flowing. Both extremes cause business harm.",
+    ask:"Ask: What would happen to FinNova's business if we blocked EVERY connection from the internet? The company would go offline. Security is always about finding the right balance."
+  },
+
+  fs_psexec: {
+    icon:"⚠️", tag:"FORENSIC EVIDENCE · FLAGGED · HACKING TOOL", col:"#ff6b35",
+    title:"PsExec.exe — Lateral Movement Tool Found at 1:28am",
+    what:"<strong>PsExec.exe</strong> is a legitimate sysadmin tool — but found in jsmith's Downloads folder with a creation time of <strong>01:28am</strong>, just 6 minutes after the suspicious VPN login from Russia.",
+    why:"This file has forensic significance for three reasons: (1) its <strong>Born timestamp</strong> matches the attack window exactly, (2) its hash matches a known attack tool, (3) its location is inconsistent with normal IT use.",
+    action:"(1) Record the file hash (SHA256) in the evidence log. (2) Check the Prefetch records to confirm it was executed. (3) Correlate its execution time with the lateral movement SIEM alert.",
+    real:"PsExec is found in the majority of major ransomware breaches. Conti, REvil, BlackCat — they all use it to move through networks. Finding it on a compromised system is a strong indicator of a targeted attack.",
+    facil:"This teaches a key forensics concept: the Born timestamp tells you when a file was created. PsExec appeared at 1:28am and the attacker logged in at 1:22am — that is 6 minutes to download their tool. The timeline is evidence.",
+    ask:"Ask: If you found a crowbar in someone's bag after a burglary — is that evidence? Same logic. PsExec in jsmith's Downloads folder at 1:28am tells a story."
+  },
+  fs_bloodhound: {
+    icon:"⚠️", tag:"FORENSIC EVIDENCE · FLAGGED · RECON TOOL", col:"#ff6b35",
+    title:"BloodHound Zip — Active Directory Map of the Whole Network",
+    what:"<strong>BloodHound</strong> maps out an entire Active Directory network — all users, computers, and permission paths. The attacker ran it to find the fastest route to Domain Admin access.",
+    why:"This file contains a complete map of FinNova's internal network structure. In the wrong hands, it shows an attacker exactly which accounts to target and which servers to access for maximum control.",
+    action:"(1) Note the exact creation time — 02:15am, 53 minutes after login. (2) Open the zip to examine the contents. (3) Assess what AD data was exposed. (4) Report to ISO for a full AD security review.",
+    real:"BloodHound is used in almost every advanced persistent threat investigation. The Scattered Spider group used it in the MGM Resorts attack (2023, $100M damage). It is freely available online.",
+    facil:"Use this to explain attack path analysis. The attacker knows your network structure better than most IT staff after running BloodHound for 5 minutes. This is why AD security hygiene is critical.",
+    ask:"Ask: If someone handed you a complete map of your house — every room, every door, every safe — before you came home, how easy would it be for them to take what they want?"
+  },
+  fs_csv: {
+    icon:"🔴", tag:"KEY EVIDENCE · EXFILTRATED FILE · 4.3GB", col:"#ff3864",
+    title:"customer_data_export.csv — The Stolen File (45,000 Records)",
+    what:"This is the file that was stolen. <strong>customer_data_export.csv</strong> (4.3 GB) contains approximately 45,000 customer records: full names, SA ID numbers, banking account numbers, and transaction history.",
+    why:"This file is the motive and the crime in one. Its Accessed timestamp (03:55am) is exactly 7 minutes before the FTP transfer began (04:02am) — proving it was deliberately opened and sent. This is POPIA-notifiable data.",
+    action:"(1) Calculate the POPIA notification obligation — 72 hours from discovery. (2) Record file hash as evidence. (3) Estimate the number of affected data subjects. (4) Brief the Information Security Officer immediately.",
+    real:"This is the Liberty Holdings breach pattern. 40 million SA records. A single export of customer data, transmitted to an external server. POPIA Section 22 requires notification to the Information Regulator within 72 hours.",
+    facil:"This is the consequence slide. Everything else — the VPN login, the lateral movement, the new account — all led here. 45,000 real South African customers whose data is now in criminal hands.",
+    ask:"Ask parents: If your banking details, ID number, and transaction history were in this file — what would you want the company to do? How quickly? That urgency is exactly what cybersecurity professionals are trained to create."
+  },
+  fs_lnk: {
+    icon:"🔗", tag:"FORENSIC ARTEFACT · LNK FILE · TIMESTAMP PROOF", col:"#ffb700",
+    title:"LNK File — Proves Exactly When the File Was Opened",
+    what:"Windows creates a hidden <strong>LNK file</strong> (shortcut) every time a file is opened. This one proves that customer_data_export.csv was opened at <strong>03:55:18am</strong> — exactly 7 minutes before the FTP transfer.",
+    why:"LNK files are called forensic artefacts — they persist even after the original file is deleted or moved. Even if the attacker wiped their tracks, this LNK file tells us exactly when they accessed the target file.",
+    action:"Include this in the forensic report as <strong>corroborating evidence</strong>. It links the compromised jsmith account directly to the stolen file, at a specific time, building an unbreakable evidence chain.",
+    real:"LNK files have been key evidence in multiple court cases involving data theft. The fact that they persist after deletion makes them valuable for prosecution. Digital forensics students learn to find and interpret them systematically.",
+    facil:"This teaches forensic corroboration — using multiple independent pieces of evidence to prove the same fact. SIEM alert + PCAP capture + LNK file all say the same thing. That is courtroom-quality evidence.",
+    ask:"Ask: If you watched security footage of someone entering a building, found their fingerprints inside, and their car outside — how confident would a jury be? Three independent pieces of evidence tell one story."
+  },
+
+  soar_trigger: {
+    icon:"🔔", tag:"SOAR STEP 1 · TRIGGER · AUTOMATION STARTS", col:"#b44fff",
+    title:"Trigger — SIEM Alert Received, Playbook Starts Immediately",
+    what:"When the SIEM fires a Level 12+ alert, it automatically sends a message to the SOAR platform via a <strong>webhook</strong>. The playbook begins running immediately — without any human pressing a button.",
+    why:"A manual process requires an analyst to see the alert, open it, read it, decide to act, and start working. That takes 10–30 minutes. Automation starts within <strong>milliseconds</strong>. In a breach, every second counts.",
+    action:"Students design the triggers — what severity level starts the playbook, what types of alerts. They configure the SIEM to SOAR connection and test that triggers fire correctly under different conditions.",
+    real:"The IBM Cost of a Data Breach 2024 Report found that organisations with automated incident response detected and contained breaches <strong>108 days faster</strong> than those relying on manual processes.",
+    facil:"This is the automation concept introduction. Before SOAR: analyst has to be awake, see the alert, decide to act. After SOAR: it happens automatically in the middle of the night while the analyst sleeps.",
+    ask:"Ask: How long does it take a phishing email to steal a password after someone clicks it? Under 60 seconds. How long does it take a human analyst to respond to an alert at 3am? SOAR bridges that gap."
+  },
+  soar_enrich: {
+    icon:"🔍", tag:"SOAR STEP 2 · ENRICHMENT · 4 LOOKUPS IN 3 SECONDS", col:"#00d4ff",
+    title:"Enrichment — IP, Domain and Hash Checked Simultaneously",
+    what:"The SOAR simultaneously queries <strong>VirusTotal, AbuseIPDB, URLScan.io, and MalwareBazaar</strong> to check if the IP address, domain, and file hash are known to be malicious. All four checks happen at the same time.",
+    why:"Manually, an analyst would open each website, paste in the IOC, wait for results, and write them down. That is 15–20 minutes. SOAR does all four simultaneously in <strong>under 3 seconds</strong> and writes results to the ticket.",
+    action:"Students configure which threat intelligence sources to query, in what order, and what to do with the results. They learn to interpret reputation scores and handle conflicting results from different sources.",
+    real:"Modern SOC teams use between 5 and 15 threat intelligence feeds. Without automation, checking all of them for every alert is impossible. SOAR makes comprehensive enrichment feasible at scale.",
+    facil:"This is the working smarter, not harder, slide. The data is already out there — VirusTotal has 70+ antivirus engines that have already analysed millions of files. SOAR taps into that shared intelligence instantly.",
+    ask:"Ask: If 1,000 security companies all see the same malicious file and report it to VirusTotal, and your SOAR can check that in 3 seconds — why would anyone do that manually?"
+  },
+  soar_contain: {
+    icon:"🔥", tag:"SOAR STEP 3 · CONTAINMENT · BLOCK + PURGE + ISOLATE", col:"#ff6b35",
+    title:"Containment — Block IP, Delete Emails, Isolate Endpoint",
+    what:"Once confirmed malicious, SOAR takes three automatic actions: (1) calls the <strong>pfSense API</strong> to block the IP, (2) calls <strong>Exchange/Gmail API</strong> to delete the phishing email from all inboxes, (3) calls the <strong>EDR</strong> to isolate any endpoint that clicked the link.",
+    why:"These three actions manually would take 30–45 minutes across three different teams. SOAR executes all three in under <strong>30 seconds</strong> while the analyst is still reading the alert summary.",
+    action:"Students build these response actions as steps in the visual playbook builder. They learn to use APIs to connect systems and to add decision gates — for example, only isolate an endpoint if the user actually clicked the link.",
+    real:"The average time to contain a breach without automation is 258 hours (IBM 2024). With automation: under 24 hours. That difference is the difference between a contained incident and a full data breach.",
+    facil:"This is the wow moment. Three major security actions, across three different systems, in 30 seconds. No human could do that manually. This is why SOAR-skilled professionals are in high demand.",
+    ask:"Ask: If a phishing email arrived at 2am and 12 employees received it — how many might click it before an analyst arrives at 8am? With SOAR: the email is already deleted before anyone wakes up."
+  },
+  soar_notify: {
+    icon:"💬", tag:"SOAR STEP 4 · NOTIFICATION · TICKET + TEAM + USERS", col:"#b44fff",
+    title:"Notification — Ticket Created, Team Alerted, Users Informed",
+    what:"SOAR automatically creates a <strong>TheHive incident ticket</strong> with all enrichment data pre-populated — IOCs, affected users, MITRE ATT&CK techniques, timeline — and sends a Slack message to the security team and emails affected users.",
+    why:"Without automation, an analyst would spend 20–30 minutes creating and populating a ticket. By the time they start investigating, crucial evidence has been manually copied — often with transcription errors.",
+    action:"Students design the notification templates — what information goes in the ticket, who gets notified, in what order. They also learn to write user-friendly incident notifications that do not cause panic.",
+    real:"POPIA Section 22 requires breach notifications within 72 hours. Good SOAR platforms can auto-populate most of the notification form from the incident data. What takes legal teams days can be drafted in minutes.",
+    facil:"This closes the loop on the full playbook — Trigger, Enrich, Contain, Notify. Total time: under 5 minutes. The analyst reviews the completed ticket and validates, instead of doing all this work themselves.",
+    ask:"Ask: If this is what cybersecurity looks like in 2025 — what do you think it will look like in 2030? AI will handle even more routine work. Cybersecurity professionals will focus on complex, creative, strategic decisions."
+  }
+};
+
+/* ────────────────────────────────────────────────────────────
+   SLIDE DATA
+   ──────────────────────────────────────────────────────────── */
+var SLIDES = [
+  { title:"Cover", time:"2 min",
+    obj:"Welcome everyone, set a warm and professional tone.",
+    say:"Welcome to CTU's Cybersecurity Career Day. Today is for both students AND their families. We will be completely honest: what the job involves, what it pays, and whether it might be right for you.",
+    prompts:[
+      {i:"👋", t:"Introduce yourself: name, how long you have been facilitating, what you enjoy most about the programme"},
+      {i:"📵", t:"Ask everyone to silence phones — but mention they will get access to the demo platform on their own device at the end"},
+      {i:"🎁", t:"Say: Everyone who stays until the end gets access to the free demo labs on their own device today"}
+    ],
+    tip:"Read the room: if it is mostly parents, emphasise salary data and job security. If mostly students, lead with the excitement of the work itself."
+  },
+  { title:"Agenda", time:"2 min",
+    obj:"Set expectations. Parents especially appreciate knowing the agenda — it builds trust.",
+    say:"We have about 75 minutes together. I want to make sure you leave with clear answers to three questions: What does a cybersecurity career look like? What does it pay? And is CTU the right path to get there?",
+    prompts:[
+      {i:"⏱", t:"Say: We have 75 minutes. I will leave 15 minutes at the end for questions — please hold them until then, or write them down."},
+      {i:"📝", t:"Point out: There is a sheet at your seat — write down your questions as we go."}
+    ],
+    tip:"Do not rush through this. Pause after reading each agenda item and make brief eye contact. It builds connection."
+  },
+  { title:"Opening Poll", time:"3 min",
+    obj:"Engage the audience immediately. Understand the room. Tailor your energy.",
+    say:"Before we dive in — quick show of hands, or click if you are following on a device. I want to understand who is in the room today.",
+    prompts:[
+      {i:"🙋", t:"After each option: acknowledge that group. Say: Great — so we have a few parents, welcome. Make each person feel seen."},
+      {i:"💬", t:"Ask one person from each group: What is your biggest question today? Note their answers, promise to answer them."},
+      {i:"🎯", t:"If mostly parents: lean heavily on salary, job security, ROI slides. If mostly students: lean on day-in-the-life, excitement, tools demo."}
+    ],
+    tip:"The tally next to each option updates live as people tap — point it out. This slide creates psychological investment; people who answer a question stay engaged."
+  },
+  { title:"Why Cybersecurity", time:"4 min",
+    obj:"Create urgency and relevance. Make cybersecurity feel real and personal.",
+    say:"Here is the context. South Africa is not just affected by cybercrime — we are the number one target on the entire African continent. And the people defending against it are in critically short supply.",
+    prompts:[
+      {i:"🤚", t:"Ask: Has anyone here had a bank account hacked, or received a suspicious email pretending to be their bank? Wait for responses."},
+      {i:"💡", t:"Reference Transnet 2021: Durban Port was completely shut down for days. No containers moving. Billions lost. The attackers used the same techniques our students learn to defend against."},
+      {i:"📱", t:"Say: Every time you use your banking app, someone in a SOC is watching for threats. Today you could meet the person who will do that job."}
+    ],
+    tip:"The stats land harder if you personalise them. Ask for a show of hands before showing the numbers — it makes the data feel relevant."
+  },
+  { title:"SA Jobs Shortage", time:"4 min",
+    obj:"Show clear market demand. Address the will there be jobs concern from parents.",
+    say:"Let us talk about the job market specifically. These are live roles — not projections. These are companies hiring RIGHT NOW in South Africa.",
+    prompts:[
+      {i:"📊", t:"Watch the bars animate in. Give them a moment. Then say: This is why we can say confidently that graduates from this programme find employment."},
+      {i:"👨‍👩‍👦", t:"Direct to parents: I know the question you are really asking is: will my child get a job? These numbers are your answer."},
+      {i:"🌍", t:"For international angle: We have alumni working remotely for UK security firms, earning in pounds. The skills are globally portable."}
+    ],
+    tip:"Mention specific company names: FNB, Absa, MTN — names that parents know and trust create immediate confidence."
+  },
+  { title:"4 Career Roles", time:"5 min",
+    obj:"Show choice and variety. Not one-size-fits-all.",
+    say:"This qualification trains you for four distinct career paths. They all use the same foundation of knowledge, but each suits a different personality type.",
+    prompts:[
+      {i:"🙋", t:"After describing each one: put your hand up if that sounds interesting to you — this reveals personality matches."},
+      {i:"🎯", t:"SOC Analyst: Think detective. You get an alert, you investigate, you find the attacker's trail."},
+      {i:"📋", t:"Info Security Officer: Think manager meets lawyer. You make the policies that govern how data is protected."},
+      {i:"💻", t:"IT Security Officer: Think hands-on engineer. You configure firewalls, set up monitoring tools, do the forensics."}
+    ],
+    tip:"Each card is tappable — encourage students and parents to tap the ones they're curious about and read the 'best for' note themselves. Salary ranges often cause visible reactions from parents; let that land."
+  },
+  { title:"Salary Reality", time:"5 min",
+    obj:"Build financial confidence for parents. Be honest and specific.",
+    say:"Let us talk money — properly. Not vague statements like good salaries — real numbers from real SA job listings in 2025.",
+    prompts:[
+      {i:"💰", t:"Point to the national average comparison: The average South African earns R23,000 a month. A mid-level cyber professional earns R28,000 to R45,000."},
+      {i:"🌍", t:"UK, US, and EU companies actively recruit South African professionals because of the timezone advantage and lower cost."},
+      {i:"👨‍👩‍👦", t:"Direct to parents only: Even conservatively — if your child earns R5,000 more per month than alternatives, that is R60,000 per year for the rest of their career."}
+    ],
+    tip:"This is the slide parents came for. Do not rush it. Invite questions after it. Have real recent job ads printed if possible."
+  },
+  { title:"A Typical Day", time:"4 min",
+    obj:"Make the career concrete and imaginable. Students need to visualise themselves in it.",
+    say:"Theory is nice. But what does this job actually FEEL like? Let me walk you through a real morning shift in a SOC.",
+    prompts:[
+      {i:"🎭", t:"Narrate the timeline as if it is happening now: It is 7:30am. You sit down, you read the overnight report. 312 alerts came in while you slept. Your job: find the three that matter."},
+      {i:"🕵️", t:"This is the one that is critical — someone logged in from Russia at 3am using a company account. Was it the employee on a business trip? Or an attacker? That is what you have to figure out."},
+      {i:"💬", t:"Ask students: Does that sound stressful? Exciting? Both? Let them respond."}
+    ],
+    tip:"This slide is where students lean in. Read the timeline slowly and dramatically — storytelling works better than bullet points."
+  },
+  { title:"Qualification Detail", time:"5 min",
+    obj:"Answer the is it legit question for parents. Show curriculum depth.",
+    say:"Let us be specific about what the qualification actually is, and what it is worth in the market.",
+    prompts:[
+      {i:"📋", t:"Point to NQF Level 6: This is equivalent to a National Diploma. Not a short course — a formal occupational qualification registered with SAQA."},
+      {i:"🏆", t:"After completing this, students can pursue CISSP, CISM, Security+ — international certifications that open global doors. We prepare you for those exams."},
+      {i:"❓", t:"PAUSE here: Any questions from parents on the qualification itself? I know some of you want to know what employers say when they see this on a CV."}
+    ],
+    tip:"Have the SAQA qualification listing pulled up on a separate browser tab to show parents who ask for proof. Transparency builds trust."
+  },
+  { title:"CSA/CSP/CIO Pathway", time:"5 min",
+    obj:"Show the full career ladder and explain why the embedded international exams matter as much as the local qualification.",
+    say:"What we offer isn't one certificate — it's a ladder. CSA gets you in the door, CSP is today's qualification, and CIO takes you into leadership. Each level carries a global exam alongside the local one.",
+    prompts:[
+      {i:"🪜", t:"Walk the ladder left to right: CSA (NQF5, entry, CompTIA Security+) → CSP (NQF6, today's qualification, Microsoft SC-200) → CIO (NQF7, leadership, ISACA CISM/CISA track)."},
+      {i:"🌍", t:"Stress this clearly: the SAQA qualification is what gets recognised and funded in South Africa. The CompTIA/Microsoft exam is what gets recognised by employers everywhere else. Graduates need both."},
+      {i:"🤖", t:"Mention AI and quantum computing here — parents especially respond well to hearing the curriculum isn't frozen in time. AI is used by both attackers and defenders now; quantum is the next big shift in encryption. This reassures them the qualification stays current."},
+      {i:"💬", t:"Ask: Has anyone here already heard of CompTIA or Microsoft certifications? Gauge the room before explaining — some IT-background attendees will already know these names."}
+    ],
+    tip:"If a parent asks 'why not just do the international exam alone?' — explain that the vendor exam has no NQF credit, no NSFAS funding eligibility, and no formal SAQA recognition on its own. The two together are what make the CV strongest."
+  },
+  { title:"Live Demo", time:"10 min",
+    obj:"This is the centrepiece of the day. Click everything. Every click opens an educational popup explaining it to the room.",
+    say:"What I am showing you now is the ACTUAL platform CTU students train on from day one. Not a diagram — the real interfaces. Click anything you see.",
+    prompts:[
+      {i:"📊", t:"SIEM TAB: Click the RED row — Data exfiltration 4.3GB. Read the popup to the room. Say: This is what a real breach looks like in a SIEM. This happened to Liberty Holdings in 2022."},
+      {i:"🔴", t:"Click the ORANGE row: SSH brute force 847 logins. Ask: Who can tell me what a brute force attack is? Explain using the popup."},
+      {i:"⚪", t:"Click the GREY row: Backup job alert. Say: This is a FALSE POSITIVE — a real alert about normal behaviour. Students must learn to tell the difference. This is the hardest skill in the job."},
+      {i:"🔥", t:"FIREWALL TAB: Click the BLOCK row for 192.168.1.44. Say: This one rule — added in 60 seconds — stopped all 847 attack attempts. Show the hit counter."},
+      {i:"🔬", t:"FORENSICS TAB: Click the red CSV row. Say: 45,000 customers. This is why the ISO must notify the Information Regulator within 72 hours under POPIA."},
+      {i:"⚡", t:"SOAR TAB: Click step 1, then step 3. Say: 35 minutes of manual work done in 4 minutes. Automatically. This is the future of cybersecurity."},
+      {i:"🙋", t:"Invite a student volunteer to click through the alerts and read the popups aloud. Let the room hear the explanation in a peer's voice."}
+    ],
+    tip:"Each popup has a 'Ask the room' question at the bottom — use them. The questions are designed to spark discussion. Do not rush through the tabs."
+  },
+  { title:"Is This For Me?", time:"4 min",
+    obj:"Build trust through honesty. Parents respect facilitators who do not just sell.",
+    say:"I want to be honest with you — because I would rather you make the right choice than the wrong one.",
+    prompts:[
+      {i:"✅", t:"For each thrive-if item: ask for a show of hands. Who here enjoys solving puzzles? Who likes following tech news?"},
+      {i:"⚠", t:"I am going to be straight about the challenges. Shift work is real. Ongoing learning is non-negotiable. If that is not you — and that is okay — let us talk about what might suit you better."},
+      {i:"💬", t:"Invite parents directly: Parents — is there anything on this list that concerns you about your child? Give them space to speak."}
+    ],
+    tip:"Invite students to tap the signs that sound like them and watch their own fit meter fill in — it's a more honest self-check than a hand-raise. Facilitators who show candour, not just sell, gain parents' trust."
+  },
+  { title:"CTU Advantage", time:"3 min",
+    obj:"Make the case for CTU specifically, not cybersecurity in general.",
+    say:"There are other ways to study cybersecurity. Let me tell you why CTU specifically gives you the best path into this career.",
+    prompts:[
+      {i:"🏆", t:"Point to the graduate employer list: These are not anonymous companies. FNB. Absa. MTN. These are the places your child will apply to — and our graduates are already working there."},
+      {i:"📞", t:"Say: If you want, I can connect you with a recent graduate who completed this programme. That is more valuable than anything I can say today."}
+    ],
+    tip:"If you have alumni success stories — even one specific name with permission — use it here. Concrete examples beat general claims every time."
+  },
+  { title:"How to Apply", time:"4 min",
+    obj:"Remove barriers to action. Make next steps crystal clear.",
+    say:"If you have been nodding along today, here is exactly what to do before you leave.",
+    prompts:[
+      {i:"📋", t:"Point to the form: Step one is as simple as picking up a form at the desk on your way out. You are not committing to anything — you are just starting the conversation."},
+      {i:"💰", t:"For parents worried about cost: our financial coordinator is here after the presentation to walk through NSFAS and payment options privately."},
+      {i:"❓", t:"Formal Q&A now: I promised we would have time for questions. I have 15 minutes. Who has one?"}
+    ],
+    tip:"Point people to the FAQ card if they're hesitant to ask a question aloud — letting them tap through it themselves often surfaces the real concern."
+  },
+  { title:"Closing", time:"2 min",
+    obj:"Leave on inspiration. End strong.",
+    say:"Every time someone's bank account is protected, every time a hospital's patient records stay safe, every time a government system keeps running — there's a person like you behind it, watching, protecting, defending.",
+    prompts:[
+      {i:"🛡️", t:"Let the quote breathe. Pause for 3 seconds after the closing line before speaking again."},
+      {i:"📱", t:"Share the URL for the demo platform: Open this on your phone right now — the SIEM lab, the forensics lab, the firewall lab. All free, all yours, today."},
+      {i:"🤝", t:"I will be at the front for the next 30 minutes. Please come talk to me, grab a form, and meet our admissions coordinator."}
+    ],
+    tip:"Shake hands with parents as they leave. A personal word to engaged-looking students is often what tips the decision."
+  }
+];
+
+/* ────────────────────────────────────────────────────────────
+   STATE
+   ──────────────────────────────────────────────────────────── */
+var cur = 0;
+var facOpen = false;
+
+/* ────────────────────────────────────────────────────────────
+   INIT
+   ──────────────────────────────────────────────────────────── */
+function init() {
+  buildDots();
+  renderFacil(0);
+  updateNav();
+  scale();
+  window.addEventListener("resize", scale);
+  document.addEventListener("keydown", onKey);
+  buildDemoRows();
+  setTimeout(animateBars, 800);
+}
+
+function scale() {
+  var stage = document.getElementById("stage");
+  var frame = document.getElementById("frame");
+  var W = 1280, H = 720;
+  var sw = stage.clientWidth - 40;
+  var sh = stage.clientHeight - 40;
+  var s = Math.min(sw / W, sh / H);
+  frame.style.width = W + "px";
+  frame.style.height = H + "px";
+  frame.style.transform = "scale(" + s + ")";
+}
+
+function buildDots() {
+  var t = document.getElementById("dotsTrack");
+  SLIDES.forEach(function(s, i) {
+    var d = document.createElement("div");
+    d.className = "dot" + (i === 0 ? " active" : "");
+    d.title = s.title;
+    d.onclick = (function(n) { return function() { goTo(n); }; })(i);
+    t.appendChild(d);
+  });
+}
+
+/* ────────────────────────────────────────────────────────────
+   NAVIGATION
+   ──────────────────────────────────────────────────────────── */
+function nextSlide() { if (cur < SLIDES.length - 1) goTo(cur + 1); }
+function prevSlide() { if (cur > 0) goTo(cur - 1); }
+
+function goTo(n) {
+  var slides = document.querySelectorAll(".slide");
+  slides[cur].classList.remove("active");
+  slides[n].classList.add("active");
+  cur = n;
+  updateNav();
+  renderFacil(n);
+  setTimeout(animateBars, 200);
+}
+
+function updateNav() {
+  document.getElementById("prevBtn").disabled = cur === 0;
+  document.getElementById("nextBtn").disabled = cur === SLIDES.length - 1;
+  document.getElementById("topCount").textContent = "Slide " + (cur + 1) + " / " + SLIDES.length;
+  document.querySelectorAll(".dot").forEach(function(d, i) {
+    d.classList.toggle("active", i === cur);
+    d.classList.toggle("visited", i < cur);
+  });
+}
+
+function onKey(e) {
+  if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") { e.preventDefault(); nextSlide(); }
+  if (e.key === "ArrowLeft"  || e.key === "ArrowUp")                    { e.preventDefault(); prevSlide(); }
+  if (e.key === "f" || e.key === "F") goFullscreen();
+  if (e.key === "n" || e.key === "N") toggleFacil();
+  if (e.key === "Escape") closePopup(null, true);
+}
+
+/* ────────────────────────────────────────────────────────────
+   FACILITATOR DRAWER
+   ──────────────────────────────────────────────────────────── */
+function toggleFacil() {
+  facOpen = !facOpen;
+  document.getElementById("facilDrawer").classList.toggle("open", facOpen);
+  document.getElementById("facBtn").classList.toggle("on", facOpen);
+}
+
+function renderFacil(n) {
+  var d = SLIDES[n];
+  var b = document.getElementById("facilBody");
+  var prompts = d.prompts.map(function(p) {
+    return '<div class="fd-prompt"><span class="qi">' + p.i + '</span><span>' + p.t + '</span></div>';
+  }).join("");
+  b.innerHTML =
+    '<div class="fd-sec"><span class="timing-pill">&#9200; ' + d.time + '</span>' +
+    '<span class="fd-label">Slide objective</span>' +
+    '<div class="fd-note">' + d.obj + '</div></div>' +
+    '<div class="fd-sec"><span class="fd-label">Suggested words</span>' +
+    '<div class="fd-note" style="font-style:italic;">&ldquo;' + d.say + '&rdquo;</div></div>' +
+    '<div class="fd-sec"><span class="fd-label">Interaction prompts</span>' + prompts + '</div>' +
+    '<div class="fd-sec"><span class="fd-label">Delivery tip</span>' +
+    '<div class="fd-note"><strong>&#128161;</strong> ' + d.tip + '</div></div>';
+}
+
+/* ────────────────────────────────────────────────────────────
+   SELF-CHECK FIT METER
+   ──────────────────────────────────────────────────────────── */
+function toggleFit(el) {
+  el.classList.toggle("picked");
+  var box = el.querySelector(".ri-box");
+  var picked = el.classList.contains("picked");
+  if (box) box.textContent = picked ? "☑" : "☐";
+  var total = document.querySelectorAll(".ri-check").length;
+  var count = document.querySelectorAll(".ri-check.picked").length;
+  var pct = Math.round((count / total) * 100);
+  var fill = document.getElementById("fitMeterFill");
+  var label = document.getElementById("fitMeterLabel");
+  if (fill) fill.style.width = pct + "%";
+  if (label) {
+    if (count === 0) label.textContent = "Tap the signs above that sound like you";
+    else if (count <= 1) label.textContent = count + " of " + total + " signs — worth exploring further today";
+    else if (count <= 3) label.textContent = count + " of " + total + " signs — good early indicators";
+    else label.textContent = count + " of " + total + " signs — this could be a strong fit";
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   ROLE CARDS — tap to reveal who each path suits
+   ──────────────────────────────────────────────────────────── */
+function toggleRole(el) {
+  var tapLbl = el.querySelector(".rc-tap");
+  el.classList.toggle("open");
+  if (tapLbl) tapLbl.textContent = el.classList.contains("open") ? "👆 Tap to collapse" : "👆 Tap to learn more";
+}
+
+/* ────────────────────────────────────────────────────────────
+   FAQ ACCORDION
+   ──────────────────────────────────────────────────────────── */
+function toggleFaq(el) {
+  var wasOpen = el.classList.contains("open");
+  document.querySelectorAll(".faq-item").forEach(function(o) { o.classList.remove("open"); });
+  if (!wasOpen) el.classList.add("open");
+}
+
+/* ────────────────────────────────────────────────────────────
+   POLL — click to answer, live tally shown to the room
+   ──────────────────────────────────────────────────────────── */
+var pollCounts = { student:0, parent:0, itpro:0, curious:0 };
+function pickPoll(el) {
+  document.querySelectorAll(".poll-opt").forEach(function(o) { o.classList.remove("sel"); });
+  el.classList.add("sel");
+  var key = el.getAttribute("data-key");
+  if (key && pollCounts.hasOwnProperty(key)) {
+    pollCounts[key]++;
+    var countEl = el.querySelector(".po-count");
+    if (countEl) countEl.textContent = pollCounts[key];
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   BARS
+   ──────────────────────────────────────────────────────────── */
+function animateBars() {
+  document.querySelectorAll(".bar-fill[data-w]").forEach(function(b) {
+    b.style.width = b.getAttribute("data-w") + "%";
+  });
+}
+
+/* ────────────────────────────────────────────────────────────
+   DEMO TAB SWITCHER
+   ──────────────────────────────────────────────────────────── */
+function switchDemo(idx) {
+  for (var i = 0; i < 4; i++) {
+    var p = document.getElementById("dp" + i);
+    var b = document.getElementById("demotabs").querySelectorAll(".dtab")[i];
+    if (p) p.style.display = (i === idx) ? "" : "none";
+    if (p) p.classList.toggle("on", i === idx);
+    if (b) b.classList.toggle("on", i === idx);
+  }
+  // ensure grid layout for active panel
+  var active = document.getElementById("dp" + idx);
+  if (active) active.style.display = "grid";
+}
+
+/* ────────────────────────────────────────────────────────────
+   BUILD DEMO ROWS  — no template literals to avoid quote issues
+   ──────────────────────────────────────────────────────────── */
+function makeRow(cls, onclick, cells) {
+  var div = document.createElement("div");
+  div.className = cls;
+  if (onclick) div.onclick = onclick;
+  div.innerHTML = cells;
+  return div;
+}
+
+function buildDemoRows() {
+
+  /* SIEM */
+  var siemData = [
+    { sev:15, col:"#ff3864", bg:"rgba(255,56,100,0.09)", time:"04:02", desc:"Data exfiltration — 4.3GB to Russia (FTP)", key:"siem_exfil", badge:"CRITICAL" },
+    { sev:14, col:"#ff5070", bg:"rgba(255,56,100,0.06)", time:"02:45", desc:"Lateral movement via PsExec — DC-01",      key:"siem_lateral", badge:"CRITICAL" },
+    { sev:14, col:"#ff5070", bg:"rgba(255,56,100,0.06)", time:"03:44", desc:"New Domain Admin account: svc.backup2",    key:"siem_persist", badge:"CRITICAL" },
+    { sev:12, col:"#ff6b35", bg:"",                      time:"07:12", desc:"SSH brute force — 847 failed logins",     key:"siem_brute",   badge:"HIGH" },
+    { sev:10, col:"#ff8855", bg:"",                      time:"01:22", desc:"VPN login from Russia — jsmith account",  key:"siem_vpn",     badge:"HIGH" },
+    { sev:5,  col:"#6a88b8", bg:"",                      time:"03:00", desc:"Large file write — BACKUP-02 (backup job)",key:"siem_fp",     badge:"INFO" }
+  ];
+  var siemEl = document.getElementById("siemRows");
+  if (siemEl) {
+    siemData.forEach(function(r) {
+      var cells =
+        "<span style='background:" + r.col + ";color:#000;font-size:9px;padding:1px 5px;border-radius:2px;font-weight:700;flex-shrink:0;'>" + r.sev + "</span>" +
+        "<span style='color:#4a6080;font-size:9px;flex-shrink:0;width:38px;'>" + r.time + "</span>" +
+        "<span style='color:" + r.col + ";flex:1;font-size:10px;'>" + r.desc + "</span>" +
+        "<span style='color:" + r.col + ";font-size:8px;opacity:0.7;flex-shrink:0;'>" + r.badge + " &rsaquo;</span>";
+      var div = makeRow("arow", (function(k){return function(){showPopup(k);};})(r.key), cells);
+      if (r.bg) div.style.background = r.bg;
+      siemEl.appendChild(div);
+    });
+  }
+
+  /* FIREWALL */
+  var fwData = [
+    { action:"BLOCK", acol:"#ff3864", proto:"TCP", src:"192.168.1.44/32",  dst:"10.0.0.15:22",  desc:"Block SSH brute force attacker",  hits:"847",    key:"fw_block" },
+    { action:"PASS",  acol:"#2ec97e", proto:"TCP", src:"any",              dst:"10.0.0.15:443", desc:"Allow HTTPS web traffic",          hits:"18,443", key:"fw_pass" },
+    { action:"PASS",  acol:"#2ec97e", proto:"TCP", src:"any",              dst:"10.0.0.15:80",  desc:"HTTP redirect to HTTPS",           hits:"2,211",  key:"fw_pass" },
+    { action:"BLOCK", acol:"#ff6b35", proto:"any", src:"185.220.101.52",   dst:"any",           desc:"Block TOR exit node",              hits:"194",    key:"fw_block" },
+    { action:"BLOCK", acol:"#ff3864", proto:"any", src:"any",              dst:"any",           desc:"Default deny — block all else",    hits:"5,502",  key:"fw_deny" }
+  ];
+  var fwEl = document.getElementById("fwRows");
+  if (fwEl) {
+    fwData.forEach(function(r) {
+      var cells =
+        "<span style='background:" + r.acol + ";color:#000;font-size:8px;padding:1px 5px;border-radius:2px;font-weight:700;flex-shrink:0;min-width:38px;text-align:center;'>" + r.action + "</span>" +
+        "<span style='color:#ff8850;font-size:9px;flex-shrink:0;width:30px;'>" + r.proto + "</span>" +
+        "<span style='color:#a06040;font-size:9px;flex-shrink:0;width:92px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>" + r.src + "</span>" +
+        "<span style='color:#7080a0;font-size:9px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>" + r.dst + "</span>" +
+        "<span style='color:#5a4030;font-size:9px;flex:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;'>" + r.desc + "</span>" +
+        "<span style='color:" + r.acol + ";font-size:9px;flex-shrink:0;opacity:0.7;'>" + r.hits + " &rsaquo;</span>";
+      fwEl.appendChild(makeRow("arow", (function(k){return function(){showPopup(k);};})(r.key), cells));
+    });
+  }
+
+  /* FORENSICS */
+  var fsData = [
+    { icon:"&#9888;", flagged:true,  name:"PsExec.exe",                      size:"576 KB", mod:"01:28:44",    status:"FLAGGED",      col:"#ff6b35", key:"fs_psexec" },
+    { icon:"&#9888;", flagged:true,  name:"BloodHound_20241114_021500.zip",   size:"4.2 MB", mod:"02:15:00",    status:"FLAGGED",      col:"#ff6b35", key:"fs_bloodhound" },
+    { icon:"&#9888;", flagged:true,  name:"customer_data_export.csv",         size:"4.3 GB", mod:"03:50:12",    status:"KEY EVIDENCE", col:"#ff3864", key:"fs_csv" },
+    { icon:"&#128279;",flagged:true, name:"customer_data_export.csv.lnk",    size:"1.3 KB", mod:"03:55:18",    status:"EVIDENCE",     col:"#ffb700", key:"fs_lnk" },
+    { icon:"&#128196;",flagged:false,name:"report_q3.docx",                  size:"244 KB", mod:"Nov 01 14:22",status:"CLEAN",        col:"#3a3050", key:"" }
+  ];
+  var fsEl = document.getElementById("fsRows");
+  if (fsEl) {
+    fsData.forEach(function(r) {
+      var cells =
+        "<span style='font-size:12px;flex-shrink:0;'>" + r.icon + "</span>" +
+        "<span style='color:" + (r.flagged ? "#ffb700" : "#4a5070") + ";flex:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;'>" + r.name + "</span>" +
+        "<span style='color:#3a3050;font-size:9px;flex-shrink:0;width:46px;'>" + r.size + "</span>" +
+        "<span style='color:#3a3050;font-size:9px;flex-shrink:0;width:62px;'>" + r.mod + "</span>" +
+        "<span style='color:" + r.col + ";font-size:8px;flex-shrink:0;'>" + r.status + (r.key ? " &rsaquo;" : "") + "</span>";
+      var div = makeRow("arow", r.key ? (function(k){return function(){showPopup(k);};})(r.key) : null, cells);
+      if (r.flagged) div.style.background = "rgba(255,183,0,0.04)";
+      fsEl.appendChild(div);
+    });
+  }
+
+  /* SOAR */
+  var soarData = [
+    { n:"1", col:"#ff3864", label:"Trigger received",           desc:"Wazuh SIEM Level 12 alert fires, SOAR webhook activates", key:"soar_trigger", time:"0s" },
+    { n:"2", col:"#00d4ff", label:"IOC Enrichment (parallel)",  desc:"VirusTotal + AbuseIPDB + URLScan.io + MalwareBazaar",     key:"soar_enrich",  time:"3s" },
+    { n:"3", col:"#ff6b35", label:"Containment executed",       desc:"Block IP at firewall + purge phishing email from 12 inboxes", key:"soar_contain", time:"28s" },
+    { n:"4", col:"#b44fff", label:"Notify + create ticket",     desc:"TheHive case auto-created, Slack sent, users emailed",    key:"soar_notify",  time:"32s" },
+    { n:"5", col:"#2ec97e", label:"Complete — analyst reviews", desc:"Total time: 4 min 12 sec vs 35 min manual",               key:"",             time:"4m 12s" }
+  ];
+  var soarEl = document.getElementById("soarRows");
+  if (soarEl) {
+    soarData.forEach(function(r) {
+      var div = document.createElement("div");
+      div.className = "demo-soar-step";
+      div.style.cssText = "display:flex;align-items:flex-start;gap:10px;padding:8px 14px;cursor:pointer;border-bottom:1px solid rgba(180,79,255,0.07);transition:background 0.1s;";
+      div.innerHTML =
+        "<div style='width:26px;height:26px;border-radius:50%;border:1px solid " + r.col + ";display:flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:11px;flex-shrink:0;color:" + r.col + ";'>" + r.n + "</div>" +
+        "<div style='flex:1;'>" +
+          "<div style='font-family:DM Mono,monospace;font-size:10px;color:" + r.col + ";font-weight:600;'>" + r.label + (r.key ? " &rsaquo;" : "") + "</div>" +
+          "<div style='font-size:10px;color:rgba(255,255,255,0.45);margin-top:1px;'>" + r.desc + "</div>" +
+        "</div>" +
+        "<div style='font-family:DM Mono,monospace;font-size:10px;color:rgba(255,255,255,0.22);flex-shrink:0;'>+" + r.time + "</div>";
+      if (r.key) {
+        div.onclick = (function(k){return function(){showPopup(k);};})(r.key);
+      }
+      soarEl.appendChild(div);
+    });
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   POPUP
+   ──────────────────────────────────────────────────────────── */
+function showPopup(key) {
+  var d = POPUPS[key];
+  if (!d) return;
+  document.getElementById("popIcon").textContent = d.icon;
+  document.getElementById("popTag").textContent  = d.tag;
+  document.getElementById("popTag").style.color  = d.col;
+  document.getElementById("popTitle").textContent = d.title;
+  document.getElementById("popBody").innerHTML =
+    "<div><div class='pop-sec-label'>What is this alert?</div><div class='pop-box-inner'>" + d.what + "</div></div>" +
+    "<div><div class='pop-sec-label'>Why did it fire?</div><div class='pop-box-inner'>" + d.why + "</div></div>" +
+    "<div><div class='pop-sec-label'>What would a student do?</div><div class='pop-box-inner hi'>" + d.action + "</div></div>" +
+    "<div><div class='pop-sec-label'>Real-world connection</div><div class='pop-box-inner'>" + d.real + "</div></div>" +
+    "<div class='pop-facil'><span class='pop-facil-lbl'>&#128203; Facilitator explanation</span>" + d.facil +
+    "<div class='pop-ask'><div class='pop-ask-q'>&#128172; Ask the room:</div>" + d.ask + "</div></div>";
+  document.getElementById("popup").classList.add("on");
+}
+
+function closePopup(e, force) {
+  if (force || (e && e.target === document.getElementById("popup"))) {
+    document.getElementById("popup").classList.remove("on");
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   MISC
+   ──────────────────────────────────────────────────────────── */
+function goFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(function(){});
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+init();
+</script>
+</body>
+</html>

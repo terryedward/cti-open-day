@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Idea to Live Product — CTU Roodepoort Open Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14283A; --ink2:#1C3650; --ink3:#234163;
+  --paper:#FFFFFF; --paper2:#F1F5F9;
+  --teal:#46BF9C; --teal2:#2E8A70; --sky:#70D0E8; --sky2:#2E93AC;
+  --amber:#9BD421; --amber2:#6B9016; --lime:#1F6E5C; --lime2:#154A3D; --maroon:#7E1327;
+  --green:#2ec97e; --red:#e0546e;
+  --text:#14283A; --text2:#3F5164; --text3:#7E92A6;
+  --border:rgba(20,40,58,.1); --border2:rgba(20,40,58,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"DM Sans",sans-serif;color:var(--text);background:var(--paper2);line-height:1.5;-webkit-font-smoothing:antialiased;}
+h1,h2,h3{font-family:"Syne",sans-serif;}
+.mono{font-family:"DM Mono",monospace;}
+.wrap{max-width:640px;margin:0 auto;padding:0 22px;}
+a{color:inherit;}
+button{font-family:inherit;}
+
+.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:640px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;}
+.logo-chip{background:#fff;border-radius:8px;padding:5px 9px;display:flex;align-items:center;box-shadow:0 1px 3px rgba(20,40,58,.12);}
+.logo-chip img{height:20px;width:auto;display:block;}
+.back-link{font-size:12px;font-weight:600;color:var(--text2);text-decoration:none;}
+
+/* roody floating agent */
+/* floating code example popup — appears alongside Roody's narration */
+.code-popup{position:fixed;top:54px;left:50%;transform:translateX(-50%) translateY(-10px);width:min(300px,88vw);z-index:150;opacity:0;pointer-events:none;transition:all .3s ease;}
+.code-popup.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.code-popup-cap{font-size:11px;font-weight:700;color:var(--ink);background:#fff;display:inline-block;padding:4px 10px;border-radius:8px 8px 0 0;box-shadow:0 -2px 0 rgba(20,40,58,.04);}
+.code-popup-term{background:#0b1520;border-radius:0 10px 10px 10px;overflow:hidden;box-shadow:0 10px 26px rgba(20,40,58,.35);border:1px solid rgba(255,255,255,.08);}
+.code-popup-body{padding:11px 13px;font-family:"DM Mono",monospace;font-size:11px;color:#8fe3c8;line-height:1.75;min-height:20px;white-space:pre-wrap;word-break:break-word;}
+.code-popup-body .dim{color:rgba(255,255,255,.4);}
+
+.roody-widget{position:fixed;right:16px;bottom:16px;z-index:200;display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+.roody-bubble{max-width:290px;max-height:60vh;overflow-y:auto;background:var(--ink);color:#fff;border-radius:16px 16px 4px 16px;padding:12px 14px;box-shadow:0 8px 24px rgba(20,40,58,.25);opacity:0;transform:translateY(8px) scale(.96);transition:opacity .2s ease,transform .2s ease;pointer-events:none;position:relative;}
+.roody-bubble.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+.roody-bubble.pop{animation:roodyPop .4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes roodyPop{0%{transform:translateY(6px) scale(.85);}55%{transform:translateY(-3px) scale(1.05);}100%{transform:translateY(0) scale(1);}}
+.roody-bubble-label{font-size:10px;font-weight:700;color:var(--sky);margin-bottom:4px;text-transform:uppercase;letter-spacing:.03em;}
+.roody-bubble-label span{color:rgba(255,255,255,.4);font-weight:500;text-transform:none;letter-spacing:0;}
+.roody-bubble-text{font-size:12.5px;line-height:1.55;padding-right:14px;}
+.roody-sound-btn{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.12);border:none;border-radius:50%;width:22px;height:22px;font-size:11px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;}
+.roody-voice-btn{position:absolute;top:8px;right:34px;background:rgba(255,255,255,.12);border:none;border-radius:50%;width:22px;height:22px;font-size:11px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;}
+
+.voice-panel{background:#fff;border:1px solid var(--border2);border-radius:14px;padding:12px 14px;box-shadow:0 8px 24px rgba(20,40,58,.25);display:none;width:min(260px,84vw);margin-bottom:2px;}
+.voice-panel.show{display:block;}
+.voice-panel-label{font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.voice-panel select{width:100%;font-size:12px;padding:8px 9px;border:1px solid var(--border2);border-radius:8px;color:var(--ink);background:var(--paper2);margin-bottom:8px;}
+.voice-test-btn{width:100%;font-size:11.5px;font-weight:700;color:#fff;background:var(--ink);border:none;padding:8px;border-radius:8px;cursor:pointer;}
+.roody-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--amber) 0%,var(--teal) 55%,var(--sky) 100%);box-shadow:0 8px 20px rgba(20,40,58,.35);cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.roody-pulse-ring{position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--amber);opacity:0;}
+.roody-pulse-ring.talking{animation:roodyPulse 1s ease-out infinite;}
+@keyframes roodyPulse{0%{opacity:.6;transform:scale(1);}100%{opacity:0;transform:scale(1.4);}}
+.roody-orbit{position:absolute;inset:-10px;pointer-events:none;}
+.roody-orbit span{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--amber);opacity:.85;}
+.roody-orbit span:nth-child(1){top:2px;left:38px;}
+.roody-orbit span:nth-child(2){top:14px;right:-2px;background:var(--sky);}
+.roody-orbit span:nth-child(3){bottom:6px;left:-4px;background:var(--teal);}
+.roody-avatar.talking .roody-orbit span{animation:roodyOrbit 1.4s ease-in-out infinite;}
+.roody-orbit span:nth-child(2){animation-delay:.15s;}
+.roody-orbit span:nth-child(3){animation-delay:.3s;}
+@keyframes roodyOrbit{0%,100%{transform:scale(1);opacity:.6;}50%{transform:scale(1.6);opacity:1;}}
+.roody-face{position:relative;width:36px;height:36px;}
+.roody-shades{position:absolute;top:11px;left:2px;width:32px;height:11px;display:flex;align-items:center;justify-content:space-between;}
+.roody-lens{width:13px;height:10px;background:linear-gradient(160deg,#1c2b33,#0d1a20);border-radius:4px;position:relative;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.4);}
+.roody-lens::after{content:"";position:absolute;top:1px;left:2px;width:5px;height:3px;background:rgba(255,255,255,.55);border-radius:2px;transform:rotate(-20deg);}
+.roody-bridge{width:5px;height:2px;background:#0d1a20;}
+.roody-mouth{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:16px;height:5px;background:#fff;border-radius:0 0 8px 8px;transition:height .12s ease,width .12s ease;}
+.roody-mouth.talk{animation:roodyTalk .3s ease-in-out infinite alternate;}
+@keyframes roodyTalk{from{height:5px;width:16px;}to{height:10px;width:11px;}}
+.roody-badge{position:absolute;bottom:-3px;right:-3px;width:24px;height:24px;background:#fff;border-radius:50%;border:2px solid var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(20,40,58,.25);}
+.roody-badge img{width:14px;height:auto;}
+@media(min-width:600px){
+  .roody-widget{right:26px;bottom:26px;}
+  .roody-bubble{max-width:340px;}
+}
+
+.hero{background:linear-gradient(160deg,var(--ink) 0%,var(--ink2) 55%,var(--ink3) 100%);color:#fff;padding:30px 0 26px;text-align:center;}
+.hero .eyebrow{font-size:12px;font-weight:600;color:var(--sky);}
+.hero h1{font-size:clamp(26px,7vw,34px);font-weight:800;line-height:1.18;margin-top:8px;}
+.hero h1 span{color:var(--teal);}
+.hero p{color:rgba(255,255,255,.6);font-size:14px;max-width:44ch;margin:10px auto 0;}
+.hero-actions{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:8px;}
+
+/* area-select intro screen */
+.area-select{padding:30px 0;background:var(--paper2);border-bottom:1px solid var(--border);}
+.area-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
+.area-card{background:#fff;border:1.5px solid var(--border2);border-radius:14px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .15s;}
+.area-card:active{transform:scale(.97);}
+.area-card:hover{border-color:var(--ink);box-shadow:0 6px 16px rgba(20,40,58,.1);}
+.area-ico{font-size:26px;margin-bottom:6px;}
+.area-lbl{font-size:12.5px;font-weight:700;color:var(--ink);}
+.area-eng:hover{border-color:var(--amber);} .area-dev:hover{border-color:var(--sky2);}
+.area-cyber:hover{border-color:var(--teal2);} .area-cloud:hover{border-color:var(--lime2);}
+.area-ai:hover{border-color:var(--maroon);}
+.skip-link{display:block;margin:16px auto 0;background:none;border:none;font-size:12.5px;color:var(--text3);text-decoration:underline;cursor:pointer;}
+.area-select.hidden{display:none;}
+.journey-locked{opacity:.4;pointer-events:none;filter:grayscale(.3);}
+@media(min-width:600px){ .area-grid{grid-template-columns:repeat(5,1fr);} }
+.autoplay-btn{font-size:13.5px;font-weight:700;color:var(--ink);background:linear-gradient(90deg,var(--teal),var(--sky));border:none;padding:12px 22px;border-radius:11px;cursor:pointer;box-shadow:0 6px 18px rgba(70,191,156,.3);}
+.autoplay-btn.playing{background:rgba(255,255,255,.12);color:#fff;box-shadow:none;}
+.autoplay-or{font-size:11.5px;color:rgba(255,255,255,.4);}
+.autoplay-active .concept-card,.autoplay-active .vs-tab,.autoplay-active .ship-btn,.autoplay-active .cloud-card,.autoplay-active .toggle-row,.autoplay-active .stage-btn,.autoplay-active .tag-btn,.autoplay-active .continue-btn{pointer-events:none;opacity:.85;}
+
+/* stepper */
+.stepper{display:flex;padding:16px 0;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:45px;z-index:40;}
+.stepper .wrap{display:flex;gap:6px;}
+.step-dot{flex:1;text-align:center;}
+.step-dot .dot{width:26px;height:26px;border-radius:50%;background:var(--paper2);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text3);margin:0 auto 4px;transition:all .2s;}
+.step-dot .lbl{font-size:8.5px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.03em;}
+.step-dot.active .dot{background:var(--ink);border-color:var(--ink);color:#fff;}
+.step-dot.active .lbl{color:var(--ink);}
+.step-dot.done .dot{background:var(--green);border-color:var(--green);color:#fff;}
+.step-dot.done .lbl{color:var(--green);}
+
+/* step sections */
+.step{padding:30px 0;border-bottom:1px solid var(--border);position:relative;}
+.step.locked{opacity:.35;pointer-events:none;}
+.step-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;margin-bottom:12px;}
+.badge-eng{background:rgba(155,212,33,.12);color:var(--amber2);}
+.badge-dev{background:rgba(112,208,232,.16);color:var(--sky2);}
+.badge-cyber{background:rgba(70,191,156,.13);color:var(--teal2);}
+.badge-cloud{background:rgba(31,110,92,.15);color:var(--lime2);}
+.badge-ai{background:rgba(126,19,39,.1);color:var(--maroon);}
+.step h2{font-size:20px;font-weight:800;margin-bottom:8px;}
+.skill-tag{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:var(--ink);background:rgba(155,212,33,.18);border:1px solid rgba(155,212,33,.4);padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.step-sub{font-size:13.5px;color:var(--text2);margin-bottom:18px;max-width:56ch;}
+
+/* concept cards */
+.concept-card{background:#fff;border:1.5px solid var(--border2);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .15s;}
+.concept-card:active{transform:scale(.98);}
+.concept-card.picked{border-color:var(--amber);background:rgba(155,212,33,.06);}
+.concept-card h3{font-size:14.5px;font-weight:700;}
+.concept-card p{font-size:12.5px;color:var(--text2);margin-top:3px;}
+
+.spec-sheet{background:var(--ink);color:#fff;border-radius:14px;padding:18px;margin-top:14px;display:none;}
+.spec-sheet.show{display:block;}
+.spec-sheet h4{font-size:12px;color:var(--sky);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
+.spec-list{font-size:12.5px;color:rgba(255,255,255,.75);line-height:2;}
+.diagram-row{display:flex;align-items:center;gap:6px;margin-top:14px;flex-wrap:wrap;}
+.diagram-box{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:8px 12px;font-size:11px;font-weight:600;text-align:center;flex:1;min-width:90px;opacity:0;transform:translateY(6px) scale(.92);transition:all .35s ease;}
+.diagram-box.on{opacity:1;transform:translateY(0) scale(1);border-color:rgba(70,191,156,.4);background:rgba(70,191,156,.1);}
+.diagram-arrow{color:var(--sky);font-size:14px;opacity:0;transition:opacity .3s ease;}
+.diagram-arrow.on{opacity:1;}
+.spec-list div{opacity:0;transform:translateX(-6px);transition:all .3s ease;}
+.spec-list div.on{opacity:1;transform:translateX(0);}
+.diagram-box{cursor:pointer;}
+.diagram-hint{font-size:10.5px;color:rgba(255,255,255,.35);margin-top:10px;text-align:center;opacity:0;transition:opacity .4s ease;}
+.diagram-hint.on{opacity:1;}
+
+/* product preview + learning hotspots */
+.product-preview{display:none;margin-top:16px;}
+.product-preview.show{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start;animation:fadeUp .35s ease;}
+.pp-label{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px;width:100%;}
+.phone-mock{width:150px;flex-shrink:0;background:var(--ink);border-radius:22px;padding:8px;box-shadow:0 10px 26px rgba(20,40,58,.18);border:3px solid var(--ink);}
+.phone-notch{width:44px;height:5px;background:rgba(255,255,255,.25);border-radius:4px;margin:0 auto 6px;}
+.phone-screen{background:#fff;border-radius:14px;padding:10px 9px;min-height:210px;position:relative;}
+.phone-appbar{background:var(--ink);color:#fff;font-size:10px;font-weight:700;padding:7px 9px;border-radius:8px;margin-bottom:10px;text-align:center;}
+.phone-hotspot{display:flex;align-items:center;gap:6px;background:var(--paper2);border:1px solid var(--border2);border-radius:8px;padding:8px 9px;font-size:10px;font-weight:600;color:var(--ink);margin-bottom:8px;cursor:pointer;position:relative;transition:all .15s;}
+.phone-hotspot:hover{border-color:var(--sky2);}
+.phone-hotspot.primary{background:rgba(70,191,156,.12);border-color:rgba(70,191,156,.35);color:var(--acc2,var(--teal2));justify-content:center;}
+.hs-ico{font-size:12px;}
+.hs-pulse{position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:var(--sky2);animation:hsPulse 1.6s ease-in-out infinite;}
+@keyframes hsPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:.5;}}
+.learn-card{flex:1;min-width:180px;background:#fff;border:1.5px solid var(--border2);border-radius:14px;padding:14px 16px;}
+.learn-card-head{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.5;}
+.learn-card-body{font-size:12px;color:var(--text2);line-height:1.6;}
+.learn-card-body .lc-tag{display:inline-block;font-size:9.5px;font-weight:700;color:var(--sky2);background:rgba(112,208,232,.14);padding:2px 8px;border-radius:20px;margin-top:8px;}
+
+/* code choice */
+.lang-label{font-size:12px;color:var(--text2);margin-bottom:9px;font-weight:600;}
+.lang-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.lang-tab{font-size:12px;font-weight:700;padding:7px 13px;border-radius:20px;border:1.5px solid var(--border2);background:#fff;color:var(--text2);cursor:pointer;}
+.lang-tab.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+/* realistic VS Code editor mockup */
+.vscode-window{background:#1e1e1e;border-radius:10px;overflow:hidden;box-shadow:0 12px 30px rgba(20,40,58,.35);font-family:"Segoe UI",sans-serif;}
+.vs-titlebar{background:#323233;padding:8px 12px;display:flex;align-items:center;gap:6px;}
+.vs-dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+.vs-titletext{margin-left:10px;font-size:11px;color:rgba(255,255,255,.5);}
+.vs-body{display:flex;min-height:220px;}
+.vs-activitybar{width:38px;background:#333333;display:flex;flex-direction:column;align-items:center;padding-top:10px;gap:16px;flex-shrink:0;}
+.vs-abicon{font-size:15px;opacity:.45;}
+.vs-abicon.active{opacity:1;border-left:2px solid #fff;padding-left:8px;margin-left:-10px;}
+.vs-sidebar{width:120px;background:#252526;padding:10px 0;flex-shrink:0;display:none;}
+.vs-sb-title{font-size:9px;color:rgba(255,255,255,.4);font-weight:700;padding:0 12px 8px;letter-spacing:.05em;}
+.vs-sb-item{font-size:11px;color:rgba(255,255,255,.65);padding:4px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.vs-sb-item.active{background:#37373d;color:#fff;}
+.vs-main{flex:1;min-width:0;display:flex;flex-direction:column;}
+.vs-tabs{display:flex;background:#252526;}
+.vs-tab{font-size:11.5px;color:rgba(255,255,255,.5);padding:9px 14px;cursor:pointer;border-right:1px solid #1e1e1e;display:flex;align-items:center;gap:6px;}
+.vs-tab.active{background:#1e1e1e;color:#fff;border-top:2px solid var(--sky);}
+.vs-tab-dot{font-size:8px;color:#e8b04a;}
+.vs-editor{flex:1;padding:12px 14px;font-family:"DM Mono",monospace;font-size:12px;line-height:1.85;overflow-x:auto;}
+.vs-line{display:flex;gap:14px;white-space:pre;}
+.vs-ln{color:#5a5a5a;text-align:right;min-width:14px;user-select:none;}
+.tok-kw{color:#c586c0;} .tok-fn{color:#dcdcaa;} .tok-str{color:#ce9178;} .tok-com{color:#6a9955;} .tok-var{color:#9cdcfe;} .tok-def{color:#569cd6;}
+.ship-btn{margin:0 14px 12px;align-self:flex-start;font-size:11.5px;font-weight:700;color:#1e1e1e;background:var(--sky);border:none;padding:8px 16px;border-radius:6px;cursor:pointer;}
+.vs-statusbar{background:#007acc;color:#fff;font-size:10px;padding:4px 12px;display:flex;justify-content:space-between;}
+.vscode-window.correct-pick .vs-statusbar{background:#2ec97e;}
+.vscode-window.wrong-pick .vs-statusbar{background:#e0546e;}
+@media(min-width:600px){ .vs-sidebar{display:block;} }
+
+.code-feedback{font-size:12.5px;color:var(--text2);margin-top:12px;padding:10px 12px;background:var(--paper2);border-radius:9px;min-height:20px;line-height:1.55;}
+.code-feedback.win{background:rgba(70,191,156,.1);color:var(--teal2);font-weight:600;}
+.code-feedback.lose{background:rgba(224,84,110,.1);color:#a12b42;}
+
+/* cloud pipeline */
+.pipe-track{display:flex;align-items:flex-start;margin:22px 0 28px;overflow-x:auto;padding-bottom:4px;}
+.pipe-node{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:64px;}
+.pipe-dot{width:38px;height:38px;border-radius:50%;background:var(--paper2);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .25s;}
+.pipe-lbl{font-size:9px;font-weight:700;color:var(--text3);margin-top:6px;text-align:center;text-transform:uppercase;letter-spacing:.02em;}
+.pipe-node.active .pipe-dot{background:var(--ink);border-color:var(--ink);transform:scale(1.12);}
+.pipe-node.active .pipe-lbl{color:var(--ink);}
+.pipe-node.done .pipe-dot{background:var(--green);border-color:var(--green);}
+.pipe-node.done .pipe-lbl{color:var(--green);}
+.pipe-line{flex:1;height:2px;background:var(--border2);margin-top:19px;min-width:14px;}
+
+.stage-panel{display:none;}
+.stage-panel.active{display:block;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.stage-panel h3{font-size:17px;font-weight:800;margin-bottom:6px;}
+.stage-desc{font-size:13px;color:var(--text2);margin-bottom:16px;max-width:56ch;}
+
+.term-window{background:#0b1520;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);}
+.term-bar{background:#132030;padding:8px 13px;display:flex;align-items:center;gap:6px;}
+.term-dot{width:8px;height:8px;border-radius:50%;}
+.term-bar span{font-family:"DM Mono",monospace;font-size:10.5px;color:rgba(255,255,255,.4);margin-left:6px;}
+.term-body{padding:14px 16px;font-family:"DM Mono",monospace;font-size:11.5px;color:#8fe3c8;line-height:1.9;min-height:120px;white-space:pre-wrap;word-break:break-word;}
+.term-prompt{color:var(--sky);font-weight:700;}
+.term-body .ok{color:#5fe0a0;}
+.term-body .dim{color:rgba(255,255,255,.35);}
+
+.stage-btn{margin-top:14px;font-size:12.5px;font-weight:700;color:#fff;background:var(--ink2);border:none;padding:10px 18px;border-radius:9px;cursor:pointer;display:block;}
+.stage-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+.cloud-cards{display:flex;flex-direction:column;gap:10px;}
+.cloud-card{background:#fff;border:1.5px solid var(--border2);border-radius:13px;padding:14px 16px;cursor:pointer;transition:all .15s;}
+.cloud-card:active{transform:scale(.98);}
+.cloud-card.picked{border-color:var(--ink);box-shadow:0 0 0 2px rgba(20,40,58,.08);}
+.cloud-card p{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5;}
+.cloud-badge{display:inline-block;font-size:12.5px;font-weight:800;padding:4px 12px;border-radius:7px;color:#fff;}
+.cloud-badge.cloud-azure{background:#0078D4;}
+.cloud-badge.cloud-aws{background:#232F3E;}
+.cloud-badge.cloud-gcp{background:linear-gradient(90deg,#4285F4,#EA4335 33%,#FBBC05 66%,#34A853);}
+
+.provision-card{background:var(--ink);border-radius:13px;padding:16px;color:#fff;}
+.provision-row{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;color:rgba(255,255,255,.8);}
+.provision-row .mono{color:var(--sky);}
+.progress-bar{background:rgba(255,255,255,.1);border-radius:6px;height:8px;overflow:hidden;margin:12px 0 8px;}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--sky));transition:width 1.4s ease;}
+.provision-status{font-size:12px;color:rgba(255,255,255,.5);font-weight:600;}
+
+/* realistic cloud platform portal mockup */
+.portal-window{background:#f5f6f8;border-radius:10px;overflow:hidden;box-shadow:0 12px 30px rgba(20,40,58,.25);border:1px solid rgba(20,40,58,.1);}
+.portal-topbar{padding:10px 14px;display:flex;align-items:center;gap:10px;color:#fff;}
+.portal-topbar.light{color:#3c4043;border-bottom:1px solid #e4e7eb;}
+.portal-topbar.light .portal-search{background:#f1f3f4;color:#5f6368;}
+.portal-logo{font-size:16px;}
+.portal-name{font-size:13px;font-weight:700;}
+.portal-search{margin-left:auto;font-size:10.5px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:6px;color:rgba(255,255,255,.85);}
+.portal-body{display:flex;min-height:230px;}
+.portal-sidebar{width:100px;background:#fff;border-right:1px solid #e4e7eb;padding:10px 0;flex-shrink:0;}
+.portal-sb-item{font-size:10px;color:#4a5568;padding:7px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.portal-sb-item.active{background:#eef2f7;font-weight:700;color:#14283A;border-left:3px solid var(--sky2);}
+.portal-main{flex:1;padding:14px 16px;min-width:0;}
+.portal-crumb{font-size:10.5px;color:#7a8699;margin-bottom:12px;}
+.portal-crumb b{color:#14283A;}
+.portal-form{background:#fff;border:1px solid #e4e7eb;border-radius:8px;padding:12px 14px;margin-bottom:12px;}
+.portal-field{margin-bottom:9px;}
+.portal-field:last-child{margin-bottom:0;}
+.portal-field label{font-size:9.5px;color:#7a8699;font-weight:700;text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:3px;}
+.portal-input{font-size:12px;color:#14283A;background:#f5f6f8;border:1px solid #dfe3e8;border-radius:5px;padding:6px 9px;min-height:14px;font-family:"DM Mono",monospace;}
+.portal-input.filled{animation:portalFill .3s ease;}
+@keyframes portalFill{from{background:rgba(70,191,156,.25);}to{background:#f5f6f8;}}
+.portal-create-btn{font-size:12px;font-weight:700;color:#fff;background:#14283A;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;}
+.portal-create-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+
+.toggle-list{display:flex;flex-direction:column;gap:9px;}
+.toggle-row{display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid var(--border2);border-radius:12px;padding:13px 15px;cursor:pointer;}
+.toggle-row strong{display:block;font-size:13px;}
+.toggle-row span{font-size:11.5px;color:var(--text2);}
+.toggle-sw{width:38px;height:22px;border-radius:20px;background:var(--paper2);border:1.5px solid var(--border2);flex-shrink:0;position:relative;transition:all .2s;}
+.toggle-sw::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:all .2s;box-shadow:0 1px 2px rgba(0,0,0,.2);}
+.toggle-row.on .toggle-sw{background:var(--green);border-color:var(--green);}
+.toggle-row.on .toggle-sw::after{left:18px;}
+
+.browser-mock{background:#fff;border:1px solid var(--border2);border-radius:13px;overflow:hidden;box-shadow:0 6px 20px rgba(20,40,58,.1);}
+.browser-bar{background:var(--paper2);padding:9px 12px;display:flex;align-items:center;gap:6px;}
+.browser-dot{width:9px;height:9px;border-radius:50%;}
+.browser-url{font-family:"DM Mono",monospace;font-size:11px;color:var(--text2);background:#fff;border-radius:6px;padding:5px 10px;margin-left:8px;flex:1;}
+.browser-body{padding:34px 16px;text-align:center;}
+.browser-emoji{font-size:34px;margin-bottom:8px;}
+.browser-msg{font-size:14px;font-weight:700;color:var(--ink);}
+
+/* AI tagging */
+.tag-card{background:#fff;border:1.5px solid var(--border2);border-radius:12px;padding:13px 15px;margin-bottom:9px;}
+.tag-card p{font-size:13px;color:var(--ink);margin-bottom:9px;}
+.tag-btns{display:flex;gap:8px;}
+.tag-btn{flex:1;font-size:11.5px;font-weight:700;padding:8px;border-radius:8px;border:1.5px solid var(--border2);background:var(--paper2);cursor:pointer;}
+.tag-btn.picked-urgent{background:rgba(224,84,110,.12);border-color:var(--red);color:#a12b42;}
+.tag-btn.picked-normal{background:rgba(46,201,126,.12);border-color:var(--green);color:#1b7a4c;}
+.tag-card.tagged .tag-btn:not(.picked-urgent):not(.picked-normal){opacity:.3;pointer-events:none;}
+.ai-result{background:var(--ink);color:#fff;border-radius:14px;padding:16px;margin-top:14px;display:none;}
+.ai-result.show{display:block;}
+.ai-result h4{font-size:12px;color:var(--maroon);background:rgba(255,255,255,.9);display:inline-block;padding:2px 8px;border-radius:6px;margin-bottom:8px;}
+.ai-result p{font-size:12.5px;color:rgba(255,255,255,.75);line-height:1.6;}
+
+.continue-btn{display:inline-block;margin-top:16px;font-size:13px;font-weight:700;color:#fff;background:var(--ink);padding:11px 20px;border-radius:10px;border:none;cursor:pointer;}
+.continue-btn:disabled{opacity:.3;cursor:not-allowed;}
+
+/* final summary */
+.summary-card{background:#fff;border:1px solid var(--border2);border-radius:14px;padding:16px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;}
+.summary-facil{font-size:10.5px;color:var(--text3);margin-top:7px;font-weight:600;}
+.summary-ico{font-size:22px;flex-shrink:0;}
+.summary-body h3{font-size:14px;font-weight:700;}
+.summary-body p{font-size:12px;color:var(--text2);margin-top:2px;}
+.summary-tag{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:6px;}
+
+.footer{background:var(--ink);color:#fff;padding:36px 0 40px;text-align:center;}
+.footer h2{font-size:20px;font-weight:800;margin-bottom:8px;}
+.footer p{color:rgba(255,255,255,.55);font-size:13.5px;max-width:42ch;margin:0 auto 20px;}
+.footer-link{display:inline-block;font-size:13px;font-weight:700;color:var(--ink);background:var(--sky);padding:12px 24px;border-radius:10px;text-decoration:none;}
+.footer-meta{margin-top:22px;font-size:11.5px;color:rgba(255,255,255,.35);}
+
+@media(min-width:760px){
+  .wrap{max-width:760px;}
+  .wrap-wide{max-width:880px;}
+  .vs-editor{font-size:13px;}
+  .hero h1{font-size:40px;}
+  .cloud-cards{flex-direction:row;}
+  .cloud-card{flex:1;}
+  .pipe-node{width:80px;}
+  .pipe-dot{width:44px;height:44px;font-size:19px;}
+  .stage-panel h3{font-size:20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo-chip"><img src="data:image/png;base64,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" alt="CTU"></div>
+    <a class="back-link" href="hub.html">← All departments</a>
+  </div>
+</div>
+
+<div class="code-popup" id="codePopup">
+  <div class="code-popup-cap" id="codePopupCap"></div>
+  <div class="code-popup-term">
+    <div class="term-bar"><div class="term-dot" style="background:#e0546e;"></div><div class="term-dot" style="background:#e8b04a;"></div><div class="term-dot" style="background:#2ec97e;"></div></div>
+    <div class="code-popup-body" id="codePopupBody"></div>
+  </div>
+</div>
+
+<div class="roody-widget" id="roodyWidget">
+  <div class="voice-panel" id="voicePanel">
+    <div class="voice-panel-label">🎙️ Choose Roody's voice</div>
+    <select id="voiceSelect" onchange="onVoiceChange()"><option>Loading voices…</option></select>
+    <button class="voice-test-btn" onclick="testVoice()">▶ Preview</button>
+  </div>
+  <div class="roody-bubble show" id="roodyBubble">
+    <button class="roody-voice-btn" id="roodyVoiceBtn" onclick="toggleVoicePanel(event)" title="Choose voice">🎙️</button>
+    <button class="roody-sound-btn" id="roodySoundBtn" onclick="toggleSound(event)" title="Toggle Roody's voice">🔊</button>
+    <div class="roody-bubble-label">Roody <span>· CTU's AI Agent demo</span></div>
+    <div class="roody-bubble-text" id="roodyBubbleText">Hi, I'm Roody — CTU's AI agent for today. We're going to build one small product together, start to finish, and I'll point out the real jobs hiding in each step along the way. Tap a concept below to begin.</div>
+  </div>
+  <div class="roody-avatar" id="roodyAvatar" onclick="toggleBubble()">
+    <div class="roody-pulse-ring" id="roodyPulse"></div>
+    <div class="roody-orbit"><span></span><span></span><span></span></div>
+    <div class="roody-face">
+      <div class="roody-shades"><div class="roody-lens"></div><div class="roody-bridge"></div><div class="roody-lens"></div></div>
+      <div class="roody-mouth" id="roodyMouth"></div>
+    </div>
+    <div class="roody-badge"><img src="data:image/png;base64,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" alt=""></div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">ALL 5 DEPARTMENTS · ONE PRODUCT</div>
+    <h1>From idea to <span>live product</span></h1>
+    <p>Every app you use touched five different skill sets before it reached your phone. Build one yourself, step by step — or let Roody run through it for you.</p>
+    <div class="hero-actions">
+      <button class="autoplay-btn" id="autoplayBtn" onclick="toggleAutoplay()">▶ Let Roody show you</button>
+      <span class="autoplay-or">or scroll down and try it yourself</span>
+    </div>
+    <p style="margin-top:16px;font-size:11.5px;color:rgba(255,255,255,.35);max-width:52ch;margin-left:auto;margin-right:auto;">You'll see badges like "NQF" and "SAQA" throughout — NQF is the National Qualifications Framework, South Africa's ranking of qualification levels, and SAQA (South African Qualifications Authority) is the body that registers each qualification, overseen nationally by the QCTO (Quality Council for Trades and Occupations).</p>
+  </div>
+</div>
+
+<div class="area-select" id="areaSelect">
+  <div class="wrap">
+    <div class="section-label">Before we start</div>
+    <div class="section-title">Which area are you most curious about?</div>
+    <div class="section-sub">The journey below covers all five — but tell Roody what's on your mind first, and he'll point out exactly where to pay attention.</div>
+    <div class="area-grid">
+      <div class="area-card area-eng" onclick="pickArea('eng')"><div class="area-ico">🛠️</div><div class="area-lbl">Software Engineering</div></div>
+      <div class="area-card area-dev" onclick="pickArea('dev')"><div class="area-ico">💻</div><div class="area-lbl">Software Development</div></div>
+      <div class="area-card area-cyber" onclick="pickArea('cyber')"><div class="area-ico">🛡️</div><div class="area-lbl">Cybersecurity</div></div>
+      <div class="area-card area-cloud" onclick="pickArea('cloud')"><div class="area-ico">☁️</div><div class="area-lbl">Cloud Administration</div></div>
+      <div class="area-card area-ai" onclick="pickArea('ai')"><div class="area-ico">🤖</div><div class="area-lbl">AI Software Development</div></div>
+    </div>
+    <button class="skip-link" onclick="pickArea('skip')">Not sure yet — just start the journey →</button>
+  </div>
+</div>
+
+<div id="mainJourney" class="journey-locked">
+<div class="stepper">
+  <div class="wrap">
+    <div class="step-dot active" id="dot1"><div class="dot">1</div><div class="lbl">Design</div></div>
+    <div class="step-dot" id="dot2"><div class="dot">2</div><div class="lbl">Build</div></div>
+    <div class="step-dot" id="dot3"><div class="dot">3</div><div class="lbl">Deploy</div></div>
+    <div class="step-dot" id="dot4"><div class="dot">4</div><div class="lbl">AI</div></div>
+  </div>
+</div>
+
+<!-- STEP 1 — SOFTWARE ENGINEERING — DESIGN -->
+<div class="step" id="step1">
+  <div class="wrap">
+    <div class="step-badge badge-eng">🛠️ Software Engineering <span style="opacity:.75;font-weight:600;">· NQF 6, SAQA 119458</span></div>
+    <h2>Design the concept</h2>
+    <div class="skill-tag">📚 Skill taught: Requirements Analysis &amp; System Design</div>
+    <div class="step-sub">Nothing gets built before it's designed. Pick an app idea — this is the part a Software Engineer does before anyone writes a line of code.</div>
+    <div id="conceptCards">
+      <div class="concept-card" data-concept="food" onclick="pickConcept(this)"><h3>🍔 Campus Food Pre-Order</h3><p>Order ahead from the campus café and skip the queue between lectures.</p></div>
+      <div class="concept-card" data-concept="study" onclick="pickConcept(this)"><h3>📚 Study Buddy Matcher</h3><p>Match students in the same module for group study sessions.</p></div>
+      <div class="concept-card" data-concept="lost" onclick="pickConcept(this)"><h3>🔍 Lost &amp; Found Tracker</h3><p>Report and search for lost items anywhere on campus.</p></div>
+    </div>
+    <div class="spec-sheet" id="specSheet">
+      <h4 id="specHeading">Engineering spec — building live…</h4>
+      <div class="spec-list" id="specList"></div>
+      <div class="diagram-row">
+        <div class="diagram-box" id="diagBox1" onclick="showLearnTopic('ui', this)">📱 Mobile App</div>
+        <div class="diagram-arrow" id="diagArrow1">→</div>
+        <div class="diagram-box" id="diagBox2" onclick="showLearnTopic('api', this)">⚙️ API</div>
+        <div class="diagram-arrow" id="diagArrow2">→</div>
+        <div class="diagram-box" id="diagBox3" onclick="showLearnTopic('data', this)">🗄️ Database</div>
+      </div>
+      <div class="diagram-hint" id="diagramHint">👆 Tap any part of the diagram to see what you'd actually learn to build it</div>
+    </div>
+
+    <div class="product-preview" id="productPreview">
+      <div class="pp-label">What you're actually building</div>
+      <div class="phone-mock">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-appbar" id="phoneAppName">Your App</div>
+          <div class="phone-hotspot" id="hsUi" onclick="showLearnTopic('ui', this)"><span class="hs-ico" id="hsUiIco">📋</span><span id="hsUiLabel">Browse list</span><span class="hs-pulse"></span></div>
+          <div class="phone-hotspot" id="hsAuth" onclick="showLearnTopic('auth', this)"><span class="hs-ico">🔐</span><span>Log in</span><span class="hs-pulse"></span></div>
+          <div class="phone-hotspot primary" id="hsAction" onclick="showLearnTopic('data', this)"><span class="hs-ico" id="hsActionIco">✅</span><span id="hsActionLabel">Confirm</span><span class="hs-pulse"></span></div>
+        </div>
+      </div>
+      <div class="learn-card" id="learnCard">
+        <div class="learn-card-head" id="learnCardHead">👆 Tap a screen element on the left to see what module teaches it</div>
+        <div class="learn-card-body" id="learnCardBody"></div>
+      </div>
+    </div>
+
+    <button class="continue-btn" id="btn1" disabled onclick="goStep(2)">Continue to Development →</button>
+  </div>
+</div>
+
+<!-- STEP 2 — SOFTWARE DEVELOPMENT + CYBERSECURITY — BUILD -->
+<div class="step locked" id="step2">
+  <div class="wrap">
+    <div class="step-badge badge-dev">💻 Software Development <span style="opacity:.75;font-weight:600;">· NQF 5, SAQA 118707</span></div>
+    <div class="step-badge badge-cyber">🛡️ + Cybersecurity <span style="opacity:.75;font-weight:600;">· NQF 5–7, QCTO</span></div>
+    <h2>Build it — securely</h2>
+    <div class="skill-tag">📚 Skill taught: Secure Coding Practices</div>
+    <div class="step-sub">Security isn't added at the end — it's a decision made while coding. Your app needs a login. Which version would you actually ship?</div>
+
+    <div class="lang-label">Pick the language you'd like to see this in — it's what you'll actually write with us:</div>
+    <div class="lang-tabs" id="langTabs">
+      <button class="lang-tab active" data-lang="python" onclick="pickLang(this)">Python</button>
+      <button class="lang-tab" data-lang="javascript" onclick="pickLang(this)">JavaScript</button>
+      <button class="lang-tab" data-lang="java" onclick="pickLang(this)">Java</button>
+      <button class="lang-tab" data-lang="csharp" onclick="pickLang(this)">C#</button>
+      <button class="lang-tab" data-lang="cpp" onclick="pickLang(this)">C++</button>
+    </div>
+
+    <div class="vscode-window">
+      <div class="vs-titlebar"><span class="vs-dot" style="background:#ff5f57;"></span><span class="vs-dot" style="background:#febc2e;"></span><span class="vs-dot" style="background:#28c840;"></span><span class="vs-titletext">login.py — CTU Student Project — Visual Studio Code</span></div>
+      <div class="vs-body">
+        <div class="vs-activitybar">
+          <div class="vs-abicon active">📄</div>
+          <div class="vs-abicon">🔍</div>
+          <div class="vs-abicon">⎇</div>
+          <div class="vs-abicon">🧩</div>
+        </div>
+        <div class="vs-sidebar">
+          <div class="vs-sb-title">EXPLORER</div>
+          <div class="vs-sb-item vs-sb-folder">📁 campus-app</div>
+          <div class="vs-sb-item" style="padding-left:26px;">📄 app.py</div>
+          <div class="vs-sb-item active" style="padding-left:26px;">📄 login.py</div>
+          <div class="vs-sb-item" style="padding-left:26px;">📄 requirements.txt</div>
+        </div>
+        <div class="vs-main">
+          <div class="vs-tabs">
+            <div class="vs-tab active" data-choice="A" onclick="switchTab(this)">login.py <span class="vs-tab-dot">●</span></div>
+            <div class="vs-tab" data-choice="B" onclick="switchTab(this)">login_v2.py</div>
+          </div>
+          <div class="vs-editor" id="vsEditor"></div>
+          <button class="ship-btn" id="shipBtn" onclick="pickCode()">🚀 Ship this version</button>
+        </div>
+      </div>
+      <div class="vs-statusbar"><span>⎇ main</span><span id="vsStatusMsg">Tap a tab to compare, then ship the one you trust</span></div>
+    </div>
+    <div class="code-feedback" id="codeFeedback">Tap the version you'd trust with your own password.</div>
+    <button class="continue-btn" id="btn2" disabled onclick="goStep(3)">Continue to Deployment →</button>
+  </div>
+</div>
+
+<!-- STEP 3 — CLOUD ADMINISTRATION — DEPLOY -->
+<div class="step locked" id="step3">
+  <div class="wrap wrap-wide">
+    <div class="step-badge badge-cloud">☁️ Cloud Administration <span style="opacity:.75;font-weight:600;">· NQF 4 → NQF 6 Cloud Systems Engineer</span></div>
+    <h2>Ship it to the cloud</h2>
+    <div class="skill-tag" id="cloudSkillTag">📚 Skill taught: Containerisation (DevOps tooling)</div>
+    <div class="step-sub">A real deployment pipeline — containerise it, pick a cloud, provision, deploy, lock it down, and go live. This is exactly what a Cloud Administrator does, every day.</div>
+
+    <div class="pipe-track" id="pipeTrack">
+      <div class="pipe-node active" id="pipe1"><div class="pipe-dot">📦</div><div class="pipe-lbl">Containerise</div></div>
+      <div class="pipe-line"></div>
+      <div class="pipe-node" id="pipe2"><div class="pipe-dot">☁️</div><div class="pipe-lbl">Choose cloud</div></div>
+      <div class="pipe-line"></div>
+      <div class="pipe-node" id="pipe3"><div class="pipe-dot">🖥️</div><div class="pipe-lbl">Provision</div></div>
+      <div class="pipe-line"></div>
+      <div class="pipe-node" id="pipe4"><div class="pipe-dot">🚀</div><div class="pipe-lbl">Deploy</div></div>
+      <div class="pipe-line"></div>
+      <div class="pipe-node" id="pipe5"><div class="pipe-dot">🔒</div><div class="pipe-lbl">Secure</div></div>
+      <div class="pipe-line"></div>
+      <div class="pipe-node" id="pipe6"><div class="pipe-dot">🌐</div><div class="pipe-lbl">Live</div></div>
+    </div>
+
+    <!-- STAGE A: CONTAINERISE -->
+    <div class="stage-panel active" id="stageA">
+      <h3>Package it with Docker</h3>
+      <p class="stage-desc">Before your app goes anywhere, it's packaged into a container — the exact same environment whether it runs on a laptop, a server, or any cloud in the world.</p>
+      <div class="term-window">
+        <div class="term-bar"><div class="term-dot" style="background:#e0546e;"></div><div class="term-dot" style="background:#e8b04a;"></div><div class="term-dot" style="background:#2ec97e;"></div><span>terminal</span></div>
+        <div class="term-body" id="dockerLog"><span class="term-prompt">$</span> docker build -t campus-app .</div>
+      </div>
+      <button class="stage-btn" id="dockerBtn" onclick="runDocker()">▶ Run docker build</button>
+      <button class="continue-btn" id="pipeBtn1" disabled onclick="goPipe(2)">Continue to cloud choice →</button>
+    </div>
+
+    <!-- STAGE B: CHOOSE CLOUD -->
+    <div class="stage-panel" id="stageB">
+      <h3>Pick where it runs</h3>
+      <p class="stage-desc">CTU teaches all three major clouds — because different employers standardise on different ones. Pick one to deploy to.</p>
+      <div class="cloud-cards">
+        <div class="cloud-card" data-cloud="azure" onclick="pickCloud(this)">
+          <div class="cloud-badge cloud-azure">Azure</div>
+          <p>Microsoft's cloud — deeply integrated with Microsoft 365 and enterprise Windows environments. Common in SA banks and government.</p>
+        </div>
+        <div class="cloud-card" data-cloud="aws" onclick="pickCloud(this)">
+          <div class="cloud-badge cloud-aws">AWS</div>
+          <p>The largest cloud provider globally — the industry default for scale, with a real data centre region in Cape Town.</p>
+        </div>
+        <div class="cloud-card" data-cloud="gcp" onclick="pickCloud(this)">
+          <div class="cloud-badge cloud-gcp">Google Cloud</div>
+          <p>Strong in data and AI workloads — the same infrastructure that runs Google Search and YouTube.</p>
+        </div>
+      </div>
+      <button class="continue-btn" id="pipeBtn2" disabled onclick="goPipe(3)">Continue to provisioning →</button>
+    </div>
+
+    <!-- STAGE C: PROVISION -->
+    <div class="stage-panel" id="stageC">
+      <h3 id="provisionTitle">Provision compute</h3>
+      <p class="stage-desc" id="provisionDesc">Spin up the machine your container will actually run on.</p>
+
+      <div class="portal-window">
+        <div class="portal-topbar" id="portalTopbar">
+          <span class="portal-logo" id="portalLogo">☁️</span>
+          <span class="portal-name" id="portalName">Cloud Portal</span>
+          <span class="portal-search" id="portalSearch">🔍 Search resources, services…</span>
+        </div>
+        <div class="portal-body">
+          <div class="portal-sidebar" id="portalSidebar">
+            <div class="portal-sb-item">🏠 Home</div>
+            <div class="portal-sb-item active">🖥️ Virtual Machines</div>
+            <div class="portal-sb-item">🗄️ Storage</div>
+            <div class="portal-sb-item">🌐 Networking</div>
+            <div class="portal-sb-item">🔒 Security</div>
+          </div>
+          <div class="portal-main">
+            <div class="portal-crumb" id="portalCrumb">Home &gt; Virtual Machines &gt; <b>Create</b></div>
+            <div class="portal-form">
+              <div class="portal-field"><label>Resource group</label><div class="portal-input" id="pfGroup">—</div></div>
+              <div class="portal-field"><label>Region</label><div class="portal-input" id="pfRegion">—</div></div>
+              <div class="portal-field"><label>Instance size</label><div class="portal-input" id="pfSize">—</div></div>
+              <div class="portal-field"><label>Image</label><div class="portal-input" id="pfImage">—</div></div>
+            </div>
+            <button class="portal-create-btn" id="portalCreateBtn" onclick="runProvision()">＋ Create</button>
+            <div class="progress-bar" id="portalProgressWrap" style="display:none;"><div class="progress-fill" id="provisionBar"></div></div>
+            <div class="provision-status" id="provisionStatus"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="continue-btn" id="pipeBtn3" disabled onclick="goPipe(4)">Continue to deploy →</button>
+    </div>
+
+    <!-- STAGE D: DEPLOY -->
+    <div class="stage-panel" id="stageD">
+      <h3 id="deployTitle">Deploy the container</h3>
+      <p class="stage-desc" id="deployDesc">Push the image you built onto the infrastructure you just provisioned.</p>
+      <div class="term-window">
+        <div class="term-bar"><div class="term-dot" style="background:#e0546e;"></div><div class="term-dot" style="background:#e8b04a;"></div><div class="term-dot" style="background:#2ec97e;"></div><span>terminal</span></div>
+        <div class="term-body" id="deployLog"><span class="term-prompt">$</span> <span id="deployCmd">deploy campus-app</span></div>
+      </div>
+      <button class="stage-btn" id="deployBtn" onclick="runDeploy()">▶ Run deployment</button>
+      <button class="continue-btn" id="pipeBtn4" disabled onclick="goPipe(5)">Continue to security →</button>
+    </div>
+
+    <!-- STAGE E: SECURE -->
+    <div class="stage-panel" id="stageE">
+      <h3 id="secureTitle">Lock it down</h3>
+      <p class="stage-desc" id="secureDesc">A public app with no rules is an open door. Configure exactly what's allowed in.</p>
+      <div class="toggle-list" id="toggleList">
+        <div class="toggle-row" data-rule="https" onclick="toggleRule(this)"><div class="toggle-sw"></div><div><strong>Allow HTTPS (443)</strong><span>Encrypted traffic only — this is how the padlock in a browser gets there.</span></div></div>
+        <div class="toggle-row" data-rule="ssh" onclick="toggleRule(this)"><div class="toggle-sw"></div><div><strong id="sshLabel">Restrict admin access</strong><span>Only CTU's own admin IP can manage the server directly.</span></div></div>
+        <div class="toggle-row" data-rule="block" onclick="toggleRule(this)"><div class="toggle-sw"></div><div><strong>Block everything else</strong><span>Deny all other inbound traffic by default — the golden rule of cloud security.</span></div></div>
+      </div>
+      <button class="continue-btn" id="pipeBtn5" disabled onclick="goPipe(6)">Continue — go live →</button>
+    </div>
+
+    <!-- STAGE F: LIVE -->
+    <div class="stage-panel" id="stageF">
+      <h3>🎉 It's live</h3>
+      <p class="stage-desc">Your product is now a real, secured, running URL — reachable from any phone or laptop on Earth.</p>
+      <div class="browser-mock">
+        <div class="browser-bar"><div class="browser-dot" style="background:#e0546e;"></div><div class="browser-dot" style="background:#e8b04a;"></div><div class="browser-dot" style="background:#2ec97e;"></div><div class="browser-url" id="liveUrl">🔒 https://campus-app.run.app</div></div>
+        <div class="browser-body">
+          <div class="browser-emoji">✅</div>
+          <div class="browser-msg">Campus App is running</div>
+        </div>
+      </div>
+      <button class="continue-btn" style="display:inline-block;" onclick="goStep(4)">Continue to AI →</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 4 — AI SOFTWARE DEVELOPMENT — MAKE IT SMART -->
+<div class="step locked" id="step4">
+  <div class="wrap">
+    <div class="step-badge badge-ai">🤖 AI Software Development <span style="opacity:.75;font-weight:600;">· NQF 5, SAQA 118792</span></div>
+    <h2>Make it smart</h2>
+    <div class="skill-tag">📚 Skill taught: Supervised Model Training</div>
+    <div class="step-sub">Let's teach your app a trick. Tag each message Urgent or Normal — this is exactly how an AI feature actually gets trained.</div>
+    <div id="tagCards">
+      <div class="tag-card" data-key="t1" data-answer="urgent"><p>"My order hasn't arrived and I'm late for class!!"</p><div class="tag-btns"><button class="tag-btn" onclick="tagItem(this,'t1','urgent')">🚨 Urgent</button><button class="tag-btn" onclick="tagItem(this,'t1','normal')">✅ Normal</button></div></div>
+      <div class="tag-card" data-key="t2" data-answer="normal"><p>"Do you have vegetarian options?"</p><div class="tag-btns"><button class="tag-btn" onclick="tagItem(this,'t2','urgent')">🚨 Urgent</button><button class="tag-btn" onclick="tagItem(this,'t2','normal')">✅ Normal</button></div></div>
+      <div class="tag-card" data-key="t3" data-answer="urgent"><p>"The app crashed and I lost my payment!"</p><div class="tag-btns"><button class="tag-btn" onclick="tagItem(this,'t3','urgent')">🚨 Urgent</button><button class="tag-btn" onclick="tagItem(this,'t3','normal')">✅ Normal</button></div></div>
+      <div class="tag-card" data-key="t4" data-answer="normal"><p>"What time do you open tomorrow?"</p><div class="tag-btns"><button class="tag-btn" onclick="tagItem(this,'t4','urgent')">🚨 Urgent</button><button class="tag-btn" onclick="tagItem(this,'t4','normal')">✅ Normal</button></div></div>
+    </div>
+    <div class="ai-result" id="aiResult">
+      <h4>MODEL TRAINED</h4>
+      <p>Your app can now auto-flag messages like these as urgent 🚨 — no human has to read every single one first. This is literally the AI Software Developer's job: real examples, tagged by people, turned into an automatic decision.</p>
+    </div>
+    <button class="continue-btn" id="btn4" disabled onclick="goStep(5)">Finish → See your product</button>
+  </div>
+</div>
+
+<!-- FINAL SUMMARY -->
+<div class="step locked" id="step5">
+  <div class="wrap">
+    <div class="step-badge" style="background:rgba(20,40,58,.08);color:var(--ink);">🎉 Complete</div>
+    <h2>From idea to live, secure, smart product</h2>
+    <div class="step-sub" id="summaryIntro">Here's everyone who helped build it.</div>
+    <div class="summary-card"><div class="summary-ico">🛠️</div><div class="summary-body"><h3>Concept designed</h3><p id="sumConcept">—</p><span class="summary-tag badge-eng">Software Engineering</span><div class="summary-facil">Mr Ashley · Room 4</div></div></div>
+    <div class="summary-card"><div class="summary-ico">💻</div><div class="summary-body"><h3>Secure login built</h3><p id="sumLogin">Passwords hashed, not stored in plain text.</p><span class="summary-tag badge-dev">Software Development</span> <span class="summary-tag badge-cyber">Cybersecurity · NQF 5–7</span><div class="summary-facil">Mr Sizwe · Room 6 &nbsp;|&nbsp; Ma'am Ntombi &amp; Mr Tererai · Room 8</div></div></div>
+    <div class="summary-card"><div class="summary-ico">☁️</div><div class="summary-body"><h3>Deployed &amp; secured</h3><p id="sumCloud">Containerised with Docker, provisioned, deployed, and locked down.</p><span class="summary-tag badge-cloud">Cloud Administration</span><div class="summary-facil">Mr Jimmy · Room 10</div></div></div>
+    <div class="summary-card"><div class="summary-ico">🤖</div><div class="summary-body"><h3>Smart feature trained</h3><p>Auto-flags urgent messages from real examples.</p><span class="summary-tag badge-ai">AI Software Development</span><div class="summary-facil">Mr Thokamele · Room 4</div></div></div>
+  </div>
+</div>
+</div>
+
+<div class="footer">
+  <div class="wrap">
+    <h2>Which part clicked for you?</h2>
+    <p>Every one of those steps is its own full CTU qualification. Go deeper into the one that grabbed you.</p>
+    <a class="footer-link" href="hub.html">Explore all departments</a>
+    <div class="footer-meta">CTU Roodepoort Campus · Open Day · 19 September · 08:00–15:00</div>
+  </div>
+</div>
+
+<script>
+/* Facilitators & rooms — room numbers are placeholders for today's demo only.
+   "speak" versions are phonetic approximations for text-to-speech only; the
+   correctly-spelled name is what's always shown on screen. Browser TTS cannot
+   produce true click consonants or the Zulu lateral fricative, so these are
+   the closest achievable approximation, not a perfect rendering. */
+/* Titles below are my best guess based on the names — please confirm/correct
+   these, since getting someone's title wrong in front of a live audience
+   is worse than not using one at all. */
+var FACILITATORS = {
+  eng:   { title:'Mr',   first:'Ashley',    room:'4',  speakFirst:'Ashlee' },
+  dev:   { title:'Mr',   first:'Sizwe',     room:'6',  speakFirst:'See-zweh' },
+  cyber1:{ title:"Ma'am",first:'Ntombi',    room:'8',  speakFirst:'Ntoh-mbee' },
+  cyber2:{ title:'Mr',   first:'Tererai',   room:'8',  speakFirst:'Teh-reh-rye' },
+  cloud: { title:'Mr',   first:'Jimmy',     room:'10', speakFirst:'Jimmy' },
+  ai:    { title:'Mr',first:'Thokamele', room:'4',  speakFirst:'Toh-kah-meh-leh' }
+};
+function facilLine(key){
+  if(key === 'cyber'){
+    var a = FACILITATORS.cyber1, b = FACILITATORS.cyber2;
+    return a.title + ' ' + a.first + ' and ' + b.title + ' ' + b.first + ' are in Room ' + a.room + ' if you want to go deeper.';
+  }
+  var f = FACILITATORS[key];
+  return f.title + ' ' + f.first + ' is in Room ' + f.room + ' if you want to go deeper.';
+}
+function facilSpeak(key){
+  if(key === 'cyber'){
+    var a = FACILITATORS.cyber1, b = FACILITATORS.cyber2;
+    return a.title + ' ' + a.speakFirst + ' and ' + b.title + ' ' + b.speakFirst + ' are in Room ' + a.room + ' if you want to go deeper.';
+  }
+  var f = FACILITATORS[key];
+  return f.title + ' ' + f.speakFirst + ' is in Room ' + f.room + ' if you want to go deeper.';
+}
+
+/* ────────────────────────────────────────────────────────────
+   AREA SELECT — a tailored opening line depending on what the
+   visitor says they're most curious about, before the shared
+   pipeline begins.
+   ──────────────────────────────────────────────────────────── */
+var AREA_INTROS = {
+  eng: {
+    label: 'Software Engineering',
+    say: "Software Engineering, nice — you're going to want to pay close attention to the very first step. That's where the whole system gets designed before a single line of code gets written. Everything after that builds on it.",
+    speak: "Software Engineering, nice. You're going to want to pay close attention to the very first step. That's where the whole system gets designed before a single line of code gets written. Everything after that builds on it."
+  },
+  dev: {
+    label: 'Software Development',
+    say: "Software Development, love it — keep an eye on the build step coming up. You'll get to pick your own language, Python, JavaScript, Java, C sharp or C plus plus, and see real syntax highlighting, not just theory.",
+    speak: "Software Development, love it. Keep an eye on the build step coming up. You'll get to pick your own language, Python, JavaScript, Java, C sharp or C plus plus, and see real syntax highlighting, not just theory."
+  },
+  cyber: {
+    label: 'Cybersecurity',
+    say: "Cybersecurity — good choice, it's one of the fastest-growing fields in IT right now. Watch closely during the login step. That single decision, hash the password or don't, is exactly the kind of thing a Cybersecurity Analyst reviews every single day.",
+    speak: "Cybersecurity. Good choice, it's one of the fastest growing fields in IT right now. Watch closely during the login step. That single decision, hash the password or don't, is exactly the kind of thing a Cybersecurity Analyst reviews every single day."
+  },
+  cloud: {
+    label: 'Cloud Administration',
+    say: "Cloud Administration, nice pick — the deployment stage is where you'll feel most at home. Real Azure, AWS, and Google Cloud consoles, not just slides about them.",
+    speak: "Cloud Administration, nice pick. The deployment stage is where you'll feel most at home. Real Azure, AWS, and Google Cloud consoles, not just slides about them."
+  },
+  ai: {
+    label: 'AI Software Development',
+    say: "AI Software Development — great, stick with it right to the end. That's where you'll actually train a mini AI model yourself, tagging real examples the exact same way production AI gets built.",
+    speak: "AI Software Development. Great, stick with it right to the end. That's where you'll actually train a mini AI model yourself, tagging real examples the exact same way production AI gets built."
+  }
+};
+function pickArea(key){
+  document.getElementById('areaSelect').classList.add('hidden');
+  document.getElementById('mainJourney').classList.remove('journey-locked');
+  document.getElementById('mainJourney').scrollIntoView({behavior:'smooth', block:'start'});
+  welcomed = true; /* the tailored line below IS the welcome — don't queue the generic one behind it */
+  if(key === 'skip'){
+    roodySay(
+      "Alright, let's dive straight in! We're going to build one small product together, and I'll point out the real jobs — and the real skills — hiding in each step.",
+      "Alright, let's dive straight in! We're going to build one small product together, and I'll point out the real jobs, and the real skills, hiding in each step."
+    );
+    return;
+  }
+  var info = AREA_INTROS[key];
+  roodySay(info.say, info.speak);
+}
+
+var soundOn = true;
+var roodyTimer = null;
+var roodyVoice = null;
+
+/* Shows a short, realistic code/terminal example synced to Roody's narration.
+   lines: array of short strings typed out one at a time. Auto-hides itself. */
+var codePopupTimer = null;
+function showCodePopup(caption, lines){
+  clearTimeout(codePopupTimer);
+  var popup = document.getElementById('codePopup');
+  var cap = document.getElementById('codePopupCap');
+  var body = document.getElementById('codePopupBody');
+  cap.textContent = caption;
+  body.innerHTML = '';
+  popup.classList.add('show');
+  var i = 0;
+  function step(){
+    if(i < lines.length){
+      body.innerHTML += (i>0?'\n':'') + '<span class="dim">' + lines[i] + '</span>';
+      i++;
+      setTimeout(step, 380);
+    } else {
+      codePopupTimer = setTimeout(function(){ popup.classList.remove('show'); }, 4200);
+    }
+  }
+  step();
+}
+
+function stripTags(html){
+  var d = document.createElement('div');
+  d.innerHTML = html;
+  return d.textContent || d.innerText || '';
+}
+
+/* Pick the warmest, most natural-sounding voice actually available on this device.
+   We can't reproduce any specific real person's voice — this just finds the best
+   built-in narrator-style voice the browser offers and slows/deepens it. */
+function pickRoodyVoice(){
+  if(!window.speechSynthesis) return null;
+  var voices = window.speechSynthesis.getVoices();
+  if(!voices.length) return null;
+
+  var isEnglish = function(v){ return v.lang && v.lang.toLowerCase().indexOf('en') === 0; };
+  var englishVoices = voices.filter(isEnglish);
+  var pool = englishVoices.length ? englishVoices : voices; /* only use non-English as an absolute last resort */
+
+  var rules = [
+    function(v){ return /natural|enhanced|premium/i.test(v.name); },
+    function(v){ return /^en-gb$/i.test(v.lang); },
+    function(v){ return /^en-za$/i.test(v.lang); },
+    function(v){ return /^en-au$/i.test(v.lang); },
+    function(v){ return /^en-us$/i.test(v.lang); },
+    function(){ return true; } /* first remaining English voice, whatever it is */
+  ];
+  for(var i=0;i<rules.length;i++){
+    var match = pool.find(rules[i]);
+    if(match) return match;
+  }
+  return pool[0];
+}
+if(window.speechSynthesis){
+  roodyVoice = pickRoodyVoice();
+  window.speechSynthesis.onvoiceschanged = function(){ roodyVoice = pickRoodyVoice(); populateVoicePicker(); };
+}
+
+/* ────────────────────────────────────────────────────────────
+   VOICE PICKER — lets the facilitator manually override the
+   auto-picked voice, since available voices vary wildly by device.
+   ──────────────────────────────────────────────────────────── */
+var voiceManuallyChosen = false;
+function populateVoicePicker(){
+  if(!window.speechSynthesis) return;
+  var voices = window.speechSynthesis.getVoices();
+  if(!voices.length) return;
+  var isEnglish = function(v){ return v.lang && v.lang.toLowerCase().indexOf('en') === 0; };
+  var sorted = voices.slice().sort(function(a,b){
+    var aEn = isEnglish(a) ? 0 : 1, bEn = isEnglish(b) ? 0 : 1;
+    if(aEn !== bEn) return aEn - bEn;
+    return a.name.localeCompare(b.name);
+  });
+  var select = document.getElementById('voiceSelect');
+  select.innerHTML = '';
+  sorted.forEach(function(v, i){
+    var opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = v.name + ' (' + v.lang + ')' + (/natural|enhanced|premium/i.test(v.name) ? ' ⭐' : '');
+    select.appendChild(opt);
+  });
+  window._voiceList = sorted;
+  if(!voiceManuallyChosen && roodyVoice){
+    var idx = sorted.indexOf(roodyVoice);
+    if(idx >= 0) select.value = idx;
+  }
+}
+function onVoiceChange(){
+  var select = document.getElementById('voiceSelect');
+  var idx = parseInt(select.value, 10);
+  var chosen = window._voiceList && window._voiceList[idx];
+  if(chosen){
+    roodyVoice = chosen;
+    voiceManuallyChosen = true;
+    testVoice();
+  }
+}
+function testVoice(){
+  roodySay("Hi, I'm Roody — this is what I sound like.");
+}
+function toggleVoicePanel(e){
+  e.stopPropagation();
+  var panel = document.getElementById('voicePanel');
+  panel.classList.toggle('show');
+  if(panel.classList.contains('show')) populateVoicePicker();
+}
+populateVoicePicker();
+
+var roodySpeechDone = Promise.resolve(); /* resolves when Roody's current line finishes */
+
+function roodySay(html, speakOverride){
+  var bubble = document.getElementById('roodyBubble');
+  var textEl = document.getElementById('roodyBubbleText');
+  textEl.innerHTML = html;
+  bubble.classList.add('show');
+  bubble.classList.remove('pop');
+  void bubble.offsetWidth; /* restart animation even if already showing */
+  bubble.classList.add('pop');
+  clearTimeout(roodyTimer);
+  var plainLen = stripTags(html).length;
+  var readTime = Math.max(4000, plainLen * 55); /* reading-time fallback if speech is off/unsupported */
+
+  if(window.speechSynthesis && soundOn){
+    window.speechSynthesis.cancel();
+    var utter = new SpeechSynthesisUtterance(speakOverride || stripTags(html));
+    utter.lang = roodyVoice ? roodyVoice.lang : 'en-GB';
+    if(roodyVoice) utter.voice = roodyVoice;
+    utter.rate = 0.99;
+    utter.pitch = 1.06;
+    utter.volume = 0.95;
+    var mouth = document.getElementById('roodyMouth');
+    var ring = document.getElementById('roodyPulse');
+    var avatar = document.getElementById('roodyAvatar');
+    roodySpeechDone = new Promise(function(resolve){
+      var settled = false;
+      function finish(){
+        if(settled) return;
+        settled = true;
+        mouth.classList.remove('talk'); ring.classList.remove('talking'); avatar.classList.remove('talking');
+        roodyTimer = setTimeout(function(){ bubble.classList.remove('show'); }, 2000);
+        resolve();
+      }
+      utter.onstart = function(){ mouth.classList.add('talk'); ring.classList.add('talking'); avatar.classList.add('talking'); };
+      utter.onend = finish;
+      utter.onerror = finish;
+      /* Safety net: some browsers occasionally never fire onend. Cap the wait
+         at a generous multiple of the expected reading time so autoplay can
+         never hang, without ever cutting a normal line short. */
+      setTimeout(finish, Math.max(8000, plainLen * 110));
+      window.speechSynthesis.speak(utter);
+    });
+  } else {
+    window.speechSynthesis && window.speechSynthesis.cancel();
+    roodySpeechDone = new Promise(function(resolve){
+      roodyTimer = setTimeout(function(){ bubble.classList.remove('show'); resolve(); }, readTime);
+    });
+  }
+}
+
+function toggleBubble(){
+  document.getElementById('roodyBubble').classList.toggle('show');
+  clearTimeout(roodyTimer);
+}
+
+function toggleSound(e){
+  e.stopPropagation();
+  soundOn = !soundOn;
+  document.getElementById('roodySoundBtn').textContent = soundOn ? '🔊' : '🔇';
+  if(!soundOn && window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+/* Welcome intro — most browsers block auto-playing speech before any user
+   interaction, so we try immediately, and if that's silently blocked we
+   speak it on the very first tap anywhere on the page instead. Memoized as
+   a single promise so autoplay and the click-fallback can never both try
+   to trigger it at once and collide. */
+var welcomed = false;
+var welcomePromise = null;
+function ensureWelcomed(){
+  if(welcomePromise) return welcomePromise;
+  welcomePromise = (async function(){
+    welcomed = true;
+    roodySay(
+      "Hi, I'm Roody, CTU's AI agent. Let's build one small product together — and I'll point out the real jobs at every step. One thing first: every qualification here includes real Work-Integrated Learning, actual workplace experience. Let's start with design.",
+      "Hi, I'm Roody, C T U's AI agent. Let's build one small product together, and I'll point out the real jobs at every step. One thing first — every qualification here includes real work integrated learning, actual workplace experience. Let's start with design."
+    );
+    await sleep(400);
+    await waitForRoodyToFinish();
+  })();
+  return welcomePromise;
+}
+window.addEventListener('load', function(){ setTimeout(ensureWelcomed, 600); });
+document.addEventListener('click', function(){ ensureWelcomed(); }, {once:true, capture:true});
+
+function setDot(n, state){
+  var d = document.getElementById('dot'+n);
+  d.classList.remove('active','done');
+  if(state) d.classList.add(state);
+}
+
+function goStep(n){
+  document.getElementById('step'+n).classList.remove('locked');
+  document.getElementById('step'+n).scrollIntoView({behavior:'smooth', block:'start'});
+  if(n<=4) setDot(n,'active');
+}
+
+/* STEP 1 */
+var specs = {
+  food: {name:'Campus Food Pre-Order', list:['Browse today\'s menu','Place & pay for an order','Pickup notification','Order history'], appName:'Campus Food Pre-Order', uiIco:'🍔', uiLabel:'Browse menu', actionIco:'🛒', actionLabel:'Place order', story:'As a student,\nI want to pre-order food,\nso I can skip the queue.'},
+  study: {name:'Study Buddy Matcher', list:['Set your module & free times','Match with nearby students','In-app chat','Session scheduling'], appName:'Study Buddy Matcher', uiIco:'📚', uiLabel:'Browse modules', actionIco:'🤝', actionLabel:'Send match', story:'As a student,\nI want to find a study partner,\nso we can prep together.'},
+  lost: {name:'Lost & Found Tracker', list:['Report a lost item','Search found items','Photo upload','Match notifications'], appName:'Lost & Found Tracker', uiIco:'🔍', uiLabel:'Search items', actionIco:'📸', actionLabel:'Report item', story:'As a student,\nI want to report a lost item,\nso someone can return it.'}
+};
+var learnTopics = {
+  ui: {title:'📱 Screens &amp; navigation', dept:'Software Development · NQF 5', desc:'Every screen a user taps through — laid out, styled, and made to work on any size phone.'},
+  api: {title:'⚙️ Behind-the-scenes logic', dept:'Software Engineering · NQF 6', desc:'The invisible layer connecting the screen to the data — deciding what happens the moment you tap a button.'},
+  auth: {title:'🔐 Login &amp; security', dept:'Software Development + Cybersecurity · NQF 5–6', desc:'Making sure only the right person gets in — and that passwords are hashed, never stored in plain text.'},
+  data: {title:'🗄️ Storage &amp; data', dept:'Software Development · NQF 5', desc:'Where every order, match, or report actually lives — and how it gets fetched back out again, fast.'}
+};
+var learnReactions = {
+  ui:'That\'s a Software Development skill — screens and navigation.',
+  api:'That\'s Software Engineering — the logic behind the button.',
+  auth:'That\'s where Development meets Cybersecurity — login and security.',
+  data:'That\'s Software Development again — where the data actually lives.'
+};
+function showLearnTopic(key, el){
+  var t = learnTopics[key];
+  document.getElementById('learnCardHead').innerHTML = t.title;
+  document.getElementById('learnCardBody').innerHTML = t.desc + '<div class="lc-tag">' + t.dept + '</div>';
+  document.querySelectorAll('.phone-hotspot, .diagram-box').forEach(function(e){e.style.boxShadow='';});
+  if(el) el.style.boxShadow = '0 0 0 2px rgba(112,208,232,.5)';
+  roodySay(learnReactions[key]);
+}
+
+var chosenConcept = null;
+function pickConcept(el){
+  document.querySelectorAll('.concept-card').forEach(function(c){c.classList.remove('picked');});
+  el.classList.add('picked');
+  chosenConcept = el.getAttribute('data-concept');
+  var s = specs[chosenConcept];
+
+  var specList = document.getElementById('specList');
+  specList.innerHTML = '';
+  s.list.forEach(function(line){
+    var d = document.createElement('div');
+    d.textContent = '• ' + line;
+    specList.appendChild(d);
+  });
+  document.getElementById('specSheet').classList.add('show');
+  document.getElementById('specHeading').textContent = 'Engineering spec — building live…';
+  document.querySelectorAll('#diagBox1,#diagBox2,#diagBox3,#diagArrow1,#diagArrow2').forEach(function(e){e.classList.remove('on');});
+  document.getElementById('diagramHint').classList.remove('on');
+  document.getElementById('productPreview').classList.remove('show');
+
+  document.getElementById('phoneAppName').textContent = s.appName;
+  document.getElementById('hsUiIco').textContent = s.uiIco;
+  document.getElementById('hsUiLabel').textContent = s.uiLabel;
+  document.getElementById('hsActionIco').textContent = s.actionIco;
+  document.getElementById('hsActionLabel').textContent = s.actionLabel;
+  document.getElementById('learnCardHead').textContent = "👆 Tap a screen element on the left to see what module teaches it";
+  document.getElementById('learnCardBody').innerHTML = '';
+
+  var lineEls = specList.querySelectorAll('div');
+  var delay = 0;
+  lineEls.forEach(function(lineEl, i){
+    setTimeout(function(){ lineEl.classList.add('on'); }, delay);
+    delay += 220;
+  });
+  var seq = ['diagBox1','diagArrow1','diagBox2','diagArrow2','diagBox3'];
+  seq.forEach(function(id, i){
+    setTimeout(function(){ document.getElementById(id).classList.add('on'); }, delay + i*260);
+  });
+  var diagramDone = delay + seq.length*260 + 150;
+  setTimeout(function(){
+    document.getElementById('specHeading').textContent = 'Engineering spec — complete ✅';
+    document.getElementById('diagramHint').classList.add('on');
+    document.getElementById('productPreview').classList.add('show');
+  }, diagramDone);
+
+  document.getElementById('sumConcept').textContent = s.name + ' — spec\u2019d before a line of code was written.';
+  document.getElementById('btn1').disabled = false;
+  setDot(1,'done'); setDot(2,'active');
+  roodySay('"' + s.name + '" — nice choice! Let\'s see how a Software Engineer would actually turn that into a real plan. That skill is called Requirements Analysis and System Design. Roles like Systems Analyst and Solutions Architect start exactly here, and yes, you will do this for real on placement too. ' + facilLine('eng'),
+    '"' + s.name + '". Nice choice! Let\'s see how a Software Engineer would actually turn that into a real plan. That skill is called Requirements Analysis and System Design. Roles like Systems Analyst and Solutions Architect start exactly here, and yes, you will do this for real on placement too. ' + facilSpeak('eng'));
+  showCodePopup('📋 What Engineers actually write:', s.story.split('\n'));
+}
+
+/* STEP 2 — language-aware secure code choice */
+var codeSnippets = {
+  python: {
+    a:[['kw','import'],['var',' db\n'],['kw','def'],['fn',' save_password'],['var','(pw):\n'],['var','    db.save(username, pw)  '],['com','# 🚨 stored as plain text']],
+    b:[['kw','import'],['var',' db, bcrypt\n'],['kw','def'],['fn',' save_password'],['var','(pw):\n'],['var','    hashed = bcrypt.hash(pw)\n'],['var','    db.save(username, hashed)']]
+  },
+  javascript: {
+    a:[['kw','const'],['var',' db = require'],['str','(\'./db\')'],['var',';\n'],['kw','function'],['fn',' savePassword'],['var','(pw) {\n'],['var','  db.save(username, pw); '],['com','// 🚨 plain text']],
+    b:[['kw','const'],['var',' bcrypt = require'],['str','(\'bcrypt\')'],['var',';\n'],['kw','function'],['fn',' savePassword'],['var','(pw) {\n'],['var','  const hash = bcrypt.hashSync(pw, 10);\n'],['var','  db.save(username, hash);\n}']]
+  },
+  java: {
+    a:[['kw','void'],['fn',' savePassword'],['var','(String pw) {\n'],['var','  db.save(username, pw); '],['com','// 🚨 plain text']],
+    b:[['kw','void'],['fn',' savePassword'],['var','(String pw) {\n'],['var','  String hash = BCrypt.hashpw(pw, BCrypt.gensalt());\n'],['var','  db.save(username, hash);\n}']]
+  },
+  csharp: {
+    a:[['kw','void'],['fn',' SavePassword'],['var','(string pw) {\n'],['var','  db.Save(username, pw); '],['com','// 🚨 plain text']],
+    b:[['kw','void'],['fn',' SavePassword'],['var','(string pw) {\n'],['var','  var hash = BCrypt.HashPassword(pw);\n'],['var','  db.Save(username, hash);\n}']]
+  },
+  cpp: {
+    a:[['kw','void'],['fn',' savePassword'],['var','(string pw) {\n'],['var','  db.save(username, pw); '],['com','// 🚨 plain text']],
+    b:[['kw','void'],['fn',' savePassword'],['var','(string pw) {\n'],['var','  string hash = bcrypt::hash(pw);\n'],['var','  db.save(username, hash);\n}']]
+  }
+};
+var currentLang = 'python';
+var activeTab = 'A';
+
+function renderTokens(tokens){
+  return tokens.map(function(t){
+    var cls = {kw:'tok-kw', fn:'tok-fn', str:'tok-str', com:'tok-com', var:'tok-var'}[t[0]] || 'tok-var';
+    return '<span class="'+cls+'">'+t[1].replace(/</g,'&lt;')+'</span>';
+  }).join('');
+}
+function renderEditor(){
+  var tokens = codeSnippets[currentLang][activeTab === 'A' ? 'a' : 'b'];
+  var html = renderTokens(tokens);
+  var lines = html.split('\n');
+  var out = lines.map(function(line, i){
+    return '<div class="vs-line"><span class="vs-ln">'+(i+1)+'</span><span>'+line+'</span></div>';
+  }).join('');
+  document.getElementById('vsEditor').innerHTML = out;
+  document.getElementById('shipBtn').textContent = '🚀 Ship ' + (activeTab === 'A' ? 'login.py' : 'login_v2.py');
+}
+function switchTab(el){
+  document.querySelectorAll('.vs-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  activeTab = el.getAttribute('data-choice');
+  renderEditor();
+  if(activeTab === 'A') roodySay('This one\'s tempting — but look closely at what it does with that password.');
+  else roodySay('This one looks more careful already. See the difference?');
+}
+function renderCode(){
+  document.querySelectorAll('.vs-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelector('.vs-tab[data-choice="A"]').classList.add('active');
+  activeTab = 'A';
+  document.querySelector('.vscode-window').classList.remove('correct-pick','wrong-pick');
+  renderEditor();
+}
+var langReacted = false;
+var langNamesDisplay={python:'Python', javascript:'JavaScript', java:'Java', csharp:'C#', cpp:'C++'};
+function pickLang(el){
+  document.querySelectorAll('.lang-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  currentLang = el.getAttribute('data-lang');
+  renderCode();
+  if(!langReacted){
+    langReacted = true;
+    roodySay(langNamesDisplay[currentLang] + ' — good pick. Same logic, different syntax, and that switch is a real transferable skill.');
+  }
+}
+renderCode();
+
+function pickCode(){
+  var correct = activeTab === 'B';
+  var win = document.querySelector('.vscode-window');
+  var fb = document.getElementById('codeFeedback');
+  var statusMsg = document.getElementById('vsStatusMsg');
+  win.classList.remove('correct-pick','wrong-pick');
+  if(correct){
+    win.classList.add('correct-pick');
+    statusMsg.textContent = '✅ Shipped — password properly hashed';
+    fb.textContent = '✅ Correct — hashing means even CTU\'s own database admins can\'t see the real password. Security built in, not bolted on afterward.';
+    fb.classList.add('win'); fb.classList.remove('lose');
+    document.getElementById('btn2').disabled = false;
+    setDot(2,'done'); setDot(3,'active');
+    roodySay('Hashing the password before shipping it — smart move. That skill is called Secure Coding Practices, and it\'s what Cybersecurity Analysts check for in every code review. Tip: build a public GitHub — employers check that before your CV. For Development, ' + facilLine('dev') + ' For Cybersecurity, ' + facilLine('cyber'),
+      'Hashing the password before shipping it. Smart move. That skill is called Secure Coding Practices, and it\'s what Cybersecurity Analysts check for in every code review. Tip — build a public GitHub, employers check that before your C V. For Development, ' + facilSpeak('dev') + ' For Cybersecurity, ' + facilSpeak('cyber'));
+    showCodePopup('🔒 What the database actually stores:', ['hash("mypassword123")', '→ "$2b$12$KIXQeT9y8N..."']);
+  } else {
+    win.classList.add('wrong-pick');
+    statusMsg.textContent = '⚠️ Ships plain-text passwords — try login_v2.py';
+    fb.textContent = '⚠️ Risky — if this database ever leaks, every password leaks with it, in plain text. Try the other option.';
+    fb.classList.add('lose'); fb.classList.remove('win');
+    roodySay('Careful — that version stores the password in plain text, which would fail a security review instantly. Try shipping Option B instead.');
+  }
+}
+
+/* STEP 3 — full cloud pipeline */
+var pipeStage = 1;
+var chosenCloud = null;
+
+function goPipe(n){
+  document.querySelectorAll('.stage-panel').forEach(function(p){p.classList.remove('active');});
+  var panelIds = {1:'stageA',2:'stageB',3:'stageC',4:'stageD',5:'stageE',6:'stageF'};
+  document.getElementById(panelIds[n]).classList.add('active');
+  var skillLabels = {
+    1:'📚 Skill taught: Containerisation (DevOps tooling)',
+    2:'📚 Skill taught: Multi-cloud Literacy',
+    3:'📚 Skill taught: Cloud Resource Provisioning',
+    4:'📚 Skill taught: CI/CD Deployment',
+    5:'📚 Skill taught: Network Security Configuration',
+    6:'📚 Skill taught: Production Operations'
+  };
+  document.getElementById('cloudSkillTag').textContent = skillLabels[n];
+  for(var i=1;i<=6;i++){
+    var node = document.getElementById('pipe'+i);
+    node.classList.remove('active','done');
+    if(i < n) node.classList.add('done');
+    else if(i === n) node.classList.add('active');
+  }
+  pipeStage = n;
+  if(n === 3) setupProvision();
+  if(n === 4) setupDeploy();
+  if(n === 5) setupSecure();
+  if(n === 6) setupLive();
+}
+
+/* stage A: docker */
+async function runDocker(){
+  var btn = document.getElementById('dockerBtn');
+  btn.disabled = true;
+  var base = {python:'python:3.12-slim', javascript:'node:20-alpine', java:'eclipse-temurin:21-jdk', csharp:'mcr.microsoft.com/dotnet/sdk:8.0', cpp:'gcc:13'}[currentLang];
+  var lines = [
+    'Step 1/5 : FROM '+base,
+    'Step 2/5 : WORKDIR /app',
+    'Step 3/5 : COPY . .',
+    'Step 4/5 : RUN build dependencies',
+    'Step 5/5 : CMD start campus-app',
+    '<span class="ok">Successfully built 4f2a9c1e8d3b</span>',
+    '<span class="ok">Successfully tagged campus-app:latest ✅</span>'
+  ];
+  var log = document.getElementById('dockerLog');
+  for(var i=0;i<lines.length;i++){
+    await sleep(380);
+    log.innerHTML += '\n<span class="dim">'+lines[i]+'</span>';
+  }
+  document.getElementById('pipeBtn1').disabled = false;
+  roodySay('There it goes — that image now runs identically on any of the three clouds. That skill is called Containerisation, and it\'s core to the Cloud Administration curriculum. DevOps Engineer roles live right here too.');
+  await waitForRoodyToFinish();
+}
+
+/* stage B: cloud choice */
+var cloudNames = {azure:'Azure', aws:'AWS', gcp:'Google Cloud'};
+function pickCloud(el){
+  document.querySelectorAll('.cloud-card').forEach(function(c){c.classList.remove('picked');});
+  el.classList.add('picked');
+  chosenCloud = el.getAttribute('data-cloud');
+  document.getElementById('pipeBtn2').disabled = false;
+  roodySay('Ooh, ' + cloudNames[chosenCloud] + ' — good choice. The next few steps will use its actual terminology.');
+}
+
+/* stage C: provision */
+var PORTAL_META = {
+  azure:{resource:'Azure Virtual Machine (VM)', region:'South Africa North (Johannesburg)', size:'Standard_B2s', image:'Ubuntu Server 22.04 LTS', color:'#0078D4', name:'Microsoft Azure Portal', logo:'🔷',
+    search:'🔍 Search resources, services, and docs', crumb:'Home &gt; Resource groups &gt; <b>Create a virtual machine</b>',
+    sidebar:['🏠 Home','🖥️ Virtual machines','🗄️ Storage accounts','🌐 Virtual networks','🛡️ Microsoft Defender']},
+  aws:{resource:'AWS EC2 Instance', region:'af-south-1 (Cape Town)', size:'t3.micro', image:'Amazon Linux 2023', color:'#232F3E', name:'AWS Management Console', logo:'🟧',
+    search:'🔍 Search [Alt+S]', crumb:'Services &gt; EC2 &gt; <b>Launch an instance</b>',
+    sidebar:['☰ Services','💻 EC2','🪣 S3','🕸️ VPC','🔑 IAM']},
+  gcp:{resource:'Google Compute Engine instance', region:'europe-west1 (nearest available)', size:'e2-small', image:'Debian 12', color:'#ffffff', name:'Google Cloud Console', logo:'🔵',
+    search:'🔍 Search products and resources', crumb:'Home &gt; Compute Engine &gt; <b>Create instance</b>',
+    sidebar:['🏠 Home','💻 Compute Engine','🪣 Cloud Storage','🕸️ VPC network','🔑 IAM &amp; Admin']}
+};
+function setupProvision(){
+  var meta = PORTAL_META[chosenCloud];
+  document.getElementById('provisionTitle').textContent = 'Provision on ' + cloudNames[chosenCloud];
+  document.getElementById('portalTopbar').style.background = meta.color;
+  document.getElementById('portalTopbar').classList.toggle('light', chosenCloud === 'gcp');
+  document.getElementById('portalName').textContent = meta.name;
+  document.getElementById('portalLogo').textContent = meta.logo;
+  document.getElementById('portalSearch').textContent = meta.search;
+  document.getElementById('portalCrumb').innerHTML = meta.crumb;
+  document.getElementById('portalSidebar').innerHTML = meta.sidebar.map(function(item, i){
+    return '<div class="portal-sb-item'+(i===1?' active':'')+'">'+item+'</div>';
+  }).join('');
+  ['pfGroup','pfRegion','pfSize','pfImage'].forEach(function(id){
+    document.getElementById(id).textContent = '—';
+    document.getElementById(id).classList.remove('filled');
+  });
+  document.getElementById('portalProgressWrap').style.display = 'none';
+  document.getElementById('provisionBar').style.width = '0%';
+  document.getElementById('provisionStatus').textContent = '';
+  document.getElementById('portalCreateBtn').disabled = false;
+  document.getElementById('portalCreateBtn').textContent = '＋ Create';
+  document.getElementById('pipeBtn3').disabled = true;
+}
+async function runProvision(){
+  var meta = PORTAL_META[chosenCloud];
+  document.getElementById('portalCreateBtn').disabled = true;
+  var fields = [
+    ['pfGroup', 'ctu-demo-rg'],
+    ['pfRegion', meta.region],
+    ['pfSize', meta.size],
+    ['pfImage', meta.image]
+  ];
+  for(var i=0;i<fields.length;i++){
+    await sleep(260);
+    var el = document.getElementById(fields[i][0]);
+    el.textContent = fields[i][1];
+    el.classList.add('filled');
+  }
+  await sleep(150);
+  document.getElementById('portalProgressWrap').style.display = 'block';
+  document.getElementById('provisionStatus').textContent = 'Deploying…';
+  document.getElementById('provisionBar').style.width = '100%';
+  await sleep(1700);
+  document.getElementById('provisionStatus').textContent = '✅ ' + meta.resource + ' running';
+  document.getElementById('portalCreateBtn').textContent = '✅ Created';
+  document.getElementById('pipeBtn3').disabled = false;
+  roodySay('And there it is, running on ' + cloudNames[chosenCloud] + ' — that\'s called Cloud Resource Provisioning, and it\'s the core of a Cloud Administrator\'s job. Tip: get comfortable in more than one cloud, most job ads ask for "Azure or AWS."');
+  var cliCmds = {
+    azure: ['$ az vm create', '  --name campus-app-vm', '  --image Ubuntu2204'],
+    aws:   ['$ aws ec2 run-instances', '  --image-id ami-0abcd', '  --instance-type t3.micro'],
+    gcp:   ['$ gcloud compute instances create', '  campus-app-vm', '  --zone=europe-west1-b']
+  };
+  showCodePopup('💻 The real command:', cliCmds[chosenCloud]);
+  await waitForRoodyToFinish();
+}
+
+/* stage D: deploy */
+function setupDeploy(){
+  var svc = {azure:'Azure Container Apps', aws:'AWS App Runner', gcp:'Google Cloud Run'}[chosenCloud];
+  document.getElementById('deployTitle').textContent = 'Deploy to ' + svc;
+  document.getElementById('deployDesc').textContent = 'Push the container image you built onto ' + svc + '.';
+  document.getElementById('deployCmd').textContent = 'deploy campus-app --target ' + svc.toLowerCase().replace(/\s+/g,'-');
+  document.getElementById('deployLog').innerHTML = '<span class="term-prompt">$</span> <span id="deployCmd">deploy campus-app --target ' + svc.toLowerCase().replace(/\s+/g,'-') + '</span>';
+  document.getElementById('deployBtn').disabled = false;
+  document.getElementById('pipeBtn4').disabled = true;
+}
+async function runDeploy(){
+  document.getElementById('deployBtn').disabled = true;
+  var log = document.getElementById('deployLog');
+  var lines = ['Pushing image…','Starting container…','Health check passed','<span class="ok">1/1 replicas healthy ✅</span>'];
+  for(var i=0;i<lines.length;i++){
+    await sleep(420);
+    log.innerHTML += '\n<span class="dim">'+lines[i]+'</span>';
+  }
+  document.getElementById('pipeBtn4').disabled = false;
+  roodySay('It\'s deployed! That\'s called CI/CD Deployment — short for Continuous Integration and Continuous Deployment, the process of automatically shipping code changes live. Technically reachable right now. Next, we lock down who can actually reach it.');
+  await waitForRoodyToFinish();
+}
+
+/* stage E: secure */
+var rulesOn = {https:false, ssh:false, block:false};
+function setupSecure(){
+  var lbl = {azure:'Network Security Group (NSG) rule', aws:'Security Group rule', gcp:'Firewall rule'}[chosenCloud];
+  document.getElementById('secureTitle').textContent = 'Configure ' + lbl + 's';
+  document.getElementById('sshLabel').textContent = 'Restrict admin access (' + lbl + ')';
+  rulesOn = {https:false, ssh:false, block:false};
+  document.querySelectorAll('.toggle-row').forEach(function(r){r.classList.remove('on');});
+  document.getElementById('pipeBtn5').disabled = true;
+}
+var ruleReactions = {https:'Good — encrypted traffic only.', ssh:'Smart — only your own team can manage it.', block:'Perfect — deny everything else by default.'};
+function toggleRule(el){
+  var rule = el.getAttribute('data-rule');
+  rulesOn[rule] = !rulesOn[rule];
+  el.classList.toggle('on', rulesOn[rule]);
+  if(rulesOn.https && rulesOn.ssh && rulesOn.block){
+    document.getElementById('pipeBtn5').disabled = false;
+    roodySay('Locked down — HTTPS in, admin access restricted, everything else denied. That\'s Network Security Configuration, and it\'s a Cloud Security Engineer\'s daily task — one of the best-paid specialisations in IT.');
+  } else if(rulesOn[rule]){
+    roodySay(ruleReactions[rule]);
+  }
+}
+
+/* stage F: live */
+function setupLive(){
+  var url = {
+    azure:'🔒 https://campus-app.happyfield.azurecontainerapps.io',
+    aws:'🔒 https://campus-app.abc123.af-south-1.awsapprunner.com',
+    gcp:'🔒 https://campus-app-4f2a9c-ew.a.run.app'
+  }[chosenCloud];
+  document.getElementById('liveUrl').textContent = url;
+  setDot(3,'done'); setDot(4,'active');
+  roodySay('And that\'s a real URL from ' + cloudNames[chosenCloud] + ' — idea to live on the internet, on real infrastructure. ' + facilLine('cloud'),
+    'And that\'s a real URL from ' + cloudNames[chosenCloud] + '. Idea to live on the internet, on real infrastructure. ' + facilSpeak('cloud'));
+}
+
+/* STEP 4 */
+var tagState = {};
+function tagItem(el, key, choice){
+  var card = el.closest('.tag-card');
+  if(card.classList.contains('tagged')) return;
+  var answer = card.getAttribute('data-answer');
+  el.classList.add(choice === 'urgent' ? 'picked-urgent' : 'picked-normal');
+  card.classList.add('tagged');
+  tagState[key] = choice;
+  if(Object.keys(tagState).length === 4){
+    document.getElementById('aiResult').classList.add('show');
+    document.getElementById('btn4').disabled = false;
+    roodySay('You just tagged 4 examples and trained a model — that skill is called Supervised Model Training, and it\'s exactly how production AI features get built. Roles like AI Software Developer and Data Scientist use this daily. ' + facilLine('ai'),
+      'You just tagged 4 examples and trained a model. That skill is called Supervised Model Training, and it\'s exactly how production AI features get built. Roles like AI Software Developer and Data Scientist use this daily. ' + facilSpeak('ai'));
+    showCodePopup('🤖 In code, that\'s:', ['model.fit(messages, labels)', '# trained on your 4 examples', 'model.predict(new_message)']);
+  } else {
+    roodySay(choice === answer ? '👍 Matches what a human moderator would say.' : '🤔 Interesting call — models learn from disagreements like this too.');
+  }
+}
+
+/* STEP 5 */
+var langNames = {python:'Python', javascript:'JavaScript', java:'Java', csharp:'C#', cpp:'C++'};
+function finishJourney(){
+  document.getElementById('sumLogin').textContent = 'Passwords hashed in ' + langNames[currentLang] + ', never stored in plain text.';
+  document.getElementById('sumCloud').textContent = 'Containerised with Docker, then provisioned, deployed and locked down on ' + cloudNames[chosenCloud] + '.';
+  roodySay('That\'s the whole pipeline — one idea, five disciplines, one live product. And here\'s the part that matters most: every single qualification you just saw includes real Work-Integrated Learning. That means before you graduate, you\'re placed inside an actual company, doing this exact kind of work for real — not simulated, not a classroom project. Go talk to that facilitator today and ask them about it directly.',
+    'That\'s the whole pipeline. One idea, five disciplines, one live product. And here\'s the part that matters most — every single qualification you just saw includes real work integrated learning. That means before you graduate, you\'re placed inside an actual company, doing this exact kind of work for real, not simulated, not a classroom project. Go talk to that facilitator today and ask them about it directly.');
+  showCodePopup('🚀 Ship it:', ['$ git commit -m "Shipped at CTU Open Day"', '$ git push origin main']);
+}
+document.getElementById('step5') && (function(){
+  var origGoStep = goStep;
+  window.goStep = function(n){ origGoStep(n); if(n===5) finishJourney(); };
+})();
+
+/* ────────────────────────────────────────────────────────────
+   AUTOPLAY — let Roody run the whole journey on its own
+   ──────────────────────────────────────────────────────────── */
+function sleep(ms){ return new Promise(function(resolve){ setTimeout(resolve, ms); }); }
+
+/* Waits for Roody to actually finish speaking (up to maxWait ms as a safety
+   cap), instead of guessing a fixed delay — this is what stops autoplay from
+   cutting a line off partway through on devices where speech runs slower. */
+function waitForRoodyToFinish(){
+  /* Just await the real completion signal from roodySay's utterance events —
+     no polling, no race window between calling .speak() and the speaking
+     flag actually flipping true. */
+  return roodySpeechDone;
+}
+var autoplayRunning = false;
+var autoplayCancelled = false;
+
+function toggleAutoplay(){
+  if(autoplayRunning){
+    autoplayCancelled = true;
+    autoplayRunning = false;
+    setAutoplayBtn(false);
+    if(window.speechSynthesis) window.speechSynthesis.cancel();
+    return;
+  }
+  autoplayCancelled = false;
+  autoplayRunning = true;
+  setAutoplayBtn(true);
+  document.body.classList.add('autoplay-active');
+  runAutoplay();
+}
+
+function setAutoplayBtn(playing){
+  var btn = document.getElementById('autoplayBtn');
+  btn.textContent = playing ? '⏸ Stop demo' : '▶ Let Roody show you';
+  btn.classList.toggle('playing', playing);
+}
+
+async function runAutoplay(){
+  document.getElementById('areaSelect').classList.add('hidden');
+  document.getElementById('mainJourney').classList.remove('journey-locked');
+  await ensureWelcomed();
+  await sleep(600);
+  if(autoplayCancelled) return;
+
+  pickConcept(document.querySelector('.concept-card[data-concept="food"]'));
+  await sleep(2400); /* spec-sheet + diagram build animation */
+  await waitForRoodyToFinish();
+  await sleep(700);
+  if(autoplayCancelled) return;
+
+  goStep(2);
+  await sleep(1000);
+  if(autoplayCancelled) return;
+
+  switchTab(document.querySelector('.vs-tab[data-choice="B"]'));
+  await sleep(900);
+  pickCode();
+  await waitForRoodyToFinish();
+  await sleep(700);
+  if(autoplayCancelled) return;
+
+  goStep(3);
+  await sleep(900);
+  if(autoplayCancelled) return;
+
+  await runDocker(); /* now waits for its own animation + narration internally */
+  await sleep(600);
+  if(autoplayCancelled) return;
+
+  goPipe(2);
+  await sleep(700);
+  if(autoplayCancelled) return;
+
+  pickCloud(document.querySelector('.cloud-card[data-cloud="azure"]'));
+  await sleep(300);
+  await waitForRoodyToFinish();
+  await sleep(600);
+  if(autoplayCancelled) return;
+
+  goPipe(3);
+  await sleep(500);
+  if(autoplayCancelled) return;
+
+  await runProvision(); /* now waits for its own form-fill + narration internally */
+  await sleep(600);
+  if(autoplayCancelled) return;
+
+  goPipe(4);
+  await sleep(500);
+  if(autoplayCancelled) return;
+
+  await runDeploy(); /* now waits for its own animation + narration internally */
+  await sleep(600);
+  if(autoplayCancelled) return;
+
+  goPipe(5);
+  await sleep(700);
+  if(autoplayCancelled) return;
+
+  toggleRule(document.querySelector('.toggle-row[data-rule="https"]'));
+  await sleep(500);
+  toggleRule(document.querySelector('.toggle-row[data-rule="ssh"]'));
+  await sleep(500);
+  toggleRule(document.querySelector('.toggle-row[data-rule="block"]'));
+  await sleep(300);
+  await waitForRoodyToFinish();
+  await sleep(700);
+  if(autoplayCancelled) return;
+
+  goPipe(6);
+  await sleep(300);
+  await waitForRoodyToFinish();
+  await sleep(800);
+  if(autoplayCancelled) return;
+
+  goStep(4);
+  await sleep(1000);
+  if(autoplayCancelled) return;
+
+  var tags = [['t1','urgent'],['t2','normal'],['t3','urgent'],['t4','normal']];
+  for(var i=0;i<tags.length;i++){
+    if(autoplayCancelled) return;
+    var key = tags[i][0], choice = tags[i][1];
+    var card = document.querySelector('.tag-card[data-key="'+key+'"]');
+    var btn = choice === 'urgent' ? card.querySelectorAll('.tag-btn')[0] : card.querySelectorAll('.tag-btn')[1];
+    tagItem(btn, key, choice);
+    await sleep(700);
+  }
+  await sleep(300);
+  await waitForRoodyToFinish();
+  await sleep(700);
+  if(autoplayCancelled) return;
+
+  goStep(5);
+  await sleep(300);
+  await waitForRoodyToFinish();
+  document.getElementById('step5').scrollIntoView({behavior:'smooth', block:'start'});
+
+  autoplayRunning = false;
+  setAutoplayBtn(false);
+  document.body.classList.remove('autoplay-active');
+}
+</script>
+</body>
+</html>
